@@ -1,0 +1,20 @@
+{
+  "name": "com.baracuda.utilities",
+  "version": "1.0.0",
+  "displayName": "Utilities",
+  "description": "Collection of non project sepcifc utility functionality and types. This includes generally applicable types, classes, extension methods and more. ",
+  "unity": "2019.4",
+  "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.debug",
+  "changelogUrl": "https://github.com/JohnBaracuda/com.baracuda.debug/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/JohnBaracuda/com.baracuda.debug/blob/main/LICENSE.md",
+  "keywords": [
+    "debugging",
+    "debug"
+  ],
+  "author": {
+    "name": "John Baracuda",
+    "email": "johnbaracudagames@gmail.com",
+    "url": "https://johnbaracuda.com/"
+  },
+  "type": "tool"
+}
