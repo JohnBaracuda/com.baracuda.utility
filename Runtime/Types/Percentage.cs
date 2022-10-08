@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace Baracuda.Utilities.Types
@@ -10,21 +11,21 @@ namespace Baracuda.Utilities.Types
     {
         #region --- Statics ---
 
-        public static readonly Percentage HundredPercent = new Percentage(1);
+        public static readonly Percentage OneHundredPercent = new Percentage(1);
+        public static readonly Percentage SeventyFivePercent = new Percentage(.75f);
         public static readonly Percentage FiftyPercent = new Percentage(.5f);
+        public static readonly Percentage TwentyFivePercent = new Percentage(.25f);
         public static readonly Percentage TwentyPercent = new Percentage(.2f);
         public static readonly Percentage TenPercent = new Percentage(.1f);
         public static readonly Percentage Zero = new Percentage(0);
 
         #endregion
 
-
         #region --- Value ---
 
         private double value;
 
         #endregion
-
 
         #region --- Operator ---
 
@@ -42,7 +43,7 @@ namespace Baracuda.Utilities.Types
 
         public static implicit operator float(Percentage percentage)
         {
-            return percentage.ToDecimal();
+            return percentage.ToDecimal32();
         }
 
         public static implicit operator Percentage(float decimalValue)
@@ -62,12 +63,12 @@ namespace Baracuda.Utilities.Types
 
         public static implicit operator int(Percentage percentage)
         {
-            return percentage.ToInt();
+            return percentage.ToInt32();
         }
 
         public static implicit operator Percentage(int decimalValue)
         {
-            return FromDecimal(decimalValue);
+            return FromInteger(decimalValue);
         }
 
         public static implicit operator long(Percentage percentage)
@@ -77,7 +78,7 @@ namespace Baracuda.Utilities.Types
 
         public static implicit operator Percentage(long decimalValue)
         {
-            return FromDecimal(decimalValue);
+            return FromInteger(decimalValue);
         }
 
         public static bool operator ==(Percentage lhs, Percentage rhs)
@@ -110,8 +111,31 @@ namespace Baracuda.Utilities.Types
             return lhs.value <= rhs.value;
         }
 
-        #endregion
+        public static Percentage operator *(Percentage lhs, int rhs)
+        {
+            lhs.value *= rhs;
+            return lhs;
+        }
 
+        public static Percentage operator *(Percentage lhs, float rhs)
+        {
+            lhs.value *= rhs;
+            return lhs;
+        }
+
+        public static Percentage operator +(Percentage lhs, Percentage rhs)
+        {
+            lhs.value += rhs.value;
+            return lhs;
+        }
+
+        public static Percentage operator -(Percentage lhs, Percentage rhs)
+        {
+            lhs.value -= rhs.value;
+            return lhs;
+        }
+
+        #endregion
 
         #region --- Ctor ---
 
@@ -121,7 +145,6 @@ namespace Baracuda.Utilities.Types
         }
 
         #endregion
-
 
         #region --- From Methods ---
 
@@ -147,11 +170,10 @@ namespace Baracuda.Utilities.Types
 
         #endregion
 
-
         #region --- To Methods ---
 
 
-        public float ToDecimal()
+        public float ToDecimal32()
         {
             return (float) value * .01f;
         }
@@ -161,7 +183,7 @@ namespace Baracuda.Utilities.Types
             return value * .01f;
         }
 
-        public int ToInt()
+        public int ToInt32()
         {
             return (int) value;
         }
@@ -173,11 +195,24 @@ namespace Baracuda.Utilities.Types
 
         public override string ToString()
         {
-            return $"{value.ToString("000.00")}%";
+            return $"{value.ToString(CultureInfo.InvariantCulture)}%";
+        }
+
+        public string ToString(string format)
+        {
+            return $"{value.ToString(format)}%";
         }
 
         #endregion
 
+        #region --- Is Methods ---
+
+        /// <summary>
+        /// Returns true if the value is greater or equal to 100%
+        /// </summary>
+        public bool IsComplete => this >= OneHundredPercent;
+
+        #endregion
 
         #region --- Comparission ---
 
@@ -217,6 +252,5 @@ namespace Baracuda.Utilities.Types
         }
 
         #endregion
-
     }
 }

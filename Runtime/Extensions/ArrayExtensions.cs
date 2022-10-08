@@ -5,7 +5,7 @@ namespace Baracuda.Utilities.Extensions
 {
     public static class ArrayExtensions
     {
-        #region --- Bitmask ---
+        #region Bitmask
 
         public static int GetMaxMaskIndex<T>(this T[] options)
         {
