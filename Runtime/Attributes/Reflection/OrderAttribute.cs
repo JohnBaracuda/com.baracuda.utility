@@ -1,5 +1,5 @@
-using System;
 using Baracuda.Utilities.Extensions;
+using System;
 
 namespace Baracuda.Utilities.Reflection
 {

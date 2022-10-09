@@ -37,6 +37,11 @@ namespace Baracuda.Utilities.Extensions
                 var interfaces = target.GetType().GetInterfaces();
                 for (var i = 0; i < interfaces.Length; i++)
                 {
+                    //TODO: make this an option in settings
+                    if (interfaces[i].IsGenericType)
+                    {
+                        continue;
+                    }
                     if (interfaces[i].HasInterfaceWithGenericTypeDefinition(interfaceType))
                     {
                         cache.Add(interfaces[i].HumanizedName());

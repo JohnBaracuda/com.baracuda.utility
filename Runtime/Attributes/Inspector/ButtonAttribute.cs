@@ -1,6 +1,6 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Diagnostics;
-using JetBrains.Annotations;
 
 namespace Baracuda.Utilities.Inspector
 {

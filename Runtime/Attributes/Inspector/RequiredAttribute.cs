@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Baracuda.Utilities.Types;
+using System;
 using System.Diagnostics;
-using Baracuda.Utilities.Types;
 using UnityEngine;
 
 namespace Baracuda.Utilities.Inspector

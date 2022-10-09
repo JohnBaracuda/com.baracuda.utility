@@ -132,6 +132,11 @@ namespace Baracuda.Utilities.Extensions
             return default;
         }
 
+        public static T Cast<T>(this object target)
+        {
+            return (T) target;
+        }
+
         /// <summary>
         ///
         /// </summary>
