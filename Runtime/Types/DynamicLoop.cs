@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Unity.Plastic.Antlr3.Runtime.Misc;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities
 {
     public struct DynamicLoop
     {

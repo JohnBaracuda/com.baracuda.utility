@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities
 {
     [StructLayout(LayoutKind.Auto, Size = 8)]
     public struct Percentage : IComparable<Percentage>, IComparer<Percentage>, IEquatable<Percentage>, IEqualityComparer<Percentage>

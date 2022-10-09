@@ -132,16 +132,8 @@ namespace Baracuda.Utilities.Extensions
             return default;
         }
 
-        public static T Cast<T>(this object target)
-        {
-            return (T) target;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T As<T>(this object value)
+        public static T Cast<T>(this object value)
         {
             return (T) value;
         }

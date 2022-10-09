@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities
 {
     public readonly struct Rational : IEquatable<Rational>, IComparable<Rational>, IEqualityComparer<Rational>
     {

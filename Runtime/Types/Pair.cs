@@ -1,6 +1,6 @@
 using System;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities
 {
     [Serializable]
     public readonly struct Pair<T1, T2>
