@@ -8,7 +8,7 @@ namespace Baracuda.Utilities
     [StructLayout(LayoutKind.Auto, Size = 8)]
     public struct Percentage : IComparable<Percentage>, IComparer<Percentage>, IEquatable<Percentage>, IEqualityComparer<Percentage>
     {
-        #region --- Statics ---
+        #region Statics
 
         public static readonly Percentage OneHundredPercent = new Percentage(1);
         public static readonly Percentage SeventyFivePercent = new Percentage(.75f);
@@ -20,13 +20,13 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- Value ---
+        #region Value
 
         private double value;
 
         #endregion
 
-        #region --- Operator ---
+        #region Operator
 
         public static Percentage operator ++(Percentage percentage)
         {
@@ -136,7 +136,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- Ctor ---
+        #region Ctor
 
         private Percentage(double value)
         {
@@ -145,7 +145,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- From Methods ---
+        #region From Methods
 
         public static Percentage FromInteger(int integer)
         {
@@ -169,7 +169,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- To Methods ---
+        #region To Methods
 
 
         public float ToDecimal32()
@@ -204,7 +204,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- Is Methods ---
+        #region Is Methods
 
         /// <summary>
         /// Returns true if the value is greater or equal to 100%
@@ -213,7 +213,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- Comparission ---
+        #region Comparission
 
         public int CompareTo(Percentage other)
         {
