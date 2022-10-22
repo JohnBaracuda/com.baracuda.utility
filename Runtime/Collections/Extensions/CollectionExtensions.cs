@@ -8,9 +8,9 @@ namespace Baracuda.Utilities.Collections.Extensions
     public static class CollectionExtensions
     {
         /*
-         *  Foreach loop   
+         *  Foreach loop
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> handling)
         {
@@ -31,15 +31,15 @@ namespace Baracuda.Utilities.Collections.Extensions
         }
 
         /*
-         *  Null checks   
+         *  Null checks
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullOrEmpty<T>(this T[] array)
         {
             return array is not {Length: > 0};
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNotNullOrEmpty<T>(this T[] array)
         {
@@ -51,17 +51,17 @@ namespace Baracuda.Utilities.Collections.Extensions
         {
             return list is not {Count: > 0};
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNotNullOrEmpty<T>(this IList<T> list)
         {
             return list is {Count: > 0};
         }
-        
+
         /*
-         *  Try get   
+         *  Try get
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetElementAt<T>(this T[] array, int index, out T element)
         {
@@ -76,7 +76,7 @@ namespace Baracuda.Utilities.Collections.Extensions
                 return false;
             }
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetElementAt<T>(this IList<T> list, int index, out T element)
         {
@@ -91,10 +91,25 @@ namespace Baracuda.Utilities.Collections.Extensions
                 return false;
             }
         }
-        
+
         /*
          *  Add Unique
          */
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RemoveDuplicates<T>(this IList<T> list)
+        {
+            var set = new HashSet<T>();
+
+            for (var i = list.Count - 1; i >= 0; i--)
+            {
+                if (!set.Add(list[i]))
+                {
+                    list.RemoveAt(i);
+                }
+            }
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool AddUnique<T>(this IList<T> list, T value, bool nullCheck = false)
@@ -108,7 +123,7 @@ namespace Baracuda.Utilities.Collections.Extensions
             {
                 return false;
             }
-            
+
             list.Add(value);
             return true;
         }
@@ -120,7 +135,7 @@ namespace Baracuda.Utilities.Collections.Extensions
             {
                 return;
             }
-            
+
             target.Add(key, value);
         }
 
@@ -132,12 +147,12 @@ namespace Baracuda.Utilities.Collections.Extensions
             {
                 target[key] = value;
             }
-            
+
             target.Add(key, value);
         }
 
         /*
-         * Add Appending   
+         * Add Appending
          */
 
         public static List<T> Adhere<T>(this List<T> list, T value)
@@ -147,7 +162,7 @@ namespace Baracuda.Utilities.Collections.Extensions
         }
 
         /*
-         * IEnumerable   
+         * IEnumerable
          */
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
