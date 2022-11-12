@@ -15,7 +15,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- Factory ---
+        #region Factory
 
         /// <summary>
         /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range based on the min and max provider methods.
@@ -81,7 +81,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
-        #region --- Operator ---
+        #region Operator
 
         public static DynamicLoop operator ++(DynamicLoop looping)
         {

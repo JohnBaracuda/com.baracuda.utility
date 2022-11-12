@@ -1,8 +1,8 @@
 // Copyright (c) 2022 Jonathan Lang
 
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace Baracuda.Utilities.Pooling.Source
 {
@@ -76,7 +76,7 @@ namespace Baracuda.Utilities.Pooling.Source
             return new PooledObject<T>(Get(), this);
         }
 
-        #region --- ToString ---
+        #region ToString
 
         public override string ToString()
         {

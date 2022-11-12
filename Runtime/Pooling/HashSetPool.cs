@@ -1,7 +1,7 @@
 // Copyright (c) 2022 Jonathan Lang
 
-using System.Collections.Generic;
 using Baracuda.Utilities.Pooling.Source;
+using System.Collections.Generic;
 
 namespace Baracuda.Utilities.Pooling
 {

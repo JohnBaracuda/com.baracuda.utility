@@ -1,15 +1,15 @@
+using Baracuda.Utilities.Collections.Extensions;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Baracuda.Utilities.Collections.Extensions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class ObjectExtensions
     {
-        #region --- Equals Any ---
+        #region Equals Any
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsAny<T>(this T target, params T[] other) where T : class
@@ -45,7 +45,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Equals None ---
+        #region Equals None
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsNone<T>(this T target, params T[] other) where T : class
@@ -81,7 +81,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Equals All ---
+        #region Equals All
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsAll<T>(this T target, params T[] other) where T : class
@@ -116,7 +116,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Convert ---
+        #region Convert
 
         /// <summary>
         /// Converts the target <see cref="object"/> to be of the specified <see cref="Type"/>
@@ -133,7 +133,7 @@ namespace Baracuda.Utilities.Extensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Cast<T>(this object value)
+        public static T As<T>(this object value)
         {
             return (T) value;
         }
@@ -161,7 +161,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Conditions ---
+        #region Conditions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Not(this bool value)
@@ -171,7 +171,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Null Checks ---
+        #region Null Checks
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNull<T>(this T target) where T : class
@@ -199,7 +199,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Editor ---
+        #region Editor
 
         [Conditional("UNITY_EDITOR")]
         public static void SetObjectDirty(this Object target)
@@ -211,7 +211,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Components & GameObjects ---
+        #region Components & GameObjects
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SetDontDestroyOnLoad(this Object target)
@@ -264,7 +264,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Filtering ---
+        #region Filtering
 
         public static bool IsValidForFilterString(this Object obj, string filter)
         {

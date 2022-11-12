@@ -6,11 +6,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class TypeExtensions
     {
-        #region --- Type Data ---
+        #region Type Data
 
 
         /*
@@ -53,7 +53,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Type Checks ---
+        #region Type Checks
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNumeric(this Type type)

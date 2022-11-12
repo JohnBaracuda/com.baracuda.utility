@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Baracuda.Utilities.Pooling;
+using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Baracuda.Utilities.Pooling;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static partial class ReflectionExtensions
     {

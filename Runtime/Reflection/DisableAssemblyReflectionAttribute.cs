@@ -1,7 +1,7 @@
 // Copyright (c) 2022 Jonathan Lang
 
-using System;
 using Baracuda.Utilities.Reflection;
+using System;
 
 [assembly: DisableAssemblyReflection]
 namespace Baracuda.Utilities.Reflection

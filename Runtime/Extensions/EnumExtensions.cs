@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.Collections.LowLevel.Unsafe;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     /// <summary>
     /// Class includes extensions and optimized functionality for enum operations.

@@ -1,9 +1,9 @@
 // Copyright (c) 2022 Jonathan Lang
 
+using Baracuda.Utilities.Pooling.Source;
 using System;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Baracuda.Utilities.Pooling.Source;
 using UnityEngine;
 
 namespace Baracuda.Utilities.Pooling
@@ -78,7 +78,7 @@ namespace Baracuda.Utilities.Pooling
 
         //--------------------------------------------------------------------------------------------------------------
 
-        #region --- Append ---
+        #region Append
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StringBuilder Append(char value)

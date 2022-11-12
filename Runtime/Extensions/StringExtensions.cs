@@ -1,11 +1,11 @@
+using Baracuda.Utilities.Pooling;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Baracuda.Utilities.Pooling;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class StringExtensions
     {
@@ -243,7 +243,7 @@ namespace Baracuda.Utilities.Extensions
             return ConcurrentStringBuilderPool.Release(sb);
         }
 
-        #region --- StringBuilder ---
+        #region StringBuilder
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder AppendIf(this StringBuilder stringBuilder, char value, bool condition)
@@ -253,7 +253,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Collections ---
+        #region Collections
 
         public static string CombineToString(this IEnumerable<string> enumerable, char separator = ' ')
         {

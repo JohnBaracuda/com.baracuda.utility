@@ -1,7 +1,7 @@
 // Copyright (c) 2022 Jonathan Lang
 
-using System;
 using JetBrains.Annotations;
+using System;
 
 namespace Baracuda.Utilities.Pooling.Source
 {
@@ -18,7 +18,7 @@ namespace Baracuda.Utilities.Pooling.Source
             base(createFunc, actionOnGet, actionOnRelease, actionOnDestroy, collectionCheck, defaultCapacity, maxSize)
         {
         }
-        
+
         public override T Get()
         {
             T obj;

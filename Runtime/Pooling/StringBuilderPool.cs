@@ -1,7 +1,7 @@
 // Copyright (c) 2022 Jonathan Lang
 
-using System.Text;
 using Baracuda.Utilities.Pooling.Source;
+using System.Text;
 using UnityEngine;
 
 namespace Baracuda.Utilities.Pooling

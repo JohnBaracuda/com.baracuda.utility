@@ -1,7 +1,7 @@
-using System.Linq;
 using Baracuda.Utilities.Pooling;
+using System.Linq;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class ArrayExtensions
     {

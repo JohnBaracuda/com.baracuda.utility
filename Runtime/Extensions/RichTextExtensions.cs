@@ -1,9 +1,9 @@
+using Baracuda.Utilities.Pooling;
 using System;
 using System.Runtime.CompilerServices;
-using Baracuda.Utilities.Pooling;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class RichTextExtensions
     {

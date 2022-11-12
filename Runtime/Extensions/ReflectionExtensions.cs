@@ -1,27 +1,31 @@
 // Copyright (c) 2022 Jonathan Lang
 
+using Baracuda.Utilities.Pooling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using Baracuda.Utilities.Pooling;
-using UnityEngine;
-#if !ENABLE_IL2CPP && UNITY_2021_3_OR_NEWER
 using System.Reflection.Emit;
-#endif
+using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static partial class ReflectionExtensions
     {
-        private static string[] GetNamesOfGenericInterfaceSubtypesInObject<TInterface>(UnityEngine.Object target) where TInterface : class
+        #region Other
+
+        private static string[] GetNamesOfGenericInterfaceSubtypesInObject<TInterface>(Object target)
+            where TInterface : class
         {
             if (!typeof(TInterface).IsGenericType)
             {
                 return Array.Empty<string>();
             }
+
             if (target.IsNull())
             {
                 return Array.Empty<string>();
@@ -58,7 +62,9 @@ namespace Baracuda.Utilities.Extensions
             }
         }
 
-        #region --- Call Method ---
+        #endregion
+
+        #region Call Method
 
         private static readonly object[] singleArgumentArray = new object[1];
 
@@ -77,7 +83,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Invoke Method ---
+        #region Invoke Method
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MethodInfo GetInvokeMethod(this Type type, BindingFlags flags =
@@ -103,7 +109,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Set Value ---
+        #region Set Value
 
         private const BindingFlags InterfaceFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.FlattenHierarchy;
 
@@ -133,7 +139,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- FieldInfo Getter & Setter ---
+        #region FieldInfo Getter & Setter
 
 #if !ENABLE_IL2CPP && UNITY_2021_3_OR_NEWER
         public static Func<TTarget, TResult> CreateGetter<TTarget, TResult>(this FieldInfo field)
@@ -200,7 +206,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- MemberInfo Casting ---
+        #region MemberInfo Casting
 
         private const BindingFlags EventFlags = BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance |
                                                  BindingFlags.Public | BindingFlags.FlattenHierarchy;
@@ -213,7 +219,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Delegate Creation ---
+        #region Delegate Creation
 
         public static Delegate CreateMatchingDelegate(this MethodInfo methodInfo, object target)
         {
@@ -260,7 +266,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Backing Field Access ---
+        #region Backing Field Access
 
 #if !ENABLE_IL2CPP
 
@@ -364,7 +370,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Underlying & Collection Types ---
+        #region Underlying & Collection Types
 
         public static Type GetUnderlying(this Type nullableType)
             => Nullable.GetUnderlyingType(nullableType) ?? nullableType;
@@ -421,7 +427,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Event ---
+        #region Event
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetSubscriberCount<TDelegate>(this TDelegate eventDelegate) where TDelegate : Delegate
@@ -437,7 +443,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Display String Formatting ---
+        #region Display String Formatting
 
         private static readonly Dictionary<Type, string> typeCache = new Dictionary<Type, string>();
 
@@ -564,7 +570,7 @@ namespace Baracuda.Utilities.Extensions
                 if (argBuilder.Length > 0)
                 {
                     Debug.Assert(type.FullName != null, "type.FullName != null");
-                    builder.AppendFormat("{0}<{1}>", type.FullName.Split('`')[0],
+                    builder.AppendFormat("{0}<{1}>", type.FullName!.Split('`')[0],
                         argBuilder);
                 }
 
@@ -579,7 +585,7 @@ namespace Baracuda.Utilities.Extensions
 
             Debug.Assert(type.FullName != null, $"type.FullName != null | {type.Name}, {type.DeclaringType}");
 
-            var returnValue = type.FullName.Replace('+', '.');
+            var returnValue = type.FullName!.Replace('+', '.');
             typeCacheFullName.Add(type, returnValue);
             return returnValue;
         }
@@ -622,7 +628,7 @@ namespace Baracuda.Utilities.Extensions
                 if (argBuilder.Length > 0)
                 {
                     Debug.Assert(type.FullName != null, "type.FullName != null");
-                    builder.AppendFormat("{0}<{1}>", type.FullName.Split('`')[0],
+                    builder.AppendFormat("{0}<{1}>", type.FullName!.Split('`')[0],
                         argBuilder);
                 }
 
@@ -635,7 +641,7 @@ namespace Baracuda.Utilities.Extensions
 
             Debug.Assert(type.FullName != null, $"type.FullName != null | {type.Name}, {type.DeclaringType}");
 
-            var returnValue = type.FullName.Replace('+', '.');
+            var returnValue = type.FullName!.Replace('+', '.');
             return returnValue;
         }
 
@@ -781,7 +787,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Base Type Reflection ---
+        #region Base Type Reflection
 
         public static Type[] GetBaseTypes(this Type type, bool includeThis, bool includeInterfaces = false)
         {

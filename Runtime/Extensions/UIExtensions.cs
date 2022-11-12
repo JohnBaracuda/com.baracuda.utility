@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class UIExtensions
     {

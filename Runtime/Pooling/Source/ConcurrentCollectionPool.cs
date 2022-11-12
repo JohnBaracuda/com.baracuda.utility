@@ -6,7 +6,7 @@ namespace Baracuda.Utilities.Pooling.Source
 {
     public class ConcurrentCollectionPool<TCollection, TItem> where TCollection : class, ICollection<TItem>, new()
     {
-        private static readonly ConcurrentObjectPool<TCollection> pool 
+        private static readonly ConcurrentObjectPool<TCollection> pool
             = new ConcurrentObjectPool<TCollection>(() => new TCollection(), actionOnRelease: l => l.Clear());
 
         /// <summary>
@@ -20,16 +20,16 @@ namespace Baracuda.Utilities.Pooling.Source
 
         /// <summary>
         /// This operation is thread safe!
-        /// Release an object to the pool. opti in a thread safe manner. 
+        /// Release an object to the pool. opti in a thread safe manner.
         /// </summary>
         public static void Release(TCollection toRelease)
         {
             pool.Release(toRelease);
         }
-        
+
         /// <summary>
         /// Get a disposable object to the pool that will automatically be released back to the pool.
-        /// Access the pooled object by the <see cref="PooledObject{T}.Value"/> property. 
+        /// Access the pooled object by the <see cref="PooledObject{T}.Value"/> property.
         /// </summary>
         public static PooledObject<TCollection> GetDisposable()
         {

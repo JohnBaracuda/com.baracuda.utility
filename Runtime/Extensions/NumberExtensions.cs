@@ -2,11 +2,11 @@ using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Extensions
+namespace Baracuda.Utilities
 {
     public static class NumberExtensions
     {
-        #region --- MathF  ---
+        #region MathF
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Clamp(this int origin, int min, int max)
@@ -52,7 +52,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Approximately Equals ---
+        #region Approximately Equals
 
         public static bool ApproximatelyEquals(this double rhs, double lhs, double acceptableDifference)
         {
@@ -71,7 +71,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Vector ---
+        #region Vector
 
         public static Vector2 Clamp(this Vector2 target, Vector2 min, Vector2 max)
         {
@@ -92,7 +92,7 @@ namespace Baracuda.Utilities.Extensions
 
         #endregion
 
-        #region --- Timer ---
+        #region Timer
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float MillisecondsToSeconds(this int milliseconds)

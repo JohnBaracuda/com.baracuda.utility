@@ -7,10 +7,6 @@
   "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities",
   "changelogUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities/blob/main/LICENSE.md",
-  "dependencies": {
-    "com.baracuda.assert": "0.1.0",
-    "com.baracuda.debug": "0.1.0"
-  },
   "keywords": [
     "utility",
     "extensions"
