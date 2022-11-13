@@ -8,7 +8,7 @@ namespace Baracuda.Gameloop.Update
     /// GameLoop manager used to register <see cref="ITickReceiver"/> for custom tick events.
     /// </summary>
     [AddComponentMenu("Gameloop/Ticker")]
-    internal class MonoTicker : MonoSingleton<MonoTicker>, ITicker
+    internal class Ticker : MonoSingleton<Ticker>, ITicker
     {
         #region Fields
 

@@ -5,6 +5,7 @@ namespace Baracuda.Utilities.Singleton
     public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         public static T Singleton { get; private set; }
+        public static bool IsSingletonInitialized { get; private set; } = false;
 
         protected virtual void Awake()
         {
@@ -14,7 +15,8 @@ namespace Baracuda.Utilities.Singleton
                 Debug.LogWarning("Singleton", $"More that one instance of {typename} found!");
                 return;
             }
-            Singleton = this as T;
+            Singleton = (T) this;
+            IsSingletonInitialized = true;
         }
 
         private void OnDestroy()
@@ -22,6 +24,7 @@ namespace Baracuda.Utilities.Singleton
             if (Singleton == this)
             {
                 Singleton = null;
+                IsSingletonInitialized = false;
             }
         }
     }
