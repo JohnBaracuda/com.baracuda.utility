@@ -6,13 +6,23 @@ namespace Baracuda.Utilities
     [StructLayout(LayoutKind.Auto)]
     public struct Loop
     {
+        #region Properties
+
+        public int Iterations => iterations;
+
+        #endregion
+
+
         #region Fields
 
         private int value;
+        private int iterations;
+        private readonly int startValue;
         private readonly int max;
         private readonly int min;
 
         #endregion
+
 
         #region Factory
 
@@ -46,6 +56,8 @@ namespace Baracuda.Utilities
             this.value = value;
             this.min = min;
             this.max = max;
+            startValue = value;
+            iterations = 0;
         }
 
         public override string ToString()
@@ -63,6 +75,10 @@ namespace Baracuda.Utilities
             {
                 looping.value = looping.min;
             }
+            if (looping.value == looping.startValue)
+            {
+                looping.iterations++;
+            }
 
             return looping;
         }
@@ -72,6 +88,10 @@ namespace Baracuda.Utilities
             if (--looping.value < looping.min)
             {
                 looping.value = looping.max;
+            }
+            if (looping.value == looping.startValue)
+            {
+                looping.iterations--;
             }
 
             return looping;

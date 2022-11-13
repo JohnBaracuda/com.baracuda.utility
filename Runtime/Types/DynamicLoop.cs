@@ -5,9 +5,17 @@ namespace Baracuda.Utilities
 {
     public struct DynamicLoop
     {
+        #region Properties
+
+        public int Iterations => iterations;
+
+        #endregion
+
         #region Fields
 
         private int value;
+        private int iterations;
+        private readonly int startValue;
         private readonly Func<int> min;
         private readonly Func<int> max;
 
@@ -72,6 +80,8 @@ namespace Baracuda.Utilities
             this.value = value;
             this.min = min;
             this.max = max;
+            startValue = value;
+            iterations = 0;
         }
 
         public override string ToString()
@@ -87,6 +97,10 @@ namespace Baracuda.Utilities
         {
             looping.value++;
             looping.ValidateIndex();
+            if (looping.value == looping.startValue)
+            {
+                looping.iterations++;
+            }
             return looping;
         }
 
@@ -94,6 +108,10 @@ namespace Baracuda.Utilities
         {
             looping.value--;
             looping.ValidateIndex();
+            if (looping.value == looping.startValue)
+            {
+                looping.iterations--;
+            }
             return looping;
         }
 
