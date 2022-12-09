@@ -37,7 +37,7 @@ namespace Baracuda.Utilities.Singleton
                 }
 
                 // Try loading at path
-                var assetPath = $"Assets/Configurations/Developer/{typeof(T).Name}.{System.Environment.UserName.Trim()}.asset";
+                var assetPath = $"Assets/Settings/Developer/{typeof(T).Name}.{System.Environment.UserName.Trim()}.asset";
                 var loadedDefault = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
                 if (loadedDefault)
                 {
@@ -47,11 +47,9 @@ namespace Baracuda.Utilities.Singleton
 
                 UnityEngine.Debug.Log($"Creating new local developer config at {assetPath}");
                 var asset = CreateInstance<T>();
-                if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Configurations/Developer"))
-                {
-                    UnityEditor.AssetDatabase.CreateFolder("Assets", "Configurations");
-                    UnityEditor.AssetDatabase.CreateFolder("Assets/Configurations", "Developer");
-                }
+
+                UnityEditor.AssetDatabase.CreateFolder("Assets", "Settings");
+                UnityEditor.AssetDatabase.CreateFolder("Assets/Settings", "Developer");
 
                 UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
                 UnityEditor.AssetDatabase.SaveAssets();

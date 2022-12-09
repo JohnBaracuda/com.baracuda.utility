@@ -43,9 +43,20 @@ namespace Baracuda.Utilities
             component.gameObject.name = name;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsPrefab(this GameObject gameObject)
         {
             return gameObject.scene.rootCount == 0;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsSelected(this Object obj)
+        {
+#if UNITY_EDITOR
+            return UnityEditor.Selection.activeObject == obj;
+#else
+            return false;
+#endif
         }
     }
 }

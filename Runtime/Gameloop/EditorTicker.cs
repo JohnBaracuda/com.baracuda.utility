@@ -12,7 +12,7 @@ namespace Baracuda.Gameloop.Update
     /// Editor class providing edit time tick management.
     /// </summary>
     [Description("Editor class providing a edit time tick based game-loop with delta time")]
-    internal class EditorTicker : AssetSingleton<EditorTicker>, ITicker
+    internal class EditorTicker : Utilities.ScriptableSingleton<EditorTicker>, ITicker
     {
         /*
          * Type definitions

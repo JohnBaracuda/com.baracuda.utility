@@ -67,6 +67,7 @@ namespace Baracuda.Utilities
 
         #endregion
 
+
         #region Operator
 
         public static Loop operator ++(Loop looping)

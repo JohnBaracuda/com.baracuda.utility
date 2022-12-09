@@ -9,6 +9,12 @@ namespace Baracuda.Utilities
 {
     public static class StringExtensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string ValidStringOrDefault(this string input, string defaultValue)
+        {
+            return input.IsNotNullOrWhitespace() ? input : defaultValue;
+        }
+
         /*
          *  Null checks & validation
          */
@@ -101,6 +107,7 @@ namespace Baracuda.Utilities
             GUIUtility.systemCopyBuffer = removeRichText ? str.RemoveRichText() : str;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainsIgnoreCase(this string source, string toCheck)
         {
             if (source == null)
@@ -108,6 +115,16 @@ namespace Baracuda.Utilities
                 return false;
             }
             return source.Contains(toCheck, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsIgnoreCaseAndSpace(this string source, string toCheck)
+        {
+            if (source == null)
+            {
+                return false;
+            }
+            return source.NoSpace().Contains(toCheck.NoSpace(), StringComparison.CurrentCultureIgnoreCase);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

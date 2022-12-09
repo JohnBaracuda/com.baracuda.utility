@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 
 namespace Baracuda.Utilities
 {
-    public abstract class AssetSingleton<T> : ScriptableObject, ISerializationCallbackReceiver where T : AssetSingleton<T>
+    public abstract class ScriptableSingleton<T> : ScriptableObject, ISerializationCallbackReceiver where T : ScriptableSingleton<T>
     {
         public static T Singleton
         {
