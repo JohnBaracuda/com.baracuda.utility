@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Baracuda.Utilities.Inspector
 {
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     [Conditional("UNITY_EDITOR")]
     public class ReadonlyAttribute : PropertyAttribute
     {

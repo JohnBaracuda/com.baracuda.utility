@@ -45,11 +45,17 @@ namespace Baracuda.Utilities.Singleton
                     return local;
                 }
 
-                UnityEngine.Debug.Log($"Creating new local developer config at {assetPath}");
+                UnityEngine.Debug.Log($"Creating new local {typeof(T).Name} at {assetPath}");
                 var asset = CreateInstance<T>();
 
-                UnityEditor.AssetDatabase.CreateFolder("Assets", "Settings");
-                UnityEditor.AssetDatabase.CreateFolder("Assets/Settings", "Developer");
+                if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Settings"))
+                {
+                    UnityEditor.AssetDatabase.CreateFolder("Assets", "Settings");
+                }
+                if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Settings/Developer"))
+                {
+                    UnityEditor.AssetDatabase.CreateFolder("Assets/Settings", "Developer");
+                }
 
                 UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
                 UnityEditor.AssetDatabase.SaveAssets();
