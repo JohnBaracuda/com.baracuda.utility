@@ -8,6 +8,6 @@ namespace Baracuda.Utilities.Inspector
     [Conditional("UNITY_EDITOR")]
     public class HideLabelAttribute : PropertyAttribute
     {
-        
+
     }
 }

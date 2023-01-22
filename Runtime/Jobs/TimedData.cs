@@ -14,12 +14,12 @@ namespace Baracuda.Gameloop.Jobs
             DeltaTime = deltaTime;
             Progress = progress;
         }
-        
+
         public void SetCompleted()
         {
             Job.Stop();
         }
-        
+
         public void SetCompletedIf(bool condition)
         {
             if (condition)
@@ -27,12 +27,12 @@ namespace Baracuda.Gameloop.Jobs
                 Job.Stop();
             }
         }
-        
+
         public void SoftReset()
         {
             Job.SoftReset();
         }
-        
+
         public void SoftResetIf(bool condition)
         {
             if (condition)

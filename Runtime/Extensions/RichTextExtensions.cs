@@ -12,7 +12,7 @@ namespace Baracuda.Utilities
          */
 
         public static Color SoftWhite { get; } = new Color(0.92f, 0.92f, 0.95f);
-        
+
         public static Color HotPink { get; } = new Color(1f, 0.41f, 0.71f);
         public static Color DeepPink { get; } = new Color(1f, 0.08f, 0.58f);
         public static Color MediumVioletRed { get; } = new Color(0.78f, 0.08f, 0.52f);
@@ -31,15 +31,15 @@ namespace Baracuda.Utilities
         public static Color SoftLime { get; } = new Color(0.53f, 1f, 0.71f);
 
         /*
-         *  RichTextExtensions operations   
+         *  RichTextExtensions operations
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Colorize(this string content)
         {
             return content.Colorize(VarBlue);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Colorize(this string content, Color color)
         {
@@ -52,7 +52,7 @@ namespace Baracuda.Utilities
             str.Append("</color>");
             return str.ToString();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Colorize(this string content, LogType type)
         {
@@ -65,7 +65,7 @@ namespace Baracuda.Utilities
             str.Append("</color>");
             return str.ToString();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Bold(this string content)
         {
@@ -76,7 +76,7 @@ namespace Baracuda.Utilities
             str.Append("</b>");
             return str.ToString();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Italics(this string content)
         {
@@ -87,7 +87,7 @@ namespace Baracuda.Utilities
             str.Append("</c>");
             return str.ToString();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Strike(this string content)
         {
@@ -98,7 +98,7 @@ namespace Baracuda.Utilities
             str.Append("</s>");
             return str.ToString();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Underline(this string content)
         {
@@ -109,7 +109,7 @@ namespace Baracuda.Utilities
             str.Append("</u>");
             return str.ToString();
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string FontSize(this string content, int size)
         {
@@ -123,9 +123,9 @@ namespace Baracuda.Utilities
         }
 
         /*
-         *  RichTextExtensions removal   
+         *  RichTextExtensions removal
          */
-        
+
         public static string RemoveRichText(this string content)
         {
             content = RemoveRichTextDynamicTag(content, "color");
@@ -164,7 +164,7 @@ namespace Baracuda.Utilities
             content = RemoveRichTextTag(content, "allcaps");
             content = RemoveRichTextTag(content, "smallcaps");
             content = RemoveRichTextTag(content, "uppercase");
-            
+
             return content;
         }
 
@@ -188,7 +188,7 @@ namespace Baracuda.Utilities
                 return content;
             }
         }
-        
+
         private static string RemoveRichTextTag(this string content, string tag, bool isStart = true)
         {
             while (true)

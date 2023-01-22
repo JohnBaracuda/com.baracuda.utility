@@ -11,7 +11,7 @@ namespace Baracuda.Utilities.Inspector
         Warning,
         Error,
     }
-    
+
     [Conditional("UNITY_EDITOR")]
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
     public class AnnotationAttribute : PropertyAttribute

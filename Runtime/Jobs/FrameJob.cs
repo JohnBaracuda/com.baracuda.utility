@@ -6,17 +6,17 @@ namespace Baracuda.Gameloop.Jobs
     public class FrameJob : JobBase
     {
         /*
-         * Fields   
+         * Fields
          */
-        
+
         private float _currentFrame;
         private float _targetFrames;
         private Action _action;
 
         /*
-         * Factory   
+         * Factory
          */
-        
+
         public static FrameJobHandle Run(Action action, int frames)
         {
             var frameJob = FrameJobPool.Get();
@@ -29,9 +29,9 @@ namespace Baracuda.Gameloop.Jobs
         }
 
         /*
-         * Public   
+         * Public
          */
-       
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Cancel()
         {
@@ -41,7 +41,7 @@ namespace Baracuda.Gameloop.Jobs
         //--------------------------------------------------------------------------------------------------------------
 
         /*
-         * Internal   
+         * Internal
          */
 
         internal override void Update(float delta)

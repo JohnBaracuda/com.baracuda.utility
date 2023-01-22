@@ -12,7 +12,7 @@ namespace Baracuda.Gameloop.Jobs
             _job = job;
             _jobId = job.CurrentId;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Cancel()
         {

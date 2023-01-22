@@ -12,12 +12,12 @@
             DeltaTime = deltaTime;
             Runtime = runtime;
         }
-        
+
         public void SetCompleted()
         {
             Job.Stop();
         }
-        
+
         public void SetCompletedIf(bool condition)
         {
             if (condition)
@@ -25,12 +25,12 @@
                 Job.Stop();
             }
         }
-        
+
         public void SoftReset()
         {
             Job.SoftReset();
         }
-        
+
         public void SoftResetIf(bool condition)
         {
             if (condition)

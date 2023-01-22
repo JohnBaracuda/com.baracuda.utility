@@ -10,7 +10,7 @@ namespace Baracuda.Utilities.Reflection
     public class HideFlagsAttribute : Attribute
     {
         /*
-         *  Properties   
+         *  Properties
          */
 
         /// <summary>
@@ -18,40 +18,40 @@ namespace Baracuda.Utilities.Reflection
         /// </summary>
         public HideFlags ObjectFlags
         {
-            get => InternalObjectFlags ?? HideFlags.None; 
+            get => InternalObjectFlags ?? HideFlags.None;
             set => InternalObjectFlags = value;
         }
-        
+
         /// <summary>
         /// Set the <see cref="HideFlags"/> for the target <see cref="MonoBehaviour"/> inspector script.
         /// </summary>
         public HideFlags ScriptFlags
         {
-            get => InternalScriptFlags ?? HideFlags.None; 
+            get => InternalScriptFlags ?? HideFlags.None;
             set => InternalScriptFlags = value;
         }
 
         /*
-         *  Internal   
+         *  Internal
          */
 
         public HideFlags? InternalObjectFlags { get; private set; } = null;
         public HideFlags? InternalScriptFlags { get; private set; }= null;
 
         /*
-         *  Ctor   
+         *  Ctor
          */
 
         public HideFlagsAttribute(HideFlags objectFlags)
         {
             InternalObjectFlags = objectFlags;
         }
-        
+
         public HideFlagsAttribute()
         {
         }
     }
-    
+
     /// <summary>
     /// Set the <see cref="HideFlags"/> fot the target <see cref="GameObject"/> to <see cref="HideFlags.HideInHierarchy"/>
     /// </summary>
@@ -64,7 +64,7 @@ namespace Baracuda.Utilities.Reflection
         {
         }
     }
-    
+
     /// <summary>
     /// Set the <see cref="HideFlags"/> fot the target <see cref="MonoBehaviour"/> (inspector) to <see cref="HideFlags.HideInInspector"/>
     /// </summary>

@@ -8,7 +8,7 @@ namespace Baracuda.Utilities.Inspector
         public DrawSpaceAttribute() : base(8)
         {
         }
-        
+
         public DrawSpaceAttribute(float height) : base(height)
         {
         }

@@ -12,7 +12,7 @@ namespace Baracuda.Utilities
         /*
          *  Unsafe
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlagUnsafe<TEnum>(this TEnum lhs, TEnum rhs) where TEnum : unmanaged, Enum =>
             UnsafeUtility.SizeOf<TEnum>() switch
@@ -28,15 +28,15 @@ namespace Baracuda.Utilities
         {
             return (lhs & rhs) > 0;
         }
-                
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals<T>(ref T lhs, ref T rhs) where T : unmanaged, Enum
             => UnsafeUtility.EnumEquals(lhs, rhs);
-        
+
         /*
-         *  Equals Any   
+         *  Equals Any
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsAny<T>(this T target, params T[] other) where T : unmanaged, Enum
         {
@@ -50,24 +50,24 @@ namespace Baracuda.Utilities
 
             return false;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool EqualsAny<T>(this T target, T otherA, T otherB, T otherC) where T : unmanaged, Enum 
+        public static bool EqualsAny<T>(this T target, T otherA, T otherB, T otherC) where T : unmanaged, Enum
             => Equals(ref target, ref otherA) || Equals(ref target, ref otherB) || Equals(ref target, ref otherC);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsAny<T>(this T target, T otherA, T otherB) where T : unmanaged, Enum
             => Equals(ref target, ref otherA) || Equals(ref target, ref otherB);
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EnumEquals<T>(this T target, T other) where T : unmanaged, Enum
             => Equals(ref target, ref other);
 
         /*
-         *  Equals All   
+         *  Equals All
          */
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsAll<T>(this T target, params T[] other) where T : unmanaged, Enum
         {
@@ -81,11 +81,11 @@ namespace Baracuda.Utilities
 
             return true;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool EqualsAll<T>(this T target, T otherA, T otherB, T otherC) where T : unmanaged, Enum 
+        public static bool EqualsAll<T>(this T target, T otherA, T otherB, T otherC) where T : unmanaged, Enum
             => Equals(ref target, ref otherA) && Equals(ref target, ref otherB) && Equals(ref target, ref otherC);
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsAll<T>(this T target, T otherA, T otherB) where T : unmanaged, Enum
             => Equals(ref target, ref otherA) && Equals(ref target, ref otherB);

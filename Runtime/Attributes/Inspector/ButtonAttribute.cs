@@ -10,7 +10,7 @@ namespace Baracuda.Utilities.Inspector
         Center = 1,
         Right = 2,
     }
-    
+
     [MeansImplicitUse]
     [AttributeUsage(AttributeTargets.Method)]
     [Conditional("UNITY_EDITOR")]
@@ -20,21 +20,21 @@ namespace Baracuda.Utilities.Inspector
         public float SpaceBefore { get; set; }
         public float SpaceAfter { get; set; }
         public ButtonType ButtonType { get; } = ButtonType.Default;
-        
+
         public ButtonAttribute()
         {
         }
-        
+
         public ButtonAttribute(ButtonType buttonType)
         {
             ButtonType = buttonType;
         }
-        
+
         public ButtonAttribute(string label)
         {
             Label = label;
         }
-        
+
         public ButtonAttribute(string label, ButtonType buttonType)
         {
             Label = label;

@@ -4,21 +4,21 @@ using System.Runtime.CompilerServices;
 namespace Baracuda.Gameloop.Jobs
 {
     public delegate void UpdateJobDelegate(UpdateData handle);
-    
+
     public class UpdateJob : JobBase
     {
         /*
-         * Fields   
+         * Fields
          */
-        
+
         private UpdateJobDelegate _onUpdate;
         private Action _onStop;
         private float _runTime;
 
         /*
-         * Factory   
+         * Factory
          */
-        
+
         public static UpdateJobHandle Run(UpdateJobDelegate job, Action onStop = null)
         {
             var updateJob = UpdateJobPool.Get();
@@ -29,11 +29,11 @@ namespace Baracuda.Gameloop.Jobs
             JobManager.RegisterJob(updateJob);
             return new UpdateJobHandle(updateJob);
         }
-        
+
         /*
-         * Public   
+         * Public
          */
-       
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Stop()
         {
@@ -43,7 +43,7 @@ namespace Baracuda.Gameloop.Jobs
         //--------------------------------------------------------------------------------------------------------------
 
         /*
-         * Internal   
+         * Internal
          */
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
