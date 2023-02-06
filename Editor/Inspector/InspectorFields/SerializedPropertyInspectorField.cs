@@ -16,6 +16,7 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
         private readonly bool _textArea;
         private readonly bool _listInspector;
         private readonly bool _runtimeReadonly;
+        private readonly bool _readonly;
         private readonly ReorderableList _reorderableList;
 
         public SerializedPropertyInspectorMember(SerializedProperty serializedProperty, MemberInfo memberInfo, object target) : base(memberInfo, target)
@@ -25,6 +26,7 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
             _hideLabel = memberInfo.HasAttribute<HideLabelAttribute>();
             _textArea = memberInfo.HasAttribute<TextAreaAttribute>();
             _runtimeReadonly = memberInfo.HasAttribute<RuntimeReadonlyAttribute>();
+            _readonly = memberInfo.HasAttribute<ReadonlyAttribute>();
 
             var label = memberInfo.TryGetCustomAttribute<LabelAttribute>(out var labelAttribute)
                 ? labelAttribute.Label
@@ -49,7 +51,7 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
         {
             _serializedObject.Update();
             var enabled = GUI.enabled;
-            if (_runtimeReadonly && Application.isPlaying)
+            if (_readonly || (_runtimeReadonly && Application.isPlaying))
             {
                 GUI.enabled = false;
             }

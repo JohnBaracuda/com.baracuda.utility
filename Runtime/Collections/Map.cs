@@ -14,7 +14,6 @@ namespace Baracuda.Utilities.Collections
         [SerializeField] private List<TKey> keys = new(16);
         [SerializeField] private List<TValue> values = new(16);
 
-
         public bool TryGetElementAtIndex(int index, out KeyValuePair<TKey, TValue> result)
         {
             if (keys.Count < index && values.Count < index)

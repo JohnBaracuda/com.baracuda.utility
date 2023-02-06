@@ -124,7 +124,7 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
                     return;
                 }
 
-                if (fieldInfo.HasAttribute<ReadonlyAttribute>())
+                if (fieldInfo.HasAttribute<ReadonlyAttribute>() && fieldInfo.LacksAttribute<SerializeField>())
                 {
                     list.Add(new NonSerializedMemberInspectorMember(fieldInfo, target.targetObject));
                     return;

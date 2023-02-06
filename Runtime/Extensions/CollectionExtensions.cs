@@ -163,6 +163,19 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
+        {
+            if (target.ContainsKey(key))
+            {
+                target[key] = value;
+                return;
+            }
+
+            target.Add(key, value);
+            return;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddTyped<TValue>(this IDictionary<Type, TValue> target, TValue value)
         {
             var key = value.GetType();

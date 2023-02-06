@@ -38,6 +38,12 @@ namespace Baracuda.Utilities
         }
 
         /// <summary>
+        /// Get the inner value. Accessing this property does not assert that you are allowed to access the value.
+        /// Use <see cref="ValueOrDefault()"/> or <see cref="TryGetValue"/> if you don't know if accessing the value is allowed.
+        /// </summary>
+        public T ValueDiscrete => value;
+
+        /// <summary>
         /// Get either the inner value or a default value, depending on whether or not <see cref="Enabled"/> is true.
         /// </summary>
         /// <returns>The inner value</returns>
