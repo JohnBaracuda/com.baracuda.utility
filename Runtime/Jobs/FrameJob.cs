@@ -24,7 +24,7 @@ namespace Baracuda.Gameloop.Jobs
             frameJob._action = action;
             frameJob._targetFrames = frames;
             frameJob.IsValid = true;
-            JobManager.RegisterJob(frameJob);
+            JobSystem.RegisterJob(frameJob);
             return new FrameJobHandle(frameJob);
         }
 
@@ -62,7 +62,7 @@ namespace Baracuda.Gameloop.Jobs
                 _action = null;
                 _targetFrames = 0;
                 _currentFrame = 0;
-                JobManager.UnregisterJob(this);
+                JobSystem.UnregisterJob(this);
                 FrameJobPool.Release(this);
                 IsValid = false;
             }

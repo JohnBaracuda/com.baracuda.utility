@@ -1,5 +1,6 @@
 using Baracuda.Utilities.Pooling;
 using System.Linq;
+using UnityEngine.Pool;
 
 namespace Baracuda.Utilities
 {
@@ -41,7 +42,6 @@ namespace Baracuda.Utilities
         public static T[] GetSelectionFromMask<T>(int mask, T[] options)
         {
             var selection = ListPool<T>.Get();
-
 
             for (var i = 0; i < options.Length; i++)
             {

@@ -1,10 +1,14 @@
 
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Baracuda.Utilities
 {
     public static class UIExtensions
     {
+        #region Rect Transform
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsRectInsideScreen(this RectTransform rectTransform, float tolerance)
         {
             var inside = true;
@@ -24,5 +28,7 @@ namespace Baracuda.Utilities
 
             return inside;
         }
+
+        #endregion
     }
 }

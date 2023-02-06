@@ -8,8 +8,6 @@ namespace Baracuda.Utilities.Singleton
     /// </summary>
     public abstract class LocalConfiguration<T> : ScriptableObject where T : LocalConfiguration<T>
     {
-        private static ConfigurationRegistry Registry => ConfigurationRegistry.Singleton;
-
         private static T local;
         private static T global;
 
@@ -169,7 +167,6 @@ namespace Baracuda.Utilities.Singleton
             {
                 global = value;
 #if UNITY_EDITOR
-                ConfigurationRegistry.Singleton.SetGlobal(value);
                 var path = UnityEditor.AssetDatabase.GetAssetPath(global);
                 var guid = UnityEditor.AssetDatabase.AssetPathToGUID(path);
                 UnityEditor.EditorPrefs.SetString($"{typeof(T).FullName}.{nameof(Global)}", guid);

@@ -32,7 +32,7 @@ namespace Baracuda.Utilities.Jobs
             timedJob._progress = 0;
             timedJob._secondsDuration = secondsDuration;
             timedJob.IsValid = true;
-            JobManager.RegisterJob(timedJob);
+            JobSystem.RegisterJob(timedJob);
             return new TimedJobHandle(timedJob);
         }
 
@@ -73,7 +73,7 @@ namespace Baracuda.Utilities.Jobs
                 _onStop?.Invoke();
                 _onStop = null;
                 _onUpdate = null;
-                JobManager.UnregisterJob(this);
+                JobSystem.UnregisterJob(this);
                 TimedJobPool.Release(this);
                 IsValid = false;
             }

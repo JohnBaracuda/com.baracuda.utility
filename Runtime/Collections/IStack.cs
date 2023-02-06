@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Baracuda.Utilities.Collections
 {
-    public interface IStack<T> : IEnumerable<T>
+    public interface IStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
         void Push(T item);
         T Pop();

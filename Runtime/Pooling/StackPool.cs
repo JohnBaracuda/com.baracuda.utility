@@ -1,28 +1,23 @@
 // Copyright (c) 2022 Jonathan Lang
 
-using Baracuda.Utilities.Pooling.Source;
 using System.Collections.Generic;
+using UnityEngine.Pool;
 
 namespace Baracuda.Utilities.Pooling
 {
     public class StackPool<T>
     {
-        private static readonly ObjectPoolT<Stack<T>> pool 
-            = new ObjectPoolT<Stack<T>>(() => new Stack<T>(), actionOnRelease: l => l.Clear());
+        private static readonly ObjectPool<Stack<T>> pool
+            = new ObjectPool<Stack<T>>(() => new Stack<T>(), actionOnRelease: l => l.Clear());
 
         public static Stack<T> Get()
         {
             return pool.Get();
         }
-        
+
         public static void Release(Stack<T> toRelease)
         {
             pool.Release(toRelease);
-        }
-
-        public static PooledObject<Stack<T>> GetDisposable()
-        {
-            return pool.GetDisposable();
         }
     }
 }

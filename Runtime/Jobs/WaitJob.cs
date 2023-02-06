@@ -25,7 +25,7 @@ namespace Baracuda.Gameloop.Jobs
             waitJob._action = action;
             waitJob._waitSeconds = waitSeconds;
             waitJob.IsValid = true;
-            JobManager.RegisterJob(waitJob);
+            JobSystem.RegisterJob(waitJob);
             return new WaitJobHandle(waitJob);
         }
 
@@ -36,7 +36,7 @@ namespace Baracuda.Gameloop.Jobs
             waitJob._action = action;
             waitJob._waitSeconds = waitMilliseconds.MillisecondsToSeconds();
             waitJob.IsValid = true;
-            JobManager.RegisterJob(waitJob);
+            JobSystem.RegisterJob(waitJob);
             return new WaitJobHandle(waitJob);
         }
 
@@ -80,7 +80,7 @@ namespace Baracuda.Gameloop.Jobs
                 _action = null;
                 _waitSeconds = 0;
                 _duration = 0;
-                JobManager.UnregisterJob(this);
+                JobSystem.UnregisterJob(this);
                 WaitJobPool.Release(this);
                 IsValid = false;
             }

@@ -30,8 +30,7 @@ namespace Baracuda.Utilities.Random
             return Range(range.Start.Value, range.End.Value);
         }
 
-
-        public static float Single(float min = float.MinValue, float max = float.MaxValue)
+        public static float Float(float min = float.MinValue, float max = float.MaxValue)
         {
             return Range(min, max);
         }

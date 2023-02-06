@@ -17,10 +17,17 @@ namespace Baracuda.Utilities
                 {
                     return singleton;
                 }
-                //singleton = Resources.Load<T>(string.Empty);
 #if UNITY_EDITOR
-                // Find existing instance
                 if (singleton == null)
+                {
+                    FindSingleton();
+                }
+                if (singleton == null)
+                {
+                    CreateSingleton();
+                }
+
+                void FindSingleton()
                 {
                     var guids = UnityEditor.AssetDatabase.FindAssets($"t:{typeof(T)}");
                     for (var i = 0; i < guids.Length; i++)
@@ -37,9 +44,7 @@ namespace Baracuda.Utilities
                         break;
                     }
                 }
-
-                // Create new instance
-                if (singleton == null)
+                void CreateSingleton()
                 {
                     var resourceAttribute = typeof(T).GetCustomAttribute<DefaultResourceAttribute>();
 
@@ -97,7 +102,7 @@ namespace Baracuda.Utilities
 
         private static void EnsureFolderPathExists(string path)
         {
-            Debug.Log(LogCategory.Asset, $"Ensure Folder Path Exists: {path}");
+            Debug.Log("Asset", $"Ensure Folder Path Exists: {path}");
             var folders = path.Split('/').ToList();
 
             if (folders.FirstOrDefault()?.Equals("Assets", StringComparison.OrdinalIgnoreCase) ?? false)
@@ -116,7 +121,7 @@ namespace Baracuda.Utilities
                 var nextFolderPath = Path.Combine(currentFolderPath, folder);
                 if (!UnityEditor.AssetDatabase.IsValidFolder(nextFolderPath))
                 {
-                    Debug.Log(LogCategory.Asset, $"Creating folder: {folder} in {currentFolderPath}");
+                    Debug.Log("Asset", $"Creating folder: {folder} in {currentFolderPath}");
                     UnityEditor.AssetDatabase.CreateFolder(currentFolderPath, folder);
                 }
                 currentFolderPath = nextFolderPath;

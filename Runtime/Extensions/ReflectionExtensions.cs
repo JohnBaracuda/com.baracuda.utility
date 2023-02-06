@@ -10,6 +10,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
 namespace Baracuda.Utilities
@@ -31,18 +32,18 @@ namespace Baracuda.Utilities
                 return Array.Empty<string>();
             }
 
-            var cache = ListPool<string>.Get();
+            var list = ListPool<string>.Get();
 
             if (target is GameObject gameObject)
             {
                 var components = gameObject.GetComponents<MonoBehaviour>();
                 for (var i = 0; i < components.Length; i++)
                 {
-                    cache.AddRange(GetNamesOfGenericInterfaceSubtypesInObject<TInterface>(components[i]));
+                    list.AddRange(GetNamesOfGenericInterfaceSubtypesInObject<TInterface>(components[i]));
                 }
 
-                var result = cache.ToArray();
-                ListPool<string>.Release(cache);
+                var result = list.ToArray();
+                ListPool<string>.Release(list);
                 return result;
             }
             else
@@ -52,12 +53,12 @@ namespace Baracuda.Utilities
                 {
                     if (interfaces[i].HasInterfaceWithGenericTypeDefinition(typeof(TInterface)))
                     {
-                        cache.Add(interfaces[i].Name);
+                        list.Add(interfaces[i].Name);
                     }
                 }
 
-                var result = cache.ToArray();
-                ListPool<string>.Release(cache);
+                var result = list.ToArray();
+                ListPool<string>.Release(list);
                 return result;
             }
         }
@@ -504,7 +505,7 @@ namespace Baracuda.Utilities
         {
             var parameters = methodInfo.GetParameters();
 
-            var stringBuilder = ConcurrentStringBuilderPool.GetDisposable();
+            var stringBuilder = StringBuilderPool.Get();
 
             stringBuilder.Append(methodInfo.ReturnType.Name);
 
@@ -526,8 +527,7 @@ namespace Baracuda.Utilities
                 stringBuilder.Append(')');
             }
 
-
-            return stringBuilder.ToString();
+            return StringBuilderPool.Release(stringBuilder);
         }
 
         private static readonly Dictionary<Type, string> typeCacheFullName = new Dictionary<Type, string>();

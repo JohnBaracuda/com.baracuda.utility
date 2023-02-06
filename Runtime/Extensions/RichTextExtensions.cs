@@ -43,71 +43,66 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Colorize(this string content, Color color)
         {
-            using var pooled = ConcurrentStringBuilderPool.GetDisposable();
-            var str = pooled.Value;
-            str.Append("<color=#");
-            str.Append(ColorUtility.ToHtmlStringRGBA(color));
-            str.Append('>');
-            str.Append(content);
-            str.Append("</color>");
-            return str.ToString();
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
+            stringBuilder.Append("<color=#");
+            stringBuilder.Append(ColorUtility.ToHtmlStringRGBA(color));
+            stringBuilder.Append('>');
+            stringBuilder.Append(content);
+            stringBuilder.Append("</color>");
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Colorize(this string content, LogType type)
         {
-            using var pooled = ConcurrentStringBuilderPool.GetDisposable();
-            var str = pooled.Value;
-            str.Append("<color=#");
-            str.Append(ColorUtility.ToHtmlStringRGBA(type.ToColor()));
-            str.Append('>');
-            str.Append(content);
-            str.Append("</color>");
-            return str.ToString();
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
+            stringBuilder.Append("<color=#");
+            stringBuilder.Append(ColorUtility.ToHtmlStringRGBA(type.ToColor()));
+            stringBuilder.Append('>');
+            stringBuilder.Append(content);
+            stringBuilder.Append("</color>");
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Bold(this string content)
         {
-            using var pooled = ConcurrentStringBuilderPool.GetDisposable();
-            var str = pooled.Value;
-            str.Append("<b>");
-            str.Append(content);
-            str.Append("</b>");
-            return str.ToString();
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
+            stringBuilder.Append("<b>");
+            stringBuilder.Append(content);
+            stringBuilder.Append("</b>");
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Italics(this string content)
         {
-            using var pooled = ConcurrentStringBuilderPool.GetDisposable();
-            var str = pooled.Value;
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
+            var str = stringBuilder;
             str.Append("<c>");
             str.Append(content);
             str.Append("</c>");
-            return str.ToString();
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Strike(this string content)
         {
-            using var pooled = ConcurrentStringBuilderPool.GetDisposable();
-            var str = pooled.Value;
-            str.Append("<s>");
-            str.Append(content);
-            str.Append("</s>");
-            return str.ToString();
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
+            stringBuilder.Append("<s>");
+            stringBuilder.Append(content);
+            stringBuilder.Append("</s>");
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Underline(this string content)
         {
-            using var pooled = ConcurrentStringBuilderPool.GetDisposable();
-            var str = pooled.Value;
-            str.Append("<u>");
-            str.Append(content);
-            str.Append("</u>");
-            return str.ToString();
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
+            stringBuilder.Append("<u>");
+            stringBuilder.Append(content);
+            stringBuilder.Append("</u>");
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -207,6 +202,19 @@ namespace Baracuda.Utilities
 
                 return content;
             }
+        }
+
+        public static Color ToColor(this LogType logType)
+        {
+            return logType switch
+            {
+                LogType.Log => RichTextExtensions.SoftWhite,
+                LogType.Error => Color.red,
+                LogType.Exception => Color.red,
+                LogType.Assert => Color.red,
+                LogType.Warning => Color.yellow,
+                _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
+            };
         }
     }
 }

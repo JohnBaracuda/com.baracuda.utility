@@ -26,7 +26,7 @@ namespace Baracuda.Gameloop.Jobs
             updateJob._onStop = onStop;
             updateJob._runTime = 0;
             updateJob.IsValid = true;
-            JobManager.RegisterJob(updateJob);
+            JobSystem.RegisterJob(updateJob);
             return new UpdateJobHandle(updateJob);
         }
 
@@ -60,7 +60,7 @@ namespace Baracuda.Gameloop.Jobs
                 _onStop?.Invoke();
                 _onStop = null;
                 _onUpdate = null;
-                JobManager.UnregisterJob(this);
+                JobSystem.UnregisterJob(this);
                 UpdateJobPool.Release(this);
                 IsValid = false;
             }

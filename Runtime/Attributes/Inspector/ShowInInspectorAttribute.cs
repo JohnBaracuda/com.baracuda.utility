@@ -9,6 +9,5 @@ namespace Baracuda.Utilities.Inspector
     [MeansImplicitUse]
     public class ShowInInspectorAttribute : Attribute
     {
-        public bool Box { get; set; } = false;
     }
 }

@@ -274,29 +274,31 @@ namespace Baracuda.Utilities
 
         public static string CombineToString(this IEnumerable<string> enumerable, char separator = ' ')
         {
-            using var sb = ConcurrentStringBuilderPool.GetDisposable();
+            var stringBuilder = ConcurrentStringBuilderPool.Get();
             foreach (var argument in enumerable)
             {
-                sb.Append(argument);
-                sb.Append(separator);
+                stringBuilder.Append(argument);
+                stringBuilder.Append(separator);
             }
 
-            return sb.ToString();
+            return ConcurrentStringBuilderPool.Release(stringBuilder);
         }
 
         public static string[] RemoveNullOrWhiteSpace(this IEnumerable<string> enumerable, char separator = ' ')
         {
-            using var list = ConcurrentListPool<string>.GetDisposable();
+            var list = ConcurrentListPool<string>.Get();
 
             foreach (var value in enumerable)
             {
                 if (value.IsNotNullOrWhitespace())
                 {
-                    list.Value.Add(value);
+                    list.Add(value);
                 }
             }
 
-            return list.Value.ToArray();
+            var result = list.ToArray();
+            ConcurrentListPool<string>.Release(list);
+            return result;
         }
 
         #endregion

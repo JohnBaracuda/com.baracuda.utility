@@ -9,12 +9,8 @@ namespace Baracuda.Utilities.Collections
     /// <summary>
     /// Class acts as a limited and fast generic first in last out collection.
     /// </summary>
-    public sealed class LimitedQueue<T> : IEnumerable<T>
+    public sealed class LimitedQueue<T> : IEnumerable<T>, IQueue<T>
     {
-        /*
-         *  Data
-         */
-        
         private readonly List<T> _data;
         private int _index;
         private readonly int _maxCapacity;
@@ -23,18 +19,12 @@ namespace Baracuda.Utilities.Collections
         public int Count => _data.Count - _index;
         public int Range { get; private set; }
 
-        /*
-         *  Ctor   
-         */
-        
         public LimitedQueue(int max)
         {
             _maxCapacity = Mathf.Max(1, max);
             _data = new List<T>(_maxCapacity);
         }
 
-        //--------------------------------------------------------------------------------------------------------------
-        
         public T this[int i]
         {
             get
@@ -96,7 +86,7 @@ namespace Baracuda.Utilities.Collections
             _index = 0;
             _data.Clear();
         }
-        
+
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();
@@ -117,7 +107,7 @@ namespace Baracuda.Utilities.Collections
         {
             return _data.GetEnumerator();
         }
-        
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
