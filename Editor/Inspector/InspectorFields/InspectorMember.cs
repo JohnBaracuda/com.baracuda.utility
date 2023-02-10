@@ -19,10 +19,11 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
         public GUIContent Label { get; protected set; }
         public MemberInfo Member { get;}
         public bool HasHeaderAttribute { get;}
-        private Action PreprocessDelegate { get; }
         protected object Target { get; }
 
         private readonly bool _hasConditional;
+        private readonly Action _preDraw;
+        private readonly Action _postDraw;
 
         protected static string[] Prefixes { get; } = {"_", "m_"};
 
@@ -36,6 +37,8 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
             Member = member;
             HasHeaderAttribute = Member.HasAttribute<HeaderAttribute>();
 
+            var isSerialized = member.HasAttribute<SerializeField>() || member is FieldInfo {IsPublic: true};
+
             var attributes = member.GetCustomAttributes<PropertyAttribute>().ToArray();
 
             for (var i = 0; i < attributes.Length; i++)
@@ -44,29 +47,45 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
 
                 switch (propertyAttribute)
                 {
-                    case DrawSpaceAttribute spaceBeforeAttribute:
-                        PreprocessDelegate += () => GUIHelper.Space(spaceBeforeAttribute.height);
+                    case SpaceBeforeAttribute spaceBeforeAttribute:
+                        _preDraw += () => GUIHelper.Space(spaceBeforeAttribute.height);
+                        break;
+
+                    case SpaceAfterAttribute spaceAfterAttribute:
+                        _postDraw += () => GUIHelper.Space(spaceAfterAttribute.Height);
+                        break;
+
+                    case SpaceAttribute spaceAttribute when !isSerialized:
+                        _preDraw += () => GUIHelper.Space(spaceAttribute.height);
+                        break;
+
+                    case HeaderAttribute headerAttribute when !isSerialized:
+                        _preDraw += () =>
+                        {
+                            GUIHelper.Space();
+                            GUIHelper.BoldLabel(headerAttribute.header);
+                        };
                         break;
 
                     case DrawLineAttribute drawLineAttribute:
                         if (drawLineAttribute.SpaceBefore > -1)
                         {
                             var space = drawLineAttribute.SpaceBefore;
-                            PreprocessDelegate += () => GUIHelper.Space(space);
+                            _preDraw += () => GUIHelper.Space(space);
                         }
 
-                        PreprocessDelegate += GUIHelper.DrawLine;
+                        _preDraw += GUIHelper.DrawLine;
 
                         if (drawLineAttribute.SpaceAfter > -1)
                         {
                             var space = drawLineAttribute.SpaceBefore;
-                            PreprocessDelegate += () => GUIHelper.Space(space);
+                            _preDraw += () => GUIHelper.Space(space);
                         }
 
                         break;
 
                     case AnnotationAttribute annotationAttribute:
-                        PreprocessDelegate += () => EditorGUILayout.HelpBox(annotationAttribute.Annotation, (MessageType) annotationAttribute.MessageType);
+                        _preDraw += () => EditorGUILayout.HelpBox(annotationAttribute.Annotation, (MessageType) annotationAttribute.MessageType);
                         break;
 
                     case ConditionalShowAttribute conditionalAttribute:
@@ -90,15 +109,19 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
                                 conditionalAttribute.ReadOnly ? DisplayMode.Readonly : DisplayMode.Hide;
                         };
                         break;
+
+                    case BeginBoxAttribute:
+                        _preDraw += GUIHelper.BeginBox;
+                        break;
+
+                    case EndBoxAttribute:
+                        _postDraw += GUIHelper.EndBox;
+                        break;
                 }
             }
 
             displayMode ??= () => DisplayMode.Show;
         }
-
-        /*
-         * Abstract
-         */
 
         private enum DisplayMode
         {
@@ -114,18 +137,20 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
             switch (displayMode())
             {
                 case DisplayMode.Show:
-                    PreprocessDelegate?.Invoke();
+                    _preDraw?.Invoke();
                     DrawGUI();
+                    _postDraw?.Invoke();
                     return;
                 case DisplayMode.Hide:
                     return;
                 case DisplayMode.Readonly:
                     var enabled = GUI.enabled;
                     GUI.enabled = false;
-                    PreprocessDelegate?.Invoke();
+                    _preDraw?.Invoke();
                     GUI.enabled = false;
                     DrawGUI();
                     GUI.enabled = enabled;
+                    _postDraw?.Invoke();
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();

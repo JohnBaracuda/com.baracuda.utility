@@ -95,6 +95,17 @@ namespace Baracuda.Utilities
         #endregion
 
 
+        #region Quaternion
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 ToVector4(this Quaternion quaternion)
+        {
+            return new Vector4(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+        }
+
+        #endregion
+
+
         #region Timer
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

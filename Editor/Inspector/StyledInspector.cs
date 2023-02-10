@@ -1,9 +1,10 @@
+using System;
 using System.Reflection;
 using UnityEditor;
 
 namespace Baracuda.Utilities.Inspector
 {
-    public class StyledInspector<T> : UnityEditor.Editor where T : UnityEngine.Object
+    public class StyledInspector<T> : Editor where T : UnityEngine.Object
     {
         #region Properties & Fields
 
@@ -81,11 +82,19 @@ namespace Baracuda.Utilities.Inspector
 
         protected virtual void LoadStateData(string editorPrefsKey)
         {
+            if (Environment.StackTrace.Contains("RedrawFromNative"))
+            {
+                return;
+            }
             Foldout = new FoldoutHandler(editorPrefsKey);
         }
 
         protected virtual void SaveStateData(string editorPrefsKey)
         {
+            if (Environment.StackTrace.Contains("RedrawFromNative"))
+            {
+                return;
+            }
             Foldout?.SaveState();
         }
     }

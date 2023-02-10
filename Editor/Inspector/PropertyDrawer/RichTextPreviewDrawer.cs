@@ -8,20 +8,26 @@ namespace Baracuda.Utilities.Inspector.PropertyDrawer
     internal class RichTextPreviewDrawer : UnityEditor.PropertyDrawer
     {
         private bool _enabled;
-        private GUIContent _label;
+        private GUIContent _richTextLabel;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (property.propertyType == SerializedPropertyType.String)
             {
                 property.serializedObject.Update();
-                _label ??= new GUIContent(label)
+
+                EditorGUI.LabelField(position, label);
+                property.stringValue = EditorGUILayout.TextArea(property.stringValue, _enabled ? GUIHelper.RichTextArea : GUIHelper.TextArea);
+                property.serializedObject.ApplyModifiedProperties();
+
+                _richTextLabel ??= new GUIContent("Enable Rich Text")
                 {
                     tooltip = $"{label.tooltip} (toggle to preview rich text formatting)",
                 };
-                _enabled = EditorGUI.ToggleLeft(position, _label, _enabled);
-                property.stringValue = EditorGUILayout.TextArea(property.stringValue, _enabled ? GUIHelper.RichTextArea : GUIHelper.TextArea);
-                property.serializedObject.ApplyModifiedProperties();
+                if (GUILayout.Button(_enabled ? "Stop Rich Text Preview" : "Start Rich Text Preview"))
+                {
+                    _enabled = !_enabled;
+                }
             }
             else
             {

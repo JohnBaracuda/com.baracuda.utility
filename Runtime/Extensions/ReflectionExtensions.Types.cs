@@ -129,6 +129,12 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsHashSet(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(HashSet<>);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsList(this Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
@@ -152,6 +158,14 @@ namespace Baracuda.Utilities
             return excludeStrings
                 ? type.GetInterface(nameof(IEnumerable)) != null && !type.IsString()
                 : type.GetInterface(nameof(IEnumerable)) != null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsIList(this Type type, bool excludeStrings = false)
+        {
+            return excludeStrings
+                ? type.GetInterface(nameof(IList)) != null && !type.IsString()
+                : type.GetInterface(nameof(IList)) != null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -189,6 +203,31 @@ namespace Baracuda.Utilities
             }
 
             return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Type GetElementTypeDefinition(this Type type)
+        {
+            var genericArguments = type.GetGenericArguments();
+
+            if (genericArguments.Length == 1)
+            {
+                return genericArguments[0];
+            }
+
+            if (genericArguments.Length == 2)
+            {
+                return typeof(KeyValuePair<,>).MakeGenericType(new[] {genericArguments[0], genericArguments[1]});
+            }
+
+            var result = type.GetElementType();
+
+            if (result != null)
+            {
+                return result;
+            }
+
+            return null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

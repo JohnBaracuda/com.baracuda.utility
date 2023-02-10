@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Baracuda.Utilities.Inspector.InspectorFields
 {
@@ -13,24 +14,18 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
     {
         private readonly PropertyInfo _propertyInfo;
         private readonly object _target;
-        private readonly bool _drawSpace;
-        private readonly float _space;
-        private readonly bool _drawHeader;
-        private readonly string _header;
         private readonly bool _drawList;
         private readonly bool _inline;
-        private readonly bool _readonly;
         private readonly MessageType _messageType;
-        private readonly ReorderableList _list;
+        private readonly Action<object> _drawer;
         private Editor _editor;
 
-        public PropertyInspectorMember(PropertyInfo propertyInfo, object target, Attribute attribute) : base(propertyInfo, target)
+        public PropertyInspectorMember(PropertyInfo propertyInfo, object target) : base(propertyInfo, target)
         {
             _propertyInfo = propertyInfo;
             _target = target;
 
-            _inline = propertyInfo.HasAttribute<InlinePropertyAttribute>();
-            _readonly = attribute is ReadonlyAttribute;
+            _inline = propertyInfo.HasAttribute<InlineInspectorAttribute>();
 
             var label = propertyInfo.TryGetCustomAttribute<LabelAttribute>(out var labelAttribute)
                 ? labelAttribute.Label
@@ -39,59 +34,45 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
 
             Label = new GUIContent(label, tooltip);
 
-            if (_propertyInfo.TryGetCustomAttribute<SpaceAttribute>(out var spaceAttribute))
-            {
-                _drawSpace = true;
-                _space = spaceAttribute.height;
-            }
-            if (_propertyInfo.TryGetCustomAttribute<HeaderAttribute>(out var headerAttribute))
-            {
-                _drawHeader = true;
-                _header = headerAttribute.header;
-            }
-
-            _list = new ReorderableList(Array.Empty<string>(), typeof(string), false, true, false,false);
-            _list.drawHeaderCallback += rect => EditorGUI.LabelField(rect, Label);
+            _drawer = GUIHelper.CreateDrawer(Label, propertyInfo.PropertyType);
         }
 
         protected override void DrawGUI()
         {
-            if (_drawSpace)
-            {
-                GUIHelper.Space(_space);
-            }
-            if (_drawHeader)
-            {
-                GUIHelper.Space();
-                GUIHelper.BoldLabel(_header);
-            }
-
             var value = _propertyInfo.GetValue(_target);
-            if (_inline && value is UnityEngine.Object uObject)
+            if (_inline && value is Object targetObject)
             {
-                _editor ??= Editor.CreateEditor(uObject);
-                _editor.OnInspectorGUI();
-                _editor.serializedObject.ApplyModifiedProperties();
+                DrawInline(targetObject);
                 return;
             }
-            if (value?.GetType().IsIEnumerable(true) ?? false)
+
+            var enabled = GUI.enabled;
+            GUI.enabled = false;
+            _drawer(value);
+            GUI.enabled = enabled;
+        }
+
+        private void DrawInline(Object targetObject)
+        {
+            if (targetObject == null)
             {
-                var enumerable = (IEnumerable) value;
-                var items = enumerable as object[] ?? enumerable.Cast<object>().ToArray();
-                _list.list = items;
-                _list.DoLayoutList();
+                _editor = null;
+                return;
             }
-            else if (_readonly)
+
+            if (ReferenceEquals(targetObject, _target))
             {
-                var guiEnabled = GUI.enabled;
-                GUI.enabled = false;
-                GUIHelper.DynamicField(Label, value, _propertyInfo.PropertyType);
-                GUI.enabled = guiEnabled;
+                return;
             }
-            else
+
+            if (_editor != null && _editor.target != targetObject)
             {
-                GUIHelper.RichTextLabel(Label, new GUIContent(value?.ToString() ?? "null"));
+                _editor = null;
             }
+
+            _editor ??= Editor.CreateEditor(targetObject);
+            _editor.OnInspectorGUI();
+            _editor.serializedObject.ApplyModifiedProperties();
         }
     }
 }

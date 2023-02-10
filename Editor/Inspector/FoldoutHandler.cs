@@ -399,5 +399,31 @@ namespace Baracuda.Utilities.Inspector
         private static GUIStyle boldFoldoutStyle;
 
         #endregion
+
+
+        #region Override Style
+
+        private static readonly Stack<FoldoutStyle> styleOverrides = new(4);
+
+        public static void BeginStyleOverride(FoldoutStyle style)
+        {
+            var current = Style;
+            styleOverrides.Push(current);
+            Style = style;
+        }
+
+        public static void EndStyleOverride()
+        {
+            if (styleOverrides.TryPop(out var cached))
+            {
+                Style = cached;
+            }
+            else
+            {
+                Debug.LogError($"Mismatched calls of {nameof(BeginStyleOverride)} & {nameof(EndStyleOverride)}!");
+            }
+        }
+
+        #endregion
     }
 }

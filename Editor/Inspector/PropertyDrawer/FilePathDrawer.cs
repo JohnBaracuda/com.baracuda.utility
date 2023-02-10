@@ -14,7 +14,7 @@ namespace Baracuda.Utilities.Inspector.PropertyDrawer
             {
                 var pathAttribute = (DrawFilePathAttribute) attribute;
                 var buttonWidth = pathAttribute.ButtonWidth;
-                var directEditing = pathAttribute.EnableDirectEditing;
+                var directEditing = !pathAttribute.Readonly;
 
                 property.serializedObject.Update();
                 var path = property.stringValue;

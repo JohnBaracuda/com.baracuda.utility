@@ -17,9 +17,9 @@ namespace Baracuda.Utilities.Inspector
     public class ButtonAttribute : Attribute
     {
         public string Label { get; set; }
-        public float SpaceBefore { get; set; }
-        public float SpaceAfter { get; set; }
         public ButtonType ButtonType { get; } = ButtonType.Default;
+        public bool ShowResult { get; set; } = true;
+        public bool ShowArguments { get; set; } = true;
 
         public ButtonAttribute()
         {

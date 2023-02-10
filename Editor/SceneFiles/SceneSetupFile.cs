@@ -23,7 +23,7 @@ namespace Baracuda.Utilities.SceneFiles
 
         #region GUI
 
-        [ShowInInspector][DrawSpace]
+        [ShowInInspector][SpaceBefore]
         private string[] Paths => DrawScenePaths();
 
         #endregion

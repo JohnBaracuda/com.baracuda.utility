@@ -1,16 +1,14 @@
+using Baracuda.Utilities.Pooling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEngine.Pool;
 
 namespace Baracuda.Utilities
 {
     public static class CollectionExtensions
     {
-        /*
-         *  Foreach loop
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
@@ -28,10 +26,6 @@ namespace Baracuda.Utilities
                 action(array[i]);
             }
         }
-
-        /*
-         *  Null checks
-         */
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullOrEmpty<T>(this T[] array)
@@ -56,10 +50,6 @@ namespace Baracuda.Utilities
         {
             return list is {Count: > 0};
         }
-
-        /*
-         *  Try get
-         */
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetElementAt<T>(this T[] array, int index, out T element)
@@ -91,14 +81,10 @@ namespace Baracuda.Utilities
             }
         }
 
-        /*
-         *  Add Unique
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RemoveDuplicates<T>(this IList<T> list)
         {
-            var set = new HashSet<T>();
+            var set = HashSetPool<T>.Get();
 
             for (var i = list.Count - 1; i >= 0; i--)
             {
@@ -107,6 +93,7 @@ namespace Baracuda.Utilities
                     list.RemoveAt(i);
                 }
             }
+            HashSetPool<T>.Release(set);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -187,24 +174,30 @@ namespace Baracuda.Utilities
             target.Add(key, value);
         }
 
-        /*
-         * Add Appending
-         */
-
         public static List<T> Append<T>(this List<T> list, T value)
         {
             list.Add(value);
             return list;
         }
 
-        /*
-         * IEnumerable
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool None<T>(this IEnumerable<T> enumerable)
         {
             return !enumerable.Any();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string ToCollectionString<T>(this IEnumerable<T> enumerable)
+        {
+            var stringBuilder = StringBuilderPool.Get();
+            foreach (var item in enumerable)
+            {
+                var text = item.ToString();
+                stringBuilder.Append(text);
+                stringBuilder.Append('\n');
+            }
+
+            return StringBuilderPool.Release(stringBuilder);
         }
     }
 }

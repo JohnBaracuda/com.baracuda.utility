@@ -1,4 +1,5 @@
 ﻿using Baracuda.Utilities.Helper;
+using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -8,10 +9,8 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
     {
         private readonly FieldInfo _fieldInfo;
         private readonly object _target;
-        private readonly bool _drawSpace;
-        private readonly float _space;
-        private readonly bool _drawHeader;
-        private readonly string _header;
+        private readonly Action<object> _drawer;
+
 
         public NonSerializedMemberInspectorMember(FieldInfo fieldInfo, object target) : base(fieldInfo, target)
         {
@@ -25,32 +24,14 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
 
             Label = new GUIContent(label, tooltip);
 
-            if (_fieldInfo.TryGetCustomAttribute<SpaceAttribute>(out var spaceAttribute))
-            {
-                _drawSpace = true;
-                _space = spaceAttribute.height;
-            }
-            if (_fieldInfo.TryGetCustomAttribute<HeaderAttribute>(out var headerAttribute))
-            {
-                _drawHeader = true;
-                _header = headerAttribute.header;
-            }
+            _drawer = GUIHelper.CreateDrawer(Label, _fieldInfo.FieldType);
         }
 
         protected override void DrawGUI()
         {
-            if (_drawSpace)
-            {
-                GUIHelper.Space(_space);
-            }
-            if (_drawHeader)
-            {
-                GUIHelper.Space();
-                GUIHelper.BoldLabel(_header);
-            }
             var enabled = GUI.enabled;
             GUI.enabled = false;
-            GUIHelper.DynamicField(Label, _fieldInfo.GetValue(_target), _fieldInfo.FieldType);
+            _drawer(_fieldInfo.GetValue(_target));
             GUI.enabled = enabled;
         }
     }

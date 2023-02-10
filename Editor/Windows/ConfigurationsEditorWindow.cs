@@ -2,6 +2,7 @@ using Baracuda.Utilities.Helper;
 using Baracuda.Utilities.Inspector;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -310,6 +311,10 @@ namespace Baracuda.Utilities.Windows
 
         protected void AddEditor<T>(T target, string editorTitle) where T : ScriptableObject
         {
+            if (target == null)
+            {
+                return;
+            }
             var editor = Editor.CreateEditor(target);
             editorCache.Add(editor);
 

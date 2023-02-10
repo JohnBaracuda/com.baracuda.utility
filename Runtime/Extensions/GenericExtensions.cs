@@ -134,7 +134,7 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T As<T>(this object value)
+        public static T Cast<T>(this object value)
         {
             return (T) value;
         }
@@ -198,6 +198,12 @@ namespace Baracuda.Utilities
         public static bool IsNotNull(this GameObject target)
         {
             return target != null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string ToNullString<T>(this T target) where T : class
+        {
+            return target == null ? "null" : target.ToString();
         }
 
         #endregion

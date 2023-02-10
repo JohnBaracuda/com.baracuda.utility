@@ -16,7 +16,7 @@ namespace Baracuda.Utilities.Inspector
         public string Title { get; }
         public bool Unfold { get; } = true;
         public FoldoutName FoldoutName { get; } = 0;
-        public string ToolTip { get; set; }
+        public string ToolTip { get; }
 
         public FoldoutAttribute(string title, bool unfold = true, string tooltip = "")
         {

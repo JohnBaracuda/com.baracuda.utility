@@ -14,7 +14,7 @@ namespace Baracuda.Utilities.Inspector
         /// <summary>
         /// When enabled the file path string can be edited like a string.
         /// </summary>
-        public bool EnableDirectEditing { get; set; } = true;
+        public bool Readonly { get; set; } = false;
 
         /// <summary>
         /// Optional valid file extension.

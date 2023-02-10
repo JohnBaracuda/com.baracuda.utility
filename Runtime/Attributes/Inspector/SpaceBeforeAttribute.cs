@@ -3,13 +3,13 @@
 namespace Baracuda.Utilities.Inspector
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class DrawSpaceAttribute : UnityEngine.SpaceAttribute
+    public class SpaceBeforeAttribute : UnityEngine.SpaceAttribute
     {
-        public DrawSpaceAttribute() : base(8)
+        public SpaceBeforeAttribute() : base(8)
         {
         }
 
-        public DrawSpaceAttribute(float height) : base(height)
+        public SpaceBeforeAttribute(float height) : base(height)
         {
         }
     }

@@ -1,0 +1,25 @@
+{
+    "name": "baracuda.utilities.input",
+    "rootNamespace": "Baracuda.Utilities",
+    "references": [
+        "GUID:b0437899158d3234f91155fc9760e0e6",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INPUTSYSTEM"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "1.0.0",
+            "define": "UNITY_INPUTSYSTEM"
+        }
+    ],
+    "noEngineReferences": false
+}

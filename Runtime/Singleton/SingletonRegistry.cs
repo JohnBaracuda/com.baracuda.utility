@@ -25,6 +25,7 @@ namespace Baracuda.Utilities
             {
                 return value as T;
             }
+            Debug.LogError("Singleton", $"No singleton instance of type {typeof(T)} registered!");
             return null;
         }
 
@@ -57,9 +58,7 @@ namespace Baracuda.Utilities
             {
                 if (singleton == null)
                 {
-                    Debug.Log("Singleton", "Loading singleton registry from resources.");
                     singleton = Resources.Load<SingletonRegistry>("Singletons");
-                    Debug.Log("Singleton", $"Loaded singleton registry [{singleton}] from resources.");
                 }
 
                 if (singleton == null)

@@ -15,33 +15,34 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
             var type = target.targetObject.GetType();
             var list = new List<InspectorMember>();
 
-            const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.NonPublic |
+            const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic |
                                        BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Static;
 
-            //TODO: Buttons last
-            var memberInfos = type.GetMembersIncludeBaseTypes(FLAGS).OrderBy(data => data.MetadataToken).ToArray();
-
-            for (var i = 0; i < memberInfos.Length; i++)
+            var fieldInfos = type.GetFieldsIncludeBaseTypes(Flags);
+            for (var i = 0; i < fieldInfos.Length; i++)
             {
-                switch (memberInfos[i])
-                {
-                    case FieldInfo fieldInfo:
-                        HandleFieldInfo(target, fieldInfo, ref list);
-                        break;
-                    case PropertyInfo propertyInfo:
-                        HandlePropertyInfo(target, propertyInfo, ref list);
-                        break;
-                    case MethodInfo methodInfo:
-                        HandleMethodInfo(target, methodInfo, ref list);
-                        break;
-                }
+                HandleFieldInfo(target, fieldInfos[i], ref list);
+            }
+
+            var propertyInfos = type.GetPropertiesIncludeBaseTypes(Flags);
+            for (var i = 0; i < propertyInfos.Length; i++)
+            {
+                HandlePropertyInfo(target, propertyInfos[i], ref list);
+            }
+
+            var methodInfos = type.GetMethodsIncludeBaseTypes(Flags);
+            for (var i = 0; i < methodInfos.Length; i++)
+            {
+                HandleMethodInfo(target, methodInfos[i], ref list);
             }
 
             return list.ToArray();
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void HandleMethodInfo(SerializedObject target, MethodInfo methodInfo, ref List<InspectorMember> list)
+        #region Methods
+
+        private static void HandleMethodInfo(SerializedObject target, MethodInfo methodInfo,
+            ref List<InspectorMember> list)
         {
             if (methodInfo.TryGetCustomAttribute<ButtonAttribute>(out var buttonAttribute))
             {
@@ -57,105 +58,64 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
                         memberInfo: methodInfo,
                         target: target.targetObject));
                 }
-                return;
             }
-
-            // if (methodInfo.TryGetCustomAttribute<ToggleAttribute>(out var toggleAttribute))
-            // {
-            //     try
-            //     {
-            //         list.Add(new MethodToggleInspectorMember(methodInfo, toggleAttribute, target.targetObject));
-            //     }
-            //     catch (Exception exception)
-            //     {
-            //         list.Add(new HelpBoxInspectorMember(
-            //             message: exception.Message,
-            //             messageType: MessageType.Error,
-            //             memberInfo: methodInfo,
-            //             target: target.targetObject));
-            //     }
-            //     return;
-            // }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        #endregion
+
+
+        #region Properties
+
         private static void HandlePropertyInfo(SerializedObject target, PropertyInfo propertyInfo, ref List<InspectorMember> list)
         {
-            if (propertyInfo.TryGetCustomAttribute<ConditionalDrawerAttribute>(out var conditional))
+            if (propertyInfo.HasAttribute<ConditionalDrawerAttribute>())
             {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject, conditional));
+                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
                 return;
             }
 
-            if (propertyInfo.TryGetCustomAttribute<ShowInInspectorAttribute>(out var showInInspector))
+            if (propertyInfo.HasAttribute<ShowInInspectorAttribute>())
             {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject, showInInspector));
+                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
                 return;
             }
 
-            if (propertyInfo.TryGetCustomAttribute<ReadonlyAttribute>(out var readonlyInspector))
+            if (propertyInfo.HasAttribute<ReadonlyAttribute>())
             {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject, readonlyInspector));
+                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
+                return;
+            }
+
+            if (propertyInfo.HasAttribute<InlineInspectorAttribute>())
+            {
+                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        #endregion
+
+
+        #region Fields
+
         private static void HandleFieldInfo(SerializedObject target, FieldInfo fieldInfo, ref List<InspectorMember> list)
         {
-            if (fieldInfo.FieldType.IsList())
-            {
-                if (fieldInfo.HasAttribute<ShowInInspectorAttribute>())
-                {
-                    list.Add(new NonSerializedListInspectorMember(fieldInfo, target.targetObject));
-                    return;
-                }
+            var isStatic = fieldInfo.IsStatic;
+            var hideInInspector = fieldInfo.HasAttribute<HideInInspector>();
+            var hasSerializeField = fieldInfo.HasAttribute<SerializeField>();
+            var hasSerializeReference = fieldInfo.HasAttribute<SerializeField>();
+            var isPublicField = fieldInfo.IsPublic && !fieldInfo.IsInitOnly;
 
-                if (fieldInfo.HasAttribute<ReadonlyAttribute>())
-                {
-                    list.Add(new NonSerializedListInspectorMember(fieldInfo, target.targetObject));
-                    return;
-                }
-            }
-            else
+            if (!hideInInspector && !isStatic && (hasSerializeField || hasSerializeReference || isPublicField))
             {
-                if (fieldInfo.HasAttribute<ShowInInspectorAttribute>())
-                {
-                    list.Add(new NonSerializedMemberInspectorMember(fieldInfo, target.targetObject));
-                    return;
-                }
-
-                if (fieldInfo.HasAttribute<ReadonlyAttribute>() && fieldInfo.LacksAttribute<SerializeField>())
-                {
-                    list.Add(new NonSerializedMemberInspectorMember(fieldInfo, target.targetObject));
-                    return;
-                }
-            }
-
-            if (fieldInfo.IsStatic)
-            {
+                HandleSerializedField(target, fieldInfo, ref list);
                 return;
             }
 
-            if (fieldInfo.HasAttribute<HideInInspector>())
-            {
-                return;
-            }
+            HandleNonSerializedField(target, fieldInfo, ref list);
+        }
 
-            if (fieldInfo.IsPublic)
-            {
-                var prop = target.FindProperty(fieldInfo.Name);
-                if (prop.IsNotNull())
-                {
-                    list.Add(new SerializedPropertyInspectorMember(prop, fieldInfo, target.targetObject));
-                }
-                return;
-            }
-
-            if (fieldInfo.LacksAttribute<SerializeField>() && fieldInfo.LacksAttribute<SerializeReference>())
-            {
-                return;
-            }
-
+        private static void HandleSerializedField(SerializedObject target, FieldInfo fieldInfo, ref List<InspectorMember> list)
+        {
             var serializedProperty = target.FindProperty(fieldInfo.Name);
             if (serializedProperty.IsNull())
             {
@@ -170,5 +130,21 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
 
             list.Add(new SerializedPropertyInspectorMember(serializedProperty, fieldInfo, target.targetObject));
         }
+
+        private static void HandleNonSerializedField(SerializedObject target, FieldInfo fieldInfo, ref List<InspectorMember> list)
+        {
+            var showInInspector = fieldInfo.HasAttribute<ShowInInspectorAttribute>();
+            var isReadonly = fieldInfo.HasAttribute<ReadonlyAttribute>();
+            var conditionalDraw = fieldInfo.HasAttribute<ConditionalDrawerAttribute>();
+
+            if (!showInInspector && !isReadonly && !conditionalDraw)
+            {
+                return;
+            }
+
+            list.Add(new NonSerializedMemberInspectorMember(fieldInfo, target.targetObject));
+        }
+
+        #endregion
     }
 }

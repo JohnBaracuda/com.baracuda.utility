@@ -165,5 +165,37 @@ namespace Baracuda.Utilities.Helper
                 Debug.LogError($"Mismatched calls of {nameof(BeginIndentOverride)} & {nameof(EndIndentOverride)}!");
             }
         }
+
+        public static void IncreaseIndent()
+        {
+            EditorGUI.indentLevel++;
+        }
+
+        public static void DecreaseIndent()
+        {
+            EditorGUI.indentLevel--;
+        }
+
+
+        private static readonly Stack<bool> enabledOverrides = new(4);
+
+        public static void BeginEnabledOverride(bool enabledState)
+        {
+            var current = GUI.enabled;
+            enabledOverrides.Push(current);
+            GUI.enabled = enabledState;
+        }
+
+        public static void EndEnabledOverride()
+        {
+            if (enabledOverrides.TryPop(out var cached))
+            {
+                GUI.enabled = cached;
+            }
+            else
+            {
+                Debug.LogError($"Mismatched calls of {nameof(BeginEnabledOverride)} & {nameof(EndEnabledOverride)}!");
+            }
+        }
     }
 }

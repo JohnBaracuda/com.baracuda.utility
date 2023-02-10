@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Baracuda.Utilities.Helper;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Baracuda.Utilities.Inspector.PropertyDrawer
     [CustomPropertyDrawer(typeof(InlineInspectorAttribute))]
     internal class InlineInspectorDrawer : UnityEditor.PropertyDrawer
     {
-        private UnityEditor.Editor _inspector;
+        private Editor _inspector;
         private InlineInspectorAttribute _inspectorAttribute;
         private string _key;
 
@@ -27,6 +28,8 @@ namespace Baracuda.Utilities.Inspector.PropertyDrawer
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            EditorGUI.PropertyField(position, property, label);
+
             if (property.propertyType != SerializedPropertyType.ObjectReference)
             {
                 return;
@@ -34,37 +37,32 @@ namespace Baracuda.Utilities.Inspector.PropertyDrawer
 
             if (property.objectReferenceValue == null)
             {
-                EditorGUI.PropertyField(position, property, label);
                 _inspector = null;
                 return;
             }
 
+            if (ReferenceEquals(property.objectReferenceValue, property.serializedObject.targetObject))
+            {
+                return;
+            }
+
+            _inspectorAttribute ??= (InlineInspectorAttribute) attribute;
+            FoldoutHandler.BeginStyleOverride(FoldoutStyle.DarkGradient);
+            GetOrCreateInspector(property).OnInspectorGUI();
+            FoldoutHandler.EndStyleOverride();
+        }
+
+        private Editor GetOrCreateInspector(SerializedProperty property)
+        {
             _inspectorAttribute ??= (InlineInspectorAttribute) attribute;
 
-            if (!_inspectorAttribute.Simple)
+            if (_inspector && _inspector.target != property.objectReferenceValue)
             {
-                EditorGUI.indentLevel--;
-                EditorGUI.PropertyField(position, property, new GUIContent(" "));
-                EditorGUI.indentLevel++;
+                _inspector = null;
+            }
+            _inspector ??= Editor.CreateEditor(property.objectReferenceValue);
 
-                FoldoutHandler.Style = FoldoutStyle.Title;
-                if (Foldout(property.serializedObject.targetObject)[property.displayName])
-                {
-                    EditorGUI.indentLevel++;
-                    FoldoutHandler.Style = FoldoutStyle.Default;
-                    _inspector ??= UnityEditor.Editor.CreateEditor(property.objectReferenceValue);
-                    _inspector.OnInspectorGUI();
-                    EditorGUI.indentLevel--;
-                }
-                FoldoutHandler.Style = FoldoutStyle.Default;
-                EditorGUILayout.Space();
-            }
-            else
-            {
-                EditorGUILayout.LabelField(label);
-                _inspector ??= Editor.CreateEditor(property.objectReferenceValue);
-                _inspector.OnInspectorGUI();
-            }
+            return _inspector;
         }
     }
 }

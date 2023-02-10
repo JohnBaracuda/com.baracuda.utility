@@ -12,8 +12,8 @@ namespace Baracuda.Utilities.Inspector.PropertyDrawer
 
             return valueType.IsFlagsEnum()
                 ? negationCondition
-                    ? !convertedRhs.As<int>().HasFlagInt(lhs.As<int>())
-                    : convertedRhs.As<int>().HasFlagInt(lhs.As<int>())
+                    ? !convertedRhs.Cast<int>().HasFlagInt(lhs.Cast<int>())
+                    : convertedRhs.Cast<int>().HasFlagInt(lhs.Cast<int>())
                 : negationCondition
                     ? !convertedRhs.Equals(lhs)
                     : convertedRhs.Equals(lhs);
