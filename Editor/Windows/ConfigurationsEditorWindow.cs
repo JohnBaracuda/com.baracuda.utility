@@ -367,7 +367,7 @@ namespace Baracuda.Utilities.Windows
             editorCache.Add(editor);
 
             var optionKey = $"custom_editor_{optionName}";
-            options.AddUnique((new GUIContent(optionName, tooltip), optionKey));
+            AddOptions((new GUIContent(optionName, tooltip), optionKey));
             if (!EditorPrefs.HasKey(optionKey))
             {
                 EditorPrefs.SetBool(optionKey, showByDefault);
@@ -426,6 +426,44 @@ namespace Baracuda.Utilities.Windows
             }
         }
 
+        protected void AddOptionalTitle(string titleName, string optionName, string tooltip = null, bool showByDefault = false, bool drawLine = true)
+        {
+            var optionKey = $"custom_editor_{optionName}";
+            AddOptions((new GUIContent(optionName, tooltip), optionKey));
+            if (!EditorPrefs.HasKey(optionKey))
+            {
+                EditorPrefs.SetBool(optionKey, showByDefault);
+            }
+
+            instructions.Add(() =>
+            {
+                if (!EditorPrefs.GetBool(optionKey, showByDefault))
+                {
+                    return;
+                }
+
+                InspectorSearch.SetContextQuery(titleName);
+                if (!InspectorSearch.IsValid(titleName))
+                {
+                    return;
+                }
+                if (!DrawTitles)
+                {
+                    return;
+                }
+
+                if (drawLine)
+                {
+                    var lastRect = GUILayoutUtility.GetLastRect();
+                    EditorGUI.DrawRect(new Rect(0, lastRect.y, EditorGUIUtility.currentViewWidth, 1), new Color(0f, 0f, 0f, 0.3f));
+                }
+
+                EditorGUILayout.Space();
+                GUILayout.Label(titleName, new GUIStyle(GUI.skin.label) {fontSize = 16});
+                EditorGUILayout.Space(3);
+            });
+        }
+
         protected void AddInstruction(Action instruction)
         {
             instructions.Add(instruction);
@@ -445,6 +483,20 @@ namespace Baracuda.Utilities.Windows
                     GUIHelper.Space();
                 }
             });
+        }
+
+
+        private void AddOptions((GUIContent content, string key) option)
+        {
+            var key = option.key;
+            foreach (var (_, elementKey) in options)
+            {
+                if (key == elementKey)
+                {
+                    return;
+                }
+            }
+            options.Add(option);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Baracuda.Utilities.Inspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -95,6 +96,21 @@ namespace Baracuda.Utilities.Helper
         public static void BeginBox()
         {
             EditorGUILayout.BeginVertical(HelpBoxStyle);
+        }
+
+        public static void BeginBox(BoxStyle style)
+        {
+            switch (style)
+            {
+                case Inspector.BoxStyle.GrayBox:
+                    EditorGUILayout.BeginVertical(BoxStyle);
+                    break;
+                case Inspector.BoxStyle.HelpBox:
+                    EditorGUILayout.BeginVertical(HelpBoxStyle);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(style), style, null);
+            }
         }
 
         public static void EndBox()

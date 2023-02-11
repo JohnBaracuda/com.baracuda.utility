@@ -52,9 +52,8 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
                 }
                 catch (Exception exception)
                 {
-                    list.Add(new HelpBoxInspectorMember(
-                        message: exception.Message,
-                        messageType: MessageType.Error,
+                    list.Add(new ExceptionInspectorMember(
+                        exception: exception,
                         memberInfo: methodInfo,
                         target: target.targetObject));
                 }
@@ -68,27 +67,52 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
 
         private static void HandlePropertyInfo(SerializedObject target, PropertyInfo propertyInfo, ref List<InspectorMember> list)
         {
-            if (propertyInfo.HasAttribute<ConditionalDrawerAttribute>())
+            try
             {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
-                return;
-            }
+                var hasSetAccess = propertyInfo.SetMethod != null;
 
-            if (propertyInfo.HasAttribute<ShowInInspectorAttribute>())
-            {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
-                return;
-            }
+                if (propertyInfo.HasAttribute<ReadonlyAttribute>())
+                {
+                    list.Add(new ReadonlyPropertyInspector(propertyInfo, target.targetObject));
+                    return;
+                }
 
-            if (propertyInfo.HasAttribute<ReadonlyAttribute>())
-            {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
-                return;
-            }
+                if (propertyInfo.HasAttribute<ConditionalDrawerAttribute>())
+                {
+                    InspectorMember inspector = hasSetAccess
+                        ? new PropertyInspector(propertyInfo, target.targetObject)
+                        : new ReadonlyPropertyInspector(propertyInfo, target.targetObject);
 
-            if (propertyInfo.HasAttribute<InlineInspectorAttribute>())
+                    list.Add(inspector);
+                    return;
+                }
+
+                if (propertyInfo.HasAttribute<ShowInInspectorAttribute>())
+                {
+                    InspectorMember inspector = hasSetAccess
+                        ? new PropertyInspector(propertyInfo, target.targetObject)
+                        : new ReadonlyPropertyInspector(propertyInfo, target.targetObject);
+
+                    list.Add(inspector);
+                    return;
+                }
+
+                if (propertyInfo.HasAttribute<InlineInspectorAttribute>())
+                {
+                    InspectorMember inspector = hasSetAccess
+                        ? new PropertyInspector(propertyInfo, target.targetObject)
+                        : new ReadonlyPropertyInspector(propertyInfo, target.targetObject);
+
+                    list.Add(inspector);
+                    return;
+                }
+            }
+            catch (Exception exception)
             {
-                list.Add(new PropertyInspectorMember(propertyInfo, target.targetObject));
+                list.Add(new ExceptionInspectorMember(
+                    exception: exception,
+                    memberInfo: propertyInfo,
+                    target: target.targetObject));
             }
         }
 
@@ -99,19 +123,29 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
 
         private static void HandleFieldInfo(SerializedObject target, FieldInfo fieldInfo, ref List<InspectorMember> list)
         {
-            var isStatic = fieldInfo.IsStatic;
-            var hideInInspector = fieldInfo.HasAttribute<HideInInspector>();
-            var hasSerializeField = fieldInfo.HasAttribute<SerializeField>();
-            var hasSerializeReference = fieldInfo.HasAttribute<SerializeField>();
-            var isPublicField = fieldInfo.IsPublic && !fieldInfo.IsInitOnly;
-
-            if (!hideInInspector && !isStatic && (hasSerializeField || hasSerializeReference || isPublicField))
+            try
             {
-                HandleSerializedField(target, fieldInfo, ref list);
-                return;
-            }
+                var isStatic = fieldInfo.IsStatic;
+                var hideInInspector = fieldInfo.HasAttribute<HideInInspector>();
+                var hasSerializeField = fieldInfo.HasAttribute<SerializeField>();
+                var hasSerializeReference = fieldInfo.HasAttribute<SerializeField>();
+                var isPublicField = fieldInfo.IsPublic && !fieldInfo.IsInitOnly;
 
-            HandleNonSerializedField(target, fieldInfo, ref list);
+                if (!hideInInspector && !isStatic && (hasSerializeField || hasSerializeReference || isPublicField))
+                {
+                    HandleSerializedField(target, fieldInfo, ref list);
+                    return;
+                }
+
+                HandleNonSerializedField(target, fieldInfo, ref list);
+            }
+            catch (Exception exception)
+            {
+                list.Add(new ExceptionInspectorMember(
+                    exception: exception,
+                    memberInfo: fieldInfo,
+                    target: target.targetObject));
+            }
         }
 
         private static void HandleSerializedField(SerializedObject target, FieldInfo fieldInfo, ref List<InspectorMember> list)
@@ -142,7 +176,13 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
                 return;
             }
 
-            list.Add(new NonSerializedMemberInspectorMember(fieldInfo, target.targetObject));
+            if (isReadonly)
+            {
+                list.Add(new NonSerializedReadonlyFieldInspector(fieldInfo, target.targetObject));
+                return;
+            }
+
+            list.Add(new NonSerializedFieldInspector(fieldInfo, target.targetObject));
         }
 
         #endregion

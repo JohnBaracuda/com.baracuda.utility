@@ -1,4 +1,5 @@
 using Baracuda.Utilities.Collections;
+using Baracuda.Utilities.Inspector;
 using UnityEngine;
 
 namespace Baracuda.Utilities
@@ -7,6 +8,10 @@ namespace Baracuda.Utilities
     {
         #region Data
 
+        [Annotation("Map contains references to singleton assets. Do not modify manually!")]
+        [ShowInInspector] private bool enableEditing;
+
+        [ConditionalShow(nameof(enableEditing), ReadOnly = true)]
         [SerializeField] private Map<string, Object> registry;
 
         #endregion

@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Baracuda.Utilities.Inspector.InspectorFields
 {
-    public class NonSerializedFieldInspector : InspectorMember
+    public class NonSerializedReadonlyFieldInspector : InspectorMember
     {
         private readonly FieldInfo _fieldInfo;
         private readonly object _target;
-        private readonly Func<object, object> _editor;
+        private readonly Action<object> _drawer;
 
 
-        public NonSerializedFieldInspector(FieldInfo fieldInfo, object target) : base(fieldInfo, target)
+        public NonSerializedReadonlyFieldInspector(FieldInfo fieldInfo, object target) : base(fieldInfo, target)
         {
             _fieldInfo = fieldInfo;
             _target = target;
@@ -23,13 +23,14 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
             var tooltip = fieldInfo.TryGetCustomAttribute<TooltipAttribute>(out var tooltipAttribute) ? tooltipAttribute.tooltip : null;
 
             Label = new GUIContent(label, tooltip);
-            _editor = GUIHelper.CreateEditor(Label, _fieldInfo.FieldType);
+            _drawer = GUIHelper.CreateDrawer(Label, _fieldInfo.FieldType);
         }
 
         protected override void DrawGUI()
         {
-            var value = _editor(_fieldInfo.GetValue(_target));
-            _fieldInfo.SetValue(_target, value);
+            GUIHelper.BeginEnabledOverride(false);
+            _drawer(_fieldInfo.GetValue(_target));
+            GUIHelper.EndEnabledOverride();
         }
     }
 }

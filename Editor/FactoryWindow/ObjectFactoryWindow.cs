@@ -30,6 +30,7 @@ namespace Baracuda.Utilities.FactoryWindow
         private bool _isReady = false;
         private bool _enableInputCheck = true;
         private bool _isMultiSelect = false;
+        private bool _resetFocusBuffer = false;
 
         internal static event Action WindowClosed;
 
@@ -168,7 +169,7 @@ namespace Baracuda.Utilities.FactoryWindow
             {
                 return false;
             }
-            if (type.IsSubclassOrAssignable(typeof(UnityEditor.Editor)))
+            if (type.IsSubclassOrAssignable(typeof(Editor)))
             {
                 return false;
             }
@@ -272,6 +273,16 @@ namespace Baracuda.Utilities.FactoryWindow
             DrawBody();
             DrawFooter();
             HandleInput();
+
+            if (_resetFocusBuffer)
+            {
+                if (_displayedList.list.Count > 0)
+                {
+                    _displayedList.Select(0);
+                    OnSelectCallback(_displayedList);
+                }
+                _resetFocusBuffer = false;
+            }
         }
 
         private void DrawBody()
@@ -303,13 +314,8 @@ namespace Baracuda.Utilities.FactoryWindow
 
         private void ResetFocus()
         {
-            if (_displayedList.list.Count > 0)
-            {
-                _displayedList.Select(0);
-                OnSelectCallback(_displayedList);
-            }
-
             Repaint();
+            _resetFocusBuffer = true;
         }
 
         private void SelectNext()
@@ -407,7 +413,7 @@ namespace Baracuda.Utilities.FactoryWindow
         {
             try
             {
-                var createdObjects = new List<UnityEngine.Object>(_displayedList.selectedIndices.Count);
+                var createdObjects = new List<Object>(_displayedList.selectedIndices.Count);
                 foreach (var index in _displayedList.selectedIndices)
                 {
                     createdObjects.AddRange(CreateAssetInternal(index));
@@ -448,8 +454,7 @@ namespace Baracuda.Utilities.FactoryWindow
                 }
             }
 
-            return creatableObject.Create(path, _isMultiSelect ? creatableObject.DefaultFileName : _fileName,
-                _amountToCreate);
+            return creatableObject.Create(path, _isMultiSelect ? creatableObject.DefaultFileName : _fileName, _amountToCreate);
         }
 
         private void DrawHeader()

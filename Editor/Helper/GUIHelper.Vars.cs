@@ -23,6 +23,7 @@ namespace Baracuda.Utilities.Helper
          */
 
         public static GUIStyle HelpBoxStyle => helpBox ??= Create("HelpBox");
+        public static GUIStyle BoxStyle => box ??= Create("Box");
         public static GUIStyle BoldTitleStyle => boldTitleStyle ??= Create(GUI.skin.label, 16, FontStyle.Bold);
         public static GUIStyle BoldLabelStyle => boldLabelStyle ??= Create(GUI.skin.label, null, FontStyle.Bold);
         public static GUIStyle BoldButtonStyle => boldButtonStyle ??= Create(GUI.skin.button, 16, FontStyle.Bold);
@@ -48,6 +49,7 @@ namespace Baracuda.Utilities.Helper
         private static GUIStyle boldLabelStyle;
         private static GUIStyle boldFoldoutStyle;
         private static GUIStyle helpBox;
+        private static GUIStyle box;
         private static GUIStyle richTextStyle;
         private static GUIStyle richTextArea;
         private static GUIStyle textArea;

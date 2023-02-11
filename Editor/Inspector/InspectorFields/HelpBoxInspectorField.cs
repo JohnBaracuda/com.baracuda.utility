@@ -7,7 +7,7 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
     {
         private readonly string _message;
         private readonly MessageType _messageType;
-        
+
         public HelpBoxInspectorMember(string message, MessageType messageType, MemberInfo memberInfo, object target) : base(memberInfo, target)
         {
             _message = message;

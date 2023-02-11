@@ -18,17 +18,4 @@ namespace Baracuda.Utilities.Inspector
         /// </summary>
         public SpaceAfterAttribute(float height) => Height = height;
     }
-
-
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
-    public class BeginBoxAttribute : PropertyAttribute
-    {
-
-    }
-
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
-    public class EndBoxAttribute : PropertyAttribute
-    {
-
-    }
 }

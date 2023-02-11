@@ -110,8 +110,8 @@ namespace Baracuda.Utilities.Inspector.InspectorFields
                         };
                         break;
 
-                    case BeginBoxAttribute:
-                        _preDraw += GUIHelper.BeginBox;
+                    case BeginBoxAttribute beginBoxAttribute:
+                        _preDraw += () => GUIHelper.BeginBox(beginBoxAttribute.Style);
                         break;
 
                     case EndBoxAttribute:
