@@ -1,22 +1,21 @@
 ﻿using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Helper
+namespace Baracuda.Utilities.Editor.Helper
 {
-    public static partial class GUIHelper
+    public static partial class GUIUtility
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IndentSpace()
         {
-            var value = 10 * EditorGUI.indentLevel;
+            var value = 10 * UnityEditor.EditorGUI.indentLevel;
             GUILayout.Label("", GUILayout.Width(value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Space()
         {
-            EditorGUILayout.Space();
+            UnityEditor.EditorGUILayout.Space();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -24,14 +23,14 @@ namespace Baracuda.Utilities.Helper
         {
             if (condition)
             {
-                EditorGUILayout.Space();
+                UnityEditor.EditorGUILayout.Space();
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Space(float value)
         {
-            EditorGUILayout.Space(value);
+            UnityEditor.EditorGUILayout.Space(value);
         }
     }
 }

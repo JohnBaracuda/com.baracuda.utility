@@ -1,10 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Helper
+namespace Baracuda.Utilities.Editor.Helper
 {
-    public static partial class GUIHelper
+    public static partial class GUIUtility
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Texture2D TextureField(string name, Texture2D texture, int scale = 70)
@@ -16,16 +15,23 @@ namespace Baracuda.Utilities.Helper
                 fixedWidth = scale
             };
             GUILayout.Label(name, style);
-            var result = (Texture2D) EditorGUILayout.ObjectField(texture, typeof(Texture2D), false,
+            var result = (Texture2D) UnityEditor.EditorGUILayout.ObjectField(texture, typeof(Texture2D), false,
                 GUILayout.Width(scale), GUILayout.Height(scale));
             GUILayout.EndVertical();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Texture TextureField(string name, Texture texture)
+        {
+            var result = (Texture) UnityEditor.EditorGUILayout.ObjectField(name, texture, typeof(Texture), false);
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Texture2D TextureField(Texture2D texture, int scale = 70)
         {
-            var result = (Texture2D) EditorGUILayout.ObjectField(texture, typeof(Texture2D), false,
+            var result = (Texture2D) UnityEditor.EditorGUILayout.ObjectField(texture, typeof(Texture2D), false,
                 GUILayout.Width(scale), GUILayout.Height(scale));
             return result;
         }

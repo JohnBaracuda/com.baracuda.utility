@@ -1,5 +1,5 @@
 
-namespace Baracuda.Utilities
+namespace Baracuda.Utilities.Types
 {
     /// <summary>
     /// User message types

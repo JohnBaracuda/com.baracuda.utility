@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Baracuda.Utilities
+namespace Baracuda.Utilities.Types
 {
     [StructLayout(LayoutKind.Auto)]
     public struct Loop
@@ -76,6 +76,7 @@ namespace Baracuda.Utilities
             {
                 looping.value = looping.min;
             }
+
             if (looping.value == looping.startValue)
             {
                 looping.iterations++;
@@ -90,6 +91,7 @@ namespace Baracuda.Utilities
             {
                 looping.value = looping.max;
             }
+
             if (looping.value == looping.startValue)
             {
                 looping.iterations--;

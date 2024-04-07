@@ -1,38 +1,31 @@
-﻿using Baracuda.Utilities.Inspector;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Helper
+namespace Baracuda.Utilities.Editor.Helper
 {
-    public static partial class GUIHelper
+    public static partial class GUIUtility
     {
-        /*
-         * Size
-         */
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 GetSizeOfLabel(GUIContent label)
         {
-            return EditorStyles.label.CalcSize(label);
+            return UnityEditor.EditorStyles.label.CalcSize(label);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetIndent()
         {
-            return EditorGUI.indentLevel;
+            return UnityEditor.EditorGUI.indentLevel;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rect GetControlRect()
         {
-            return EditorGUILayout.GetControlRect();
+            return UnityEditor.EditorGUILayout.GetControlRect();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -44,38 +37,62 @@ namespace Baracuda.Utilities.Helper
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Rect GetLastRectIndented()
         {
-            return EditorGUI.IndentedRect(GUILayoutUtility.GetLastRect());
+            return UnityEditor.EditorGUI.IndentedRect(GUILayoutUtility.GetLastRect());
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetViewWidth()
         {
-            return EditorGUIUtility.currentViewWidth;
+            return UnityEditor.EditorGUIUtility.currentViewWidth;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetLabelWidth()
         {
-            return EditorGUIUtility.labelWidth;
+            return UnityEditor.EditorGUIUtility.labelWidth;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetLabelWidthIndented()
         {
-            return EditorGUIUtility.labelWidth - (EditorGUI.indentLevel * 15f);
+            return UnityEditor.EditorGUIUtility.labelWidth - UnityEditor.EditorGUI.indentLevel * 15f;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetFieldWidth()
         {
-            return EditorGUIUtility.fieldWidth;
+            return UnityEditor.EditorGUIUtility.fieldWidth;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float GetLineHeight()
         {
-            return EditorGUIUtility.singleLineHeight;
+            return UnityEditor.EditorGUIUtility.singleLineHeight;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float GetIndentLength(Rect sourceRect)
+        {
+            var indentRect = UnityEditor.EditorGUI.IndentedRect(sourceRect);
+            var indentLength = indentRect.x - sourceRect.x;
+
+            return indentLength;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void BeginLabelWidthOverride(float width)
+        {
+            labelWidthStack.Push(UnityEditor.EditorGUIUtility.labelWidth);
+            UnityEditor.EditorGUIUtility.labelWidth = width;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void EndLabelWidthOverride()
+        {
+            UnityEditor.EditorGUIUtility.labelWidth = labelWidthStack.Pop();
+        }
+
+        private static readonly Stack<float> labelWidthStack = new();
 
         /*
          * Object Specific
@@ -86,7 +103,7 @@ namespace Baracuda.Utilities.Helper
             type ??= target.GetType();
             var name = type.GetCustomAttribute<AddComponentMenu>()?.componentMenu?.Split('/').Last() ??
                        type.Name.Humanize();
-            return new GUIContent(" " + name, AssetPreview.GetMiniThumbnail(target));
+            return new GUIContent(" " + name, UnityEditor.AssetPreview.GetMiniThumbnail(target));
         }
 
         /*
@@ -95,27 +112,12 @@ namespace Baracuda.Utilities.Helper
 
         public static void BeginBox()
         {
-            EditorGUILayout.BeginVertical(HelpBoxStyle);
-        }
-
-        public static void BeginBox(BoxStyle style)
-        {
-            switch (style)
-            {
-                case Inspector.BoxStyle.GrayBox:
-                    EditorGUILayout.BeginVertical(BoxStyle);
-                    break;
-                case Inspector.BoxStyle.HelpBox:
-                    EditorGUILayout.BeginVertical(HelpBoxStyle);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(style), style, null);
-            }
+            UnityEditor.EditorGUILayout.BeginVertical(HelpBoxStyle);
         }
 
         public static void EndBox()
         {
-            EditorGUILayout.EndVertical();
+            UnityEditor.EditorGUILayout.EndVertical();
         }
 
         /*
@@ -133,11 +135,11 @@ namespace Baracuda.Utilities.Helper
 
             if (eventType is EventType.DragUpdated or EventType.DragPerform)
             {
-                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                UnityEditor.DragAndDrop.visualMode = UnityEditor.DragAndDropVisualMode.Copy;
 
                 if (eventType == EventType.DragPerform)
                 {
-                    DragAndDrop.AcceptDrag();
+                    UnityEditor.DragAndDrop.AcceptDrag();
                     isAccepted = true;
                 }
 
@@ -145,53 +147,40 @@ namespace Baracuda.Utilities.Helper
             }
 
             EndBox();
-            return isAccepted ? DragAndDrop.objectReferences : null;
+            return isAccepted ? UnityEditor.DragAndDrop.objectReferences : null;
         }
-
-        /*
-         * Async
-         */
-
-        public static async Task CompleteGUI()
-        {
-            await Task.Delay(25);
-        }
-
-        /*
-         * Indent
-         */
 
         private static readonly Stack<int> indentOverrides = new(4);
 
         public static void BeginIndentOverride(int indent)
         {
-            var current = EditorGUI.indentLevel;
+            var current = UnityEditor.EditorGUI.indentLevel;
             indentOverrides.Push(current);
-            EditorGUI.indentLevel = indent;
+            UnityEditor.EditorGUI.indentLevel = indent;
         }
 
         public static void EndIndentOverride()
         {
             if (indentOverrides.TryPop(out var cached))
             {
-                EditorGUI.indentLevel = cached;
+                UnityEditor.EditorGUI.indentLevel = cached;
             }
             else
             {
-                Debug.LogError($"Mismatched calls of {nameof(BeginIndentOverride)} & {nameof(EndIndentOverride)}!");
+                UnityEngine.Debug.LogError(
+                    $"Mismatched calls of {nameof(BeginIndentOverride)} & {nameof(EndIndentOverride)}!");
             }
         }
 
         public static void IncreaseIndent()
         {
-            EditorGUI.indentLevel++;
+            UnityEditor.EditorGUI.indentLevel++;
         }
 
         public static void DecreaseIndent()
         {
-            EditorGUI.indentLevel--;
+            UnityEditor.EditorGUI.indentLevel--;
         }
-
 
         private static readonly Stack<bool> enabledOverrides = new(4);
 
@@ -210,8 +199,24 @@ namespace Baracuda.Utilities.Helper
             }
             else
             {
-                Debug.LogError($"Mismatched calls of {nameof(BeginEnabledOverride)} & {nameof(EndEnabledOverride)}!");
+                UnityEngine.Debug.LogError(
+                    $"Mismatched calls of {nameof(BeginEnabledOverride)} & {nameof(EndEnabledOverride)}!");
             }
+        }
+
+        public static float GetPropertyHeight(this UnityEditor.SerializedProperty property)
+        {
+            if (!property.isExpanded)
+            {
+                return UnityEditor.EditorGUIUtility.singleLineHeight; // single line if not expanded
+            }
+            return (2 + property.arraySize.Min(1)) * LineHeight();
+        }
+
+        public static float LineHeight()
+        {
+            return UnityEditor.EditorGUIUtility.singleLineHeight +
+                   UnityEditor.EditorGUIUtility.standardVerticalSpacing;
         }
     }
 }

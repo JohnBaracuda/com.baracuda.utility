@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "Utilities",
   "description": "Collection of non project specific utility. This includes generally applicable types, classes, extension methods, editors and more. ",
-  "unity": "2019.4",
+  "unity": "2021.3",
   "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities",
   "changelogUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities/blob/main/LICENSE.md",
@@ -13,8 +13,8 @@
   ],
   "author": {
     "name": "John Baracuda",
-    "email": "johnbaracudagames@gmail.com",
-    "url": "https://johnbaracuda.com/"
+    "email": "johnBaracudaGames@gmail.com",
+    "url": "https://github.com/JohnBaracuda"
   },
   "type": "tool"
 }

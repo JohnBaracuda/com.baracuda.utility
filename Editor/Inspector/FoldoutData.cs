@@ -1,4 +1,4 @@
-﻿namespace Baracuda.Utilities.Inspector
+﻿namespace Baracuda.Utilities.Editor.Inspector
 {
     public readonly struct FoldoutData
     {
@@ -21,10 +21,6 @@
             title = Title;
             tooltip = Tooltip;
         }
-
-        /*
-         * Operator
-         */
 
         public static implicit operator FoldoutData(string title)
         {

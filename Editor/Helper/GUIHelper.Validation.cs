@@ -1,14 +1,13 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Helper
+namespace Baracuda.Utilities.Editor.Helper
 {
-    public static partial class GUIHelper
+    public static partial class GUIUtility
     {
         /// <summary>
-        /// Destroy the target object but display a validation dialogue
+        ///     Destroy the target object but display a validation dialogue
         /// </summary>
         public static bool DestroyDialogue(Object target)
         {
@@ -19,16 +18,17 @@ namespace Baracuda.Utilities.Helper
 
             if (Event.current.shift)
             {
-                EditorHelper.DeleteAsset(target);
+                UnityEditorUtility.DeleteAsset(target);
                 return true;
             }
 
             var message = $"Do you want to delete: {target.name} \nThis operation cannot be undone!";
-            var result = EditorUtility.DisplayDialog("Delete Object", message, "Delete", "Cancel Operation");
+            var result =
+                UnityEditor.EditorUtility.DisplayDialog("Delete Object", message, "Delete", "Cancel Operation");
 
             if (result)
             {
-                EditorHelper.DeleteAsset(target);
+                UnityEditorUtility.DeleteAsset(target);
             }
 
             return result;
@@ -36,7 +36,8 @@ namespace Baracuda.Utilities.Helper
 
         public static void DrawException(Exception exception)
         {
-            EditorGUILayout.HelpBox($"Exception while processing GUI:\n{exception}", MessageType.Error);
+            UnityEditor.EditorGUILayout.HelpBox($"Exception while processing GUI:\n{exception}",
+                UnityEditor.MessageType.Error);
         }
     }
 }

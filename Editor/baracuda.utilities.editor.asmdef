@@ -1,8 +1,9 @@
 {
-    "name": "baracuda.utilities.editor",
+    "name": "Baracuda.Utilities.Editor",
     "rootNamespace": "Baracuda.Utilities",
     "references": [
-        "baracuda.utilities"
+        "GUID:ebf14bd9950c0cb429d7280a2c7ab8fe",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [
         "Editor"
@@ -11,7 +12,7 @@
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

@@ -1,10 +1,11 @@
+using Baracuda.Utilities.Reflection;
 using System;
-using UnityEditor;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Helper
+namespace Baracuda.Utilities.Editor.Helper
 {
-    public static partial class GUIHelper
+    public static partial class GUIUtility
     {
         public static T EnumButtons<T>(T current) where T : unmanaged, Enum
         {
@@ -55,7 +56,7 @@ namespace Baracuda.Utilities.Helper
 
         public static T EnumLabel<T>(string label, T current) where T : unmanaged, Enum
         {
-            return (T) EditorGUILayout.EnumPopup(label, current);
+            return (T) UnityEditor.EditorGUILayout.EnumPopup(label, current);
         }
 
         /*
@@ -74,19 +75,20 @@ namespace Baracuda.Utilities.Helper
                 foreach (TEnum value in values)
                 {
                     var name = Enum.GetName(type, value);
-                    if (GetAttribute<ObsoleteAttribute>(type, name) != null || !value.ConvertUnsafe<TEnum, int>().IsBinarySequenceExcludeZero())
+                    if (GetAttribute<ObsoleteAttribute>(type, name) != null ||
+                        !ConvertUnsafe<TEnum, int>(value).IsBinarySequenceExcludeZero())
                     {
                         continue;
                     }
 
-                    if (EditorGUILayout.Toggle(Enum.GetName(type, value).HumanizeIf(humanizeLabels),
-                            current.HasFlagUnsafe(value)))
+                    if (UnityEditor.EditorGUILayout.Toggle(Enum.GetName(type, value).HumanizeIf(humanizeLabels),
+                            current.HasFlagFast(value)))
                     {
-                        result |= value.ConvertUnsafe<TEnum, long>();
+                        result |= ConvertUnsafe<TEnum, long>(value);
                     }
                 }
 
-                return result.ConvertUnsafe<long, TEnum>();
+                return ConvertUnsafe<long, TEnum>(result);
             }
             catch (Exception exception)
             {
@@ -100,8 +102,12 @@ namespace Baracuda.Utilities.Helper
                 var attributes = memInfo[0].GetCustomAttributes(typeof(TAttribute), false);
                 return attributes.Length > 0 ? (TAttribute) attributes[0] : null;
             }
-        }
 
+            static T2 ConvertUnsafe<T1, T2>(T1 value)
+            {
+                return UnsafeUtility.As<T1, T2>(ref value);
+            }
+        }
 
         public static int DrawFlagsEnumAsToggle(int current, Type enumType, bool humanizeLabels)
         {
@@ -118,8 +124,8 @@ namespace Baracuda.Utilities.Helper
                         continue;
                     }
 
-                    if (EditorGUILayout.Toggle(Enum.GetName(enumType, value).HumanizeIf(humanizeLabels),
-                            current.HasFlagInt(value)))
+                    if (UnityEditor.EditorGUILayout.Toggle(Enum.GetName(enumType, value).HumanizeIf(humanizeLabels),
+                            current.HasFlagFast(value)))
                     {
                         result |= value;
                     }

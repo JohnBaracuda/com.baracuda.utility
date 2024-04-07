@@ -1,18 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace Baracuda.Utilities.Helper
+namespace Baracuda.Utilities.Editor.Helper
 {
-    public static partial class GUIHelper
+    public static partial class GUIUtility
     {
-        /*
-         * State
-         */
-
         private static object lastClicked;
-
-        /*
-         * Methods
-         */
 
         public static bool IsDoubleClick(object clicked)
         {
@@ -29,7 +21,7 @@ namespace Baracuda.Utilities.Helper
 
         private static async void ResetDoubleClickCache()
         {
-            await Task.Delay(220);
+            await Task.Delay(160);
             lastClicked = null;
         }
     }

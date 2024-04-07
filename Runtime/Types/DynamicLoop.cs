@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Baracuda.Utilities
+namespace Baracuda.Utilities.Types
 {
     public struct DynamicLoop
     {
         #region Properties
 
-        public int Iterations => iterations;
+        public int Iterations { get; private set; }
 
         #endregion
 
+
         #region Fields
 
-        private int value;
-        private int iterations;
-        private readonly int startValue;
-        private readonly Func<int> min;
-        private readonly Func<int> max;
+        private int _value;
+        private readonly int _startValue;
+        private readonly Func<int> _min;
+        private readonly Func<int> _max;
 
         private static readonly Func<int> zeroFunc = () => 0;
 
         #endregion
 
+
         #region Factory
 
         /// <summary>
-        /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range based on the min and max provider methods.
+        ///     Create a new <see cref="DynamicLoop" /> that will dynamically adjust its range based on the min and max provider
+        ///     methods.
         /// </summary>
         public static DynamicLoop Create(int startValue, Func<int> minFunc, Func<int> maxFunc)
         {
@@ -34,8 +36,9 @@ namespace Baracuda.Utilities
         }
 
         /// <summary>
-        /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range based on the passed and max provider method.
-        /// Min value for the loop is zero.
+        ///     Create a new <see cref="DynamicLoop" /> that will dynamically adjust its range based on the passed and max provider
+        ///     method.
+        ///     Min value for the loop is zero.
         /// </summary>
         public static DynamicLoop Create(int startValue, Func<int> maxFunc)
         {
@@ -43,7 +46,7 @@ namespace Baracuda.Utilities
         }
 
         /// <summary>
-        /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range for the passed collection.
+        ///     Create a new <see cref="DynamicLoop" /> that will dynamically adjust its range for the passed collection.
         /// </summary>
         public static DynamicLoop Create<T>(int startValue, IList<T> list)
         {
@@ -51,7 +54,8 @@ namespace Baracuda.Utilities
         }
 
         /// <summary>
-        /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range based on the min and max provider methods.
+        ///     Create a new <see cref="DynamicLoop" /> that will dynamically adjust its range based on the min and max provider
+        ///     methods.
         /// </summary>
         public static DynamicLoop Create(Func<int> minFunc, Func<int> maxFunc)
         {
@@ -59,8 +63,9 @@ namespace Baracuda.Utilities
         }
 
         /// <summary>
-        /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range based on the passed and max provider method.
-        /// Min value for the loop is zero.
+        ///     Create a new <see cref="DynamicLoop" /> that will dynamically adjust its range based on the passed and max provider
+        ///     method.
+        ///     Min value for the loop is zero.
         /// </summary>
         public static DynamicLoop Create(Func<int> maxFunc)
         {
@@ -68,7 +73,7 @@ namespace Baracuda.Utilities
         }
 
         /// <summary>
-        /// Create a new <see cref="DynamicLoop"/> that will dynamically adjust its range for the passed collection.
+        ///     Create a new <see cref="DynamicLoop" /> that will dynamically adjust its range for the passed collection.
         /// </summary>
         public static DynamicLoop Create<T>(IList<T> list)
         {
@@ -77,59 +82,63 @@ namespace Baracuda.Utilities
 
         private DynamicLoop(int value, Func<int> min, Func<int> max)
         {
-            this.value = value;
-            this.min = min;
-            this.max = max;
-            startValue = value;
-            iterations = 0;
+            _value = value;
+            _min = min;
+            _max = max;
+            _startValue = value.Clamp(min(), max());
+            Iterations = 0;
         }
 
         public override string ToString()
         {
-            return value.ToString();
+            return _value.ToString();
         }
 
         #endregion
+
 
         #region Operator
 
         public static DynamicLoop operator ++(DynamicLoop looping)
         {
-            looping.value++;
+            looping._value++;
             looping.ValidateIndex();
-            if (looping.value == looping.startValue)
+            if (looping._value == looping._startValue)
             {
-                looping.iterations++;
+                looping.Iterations++;
             }
+
             return looping;
         }
 
         public static DynamicLoop operator --(DynamicLoop looping)
         {
-            looping.value--;
+            looping._value--;
             looping.ValidateIndex();
-            if (looping.value == looping.startValue)
+            if (looping._value == looping._startValue)
             {
-                looping.iterations--;
+                looping.Iterations--;
             }
+
             return looping;
         }
 
         public static implicit operator int(DynamicLoop loop)
         {
             loop.ValidateIndex();
-            return loop.value;
+            return loop._value;
         }
 
         private void ValidateIndex()
         {
-            if (value < min())
+            if (_value < _min())
             {
-                value = max();
+                _value = _max();
             }
-            if (value > max())
+
+            if (_value > _max())
             {
-                value = min();
+                _value = _min();
             }
         }
 
