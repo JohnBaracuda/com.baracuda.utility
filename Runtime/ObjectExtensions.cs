@@ -197,8 +197,32 @@ namespace Baracuda.Utilities
         ///     Unity object sensitive null check.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T OrNull<T>(this T target) where T : class
+        {
+            if (target == null)
+            {
+                return null;
+            }
+
+            return target;
+        }
+
+        /// <summary>
+        ///     Unity object sensitive null check.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNotNull<T>(this T target) where T : class
         {
+            return target is Object obj ? obj != null : target != null;
+        }
+
+        /// <summary>
+        ///     Unity object sensitive null check.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsNotNull<T>(this T target, out T result) where T : class
+        {
+            result = target;
             return target is Object obj ? obj != null : target != null;
         }
 

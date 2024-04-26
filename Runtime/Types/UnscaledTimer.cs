@@ -14,6 +14,7 @@ namespace Baracuda.Utilities.Types
         }
 
         public bool IsRunning => _targetTime > Time.unscaledTime;
+        public bool IsNotRunning => !IsRunning;
 
         public bool Expired => 0 < _targetTime && _targetTime <= Time.unscaledTime;
 

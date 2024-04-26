@@ -363,6 +363,22 @@ namespace Baracuda.Utilities
             return component;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LayerMaskToIndex(this LayerMask layerMask)
+        {
+            return Mathf.RoundToInt(Mathf.Log(layerMask.value, 2));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetLayerRecursively(this GameObject gameObject, int layer)
+        {
+            gameObject.layer = layer;
+            foreach (Transform child in gameObject.transform)
+            {
+                child.gameObject.SetLayerRecursively(layer);
+            }
+        }
+
         #endregion
 
 

@@ -295,5 +295,15 @@ namespace Baracuda.Utilities
         {
             return value * (percentage * .01f);
         }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 With(this Vector3 value, float? x = null, float? y = null, float? z = null)
+        {
+            value.x = x ?? value.x;
+            value.y = y ?? value.y;
+            value.z = z ?? value.z;
+            return value;
+        }
     }
 }

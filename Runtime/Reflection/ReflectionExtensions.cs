@@ -246,6 +246,20 @@ namespace Baracuda.Utilities.Reflection
         #endregion
 
 
+        #region Property Info
+
+        public static bool TryGetBackingField(this PropertyInfo propertyInfo, out FieldInfo fieldInfo)
+        {
+            var backingName = $"<{propertyInfo.Name}>k__BackingField";
+            fieldInfo = propertyInfo.DeclaringType!.GetField(backingName,
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static);
+
+            return fieldInfo != null;
+        }
+
+        #endregion
+
+
         #region FieldInfo Getter & Setter
 
 #if !ENABLE_IL2CPP && UNITY_2021_3_OR_NEWER
