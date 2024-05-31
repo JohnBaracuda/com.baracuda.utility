@@ -1,11 +1,37 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Baracuda.Utilities
 {
     public class ArrayUtility
     {
+        public static void Remove<T>(ref T[] array, params T[] remove)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+            if (remove == null || remove.Length == 0)
+            {
+                return;
+            }
+
+            var hashSet = new HashSet<T>(remove);
+            var list = new List<T>();
+
+            foreach (var item in array)
+            {
+                if (!hashSet.Contains(item))
+                {
+                    list.Add(item);
+                }
+            }
+
+            array = list.ToArray();
+        }
+
         public static void Add<T>([NotNull] ref T[] array, params T[] other)
         {
             if (array == null)
@@ -43,6 +69,21 @@ namespace Baracuda.Utilities
             if (array == null)
             {
                 throw new ArgumentNullException(nameof(array));
+            }
+            var originalToLength = array.Length;
+            Array.Resize(ref array, originalToLength + 1);
+            array[originalToLength] = item;
+        }
+
+        public static void AddUnique<T>([NotNull] ref T[] array, T item)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+            if (array.Contains(item))
+            {
+                return;
             }
             var originalToLength = array.Length;
             Array.Resize(ref array, originalToLength + 1);

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities.Collections
 {
     public class DictionaryQueue<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {

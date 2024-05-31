@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Baracuda.Utilities
 {
@@ -15,6 +16,12 @@ namespace Baracuda.Utilities
             {
                 angle += 360f;
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Round(ref float value, float stepSize = 1)
+        {
+            value = (float) Math.Round(value / stepSize) * stepSize;
         }
     }
 }

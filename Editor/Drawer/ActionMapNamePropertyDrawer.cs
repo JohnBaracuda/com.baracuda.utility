@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Baracuda.Utilities.Editor.Drawer
 {
-    [UnityEditor.CustomPropertyDrawer(typeof(InputActionMapName))]
+    [UnityEditor.CustomPropertyDrawer(typeof(InputActionMapReference))]
     public class ActionMapNamePropertyDrawer : UnityEditor.PropertyDrawer
     {
         private List<string> _actionMapNames;

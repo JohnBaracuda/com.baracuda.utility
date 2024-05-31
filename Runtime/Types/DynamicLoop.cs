@@ -14,12 +14,13 @@ namespace Baracuda.Utilities.Types
 
         #region Fields
 
-        private int _value;
         private readonly int _startValue;
         private readonly Func<int> _min;
         private readonly Func<int> _max;
 
         private static readonly Func<int> zeroFunc = () => 0;
+
+        public int Value { get; set; }
 
         #endregion
 
@@ -82,7 +83,7 @@ namespace Baracuda.Utilities.Types
 
         private DynamicLoop(int value, Func<int> min, Func<int> max)
         {
-            _value = value;
+            Value = value;
             _min = min;
             _max = max;
             _startValue = value.Clamp(min(), max());
@@ -91,7 +92,7 @@ namespace Baracuda.Utilities.Types
 
         public override string ToString()
         {
-            return _value.ToString();
+            return Value.ToString();
         }
 
         #endregion
@@ -101,9 +102,9 @@ namespace Baracuda.Utilities.Types
 
         public static DynamicLoop operator ++(DynamicLoop looping)
         {
-            looping._value++;
+            looping.Value++;
             looping.ValidateIndex();
-            if (looping._value == looping._startValue)
+            if (looping.Value == looping._startValue)
             {
                 looping.Iterations++;
             }
@@ -113,9 +114,9 @@ namespace Baracuda.Utilities.Types
 
         public static DynamicLoop operator --(DynamicLoop looping)
         {
-            looping._value--;
+            looping.Value--;
             looping.ValidateIndex();
-            if (looping._value == looping._startValue)
+            if (looping.Value == looping._startValue)
             {
                 looping.Iterations--;
             }
@@ -126,19 +127,19 @@ namespace Baracuda.Utilities.Types
         public static implicit operator int(DynamicLoop loop)
         {
             loop.ValidateIndex();
-            return loop._value;
+            return loop.Value;
         }
 
         private void ValidateIndex()
         {
-            if (_value < _min())
+            if (Value < _min())
             {
-                _value = _max();
+                Value = _max();
             }
 
-            if (_value > _max())
+            if (Value > _max())
             {
-                _value = _min();
+                Value = _min();
             }
         }
 

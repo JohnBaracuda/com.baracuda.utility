@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Text;
 using Object = UnityEngine.Object;
 
 namespace Baracuda.Utilities
@@ -179,6 +182,27 @@ namespace Baracuda.Utilities
             return null;
         }
 
+        /// <summary>
+        ///     Converts the target <see cref="object" /> to be of the specified <see cref="Type" />
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static object ConvertTo(this Object[] value, Type type)
+        {
+            if (value != null)
+            {
+                try
+                {
+                    return Convert.ChangeType(value, type);
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception);
+                }
+            }
+
+            return null;
+        }
+
         #endregion
 
 
@@ -214,6 +238,25 @@ namespace Baracuda.Utilities
         public static bool IsNotNull<T>(this T target) where T : class
         {
             return target is Object obj ? obj != null : target != null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsNot<T>(this T target, params T[] other) where T : class
+        {
+            foreach (var element in other)
+            {
+                if (target == element)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Is<T>(this T target, T other) where T : class
+        {
+            return target == other;
         }
 
         /// <summary>
@@ -260,6 +303,60 @@ namespace Baracuda.Utilities
         public static string ToNullString<T>(this T target) where T : class
         {
             return target == null ? "null" : target.ToString();
+        }
+
+        #endregion
+
+
+        #region GUID
+
+        public static Guid CombineWith(this Guid guid, long objectIdentifier)
+        {
+            var guidBytes = guid.ToByteArray();
+            var longBytes = BitConverter.GetBytes(objectIdentifier);
+
+            // Ensure both byte arrays are of the expected lengths
+            if (guidBytes.Length != 16 || longBytes.Length != 8)
+            {
+                throw new ArgumentException("Unexpected byte array Length.");
+            }
+
+            // Combine both arrays into a 16-byte array
+            var combinedBytes = new byte[16];
+
+            // Copy the first 8 bytes from the long
+            Array.Copy(longBytes, 0, combinedBytes, 0, 8);
+
+            // Copy the first 8 bytes from the guid
+            Array.Copy(guidBytes, 0, combinedBytes, 8, 8);
+
+            // Create a new GUID from the combined bytes
+            return new Guid(combinedBytes);
+        }
+
+        public static Guid CreateGuidFromText(this string text)
+        {
+            // Compute the hash of the input text
+            using var sha256 = SHA256.Create();
+            var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+
+            // Ensure the hash is at least 16 bytes long
+            if (hashBytes.Length < 16)
+            {
+                throw new ArgumentException("Hash is too short to create a GUID.");
+            }
+
+            // Use the first 16 bytes of the hash to create a GUID
+            var guidBytes = new byte[16];
+            Array.Copy(hashBytes, guidBytes, 16);
+
+            return new Guid(guidBytes);
+        }
+
+        public static string CreateGuidStringFromArguments(params object[] arguments)
+        {
+            var text = arguments.Aggregate("", (current, argument) => current + argument);
+            return CreateGuidFromText(text).ToString();
         }
 
         #endregion

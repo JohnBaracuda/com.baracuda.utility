@@ -489,6 +489,12 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddRange<T>(this HashSet<T> hashSet, IEnumerable<T> collection)
+        {
+            hashSet.UnionWith(collection);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ReleaseToPool<T>(this List<T> list)
         {
             ListPool<T>.Release(list);

@@ -16,7 +16,6 @@ namespace Baracuda.Utilities
             text = ConvertUnderscore(text);
             text = ConvertBulletPoints(text);
             text = ConvertBlockQuotes(text);
-            //text = AddExtraSpaceAfterParagraphs(text);
 
             return text;
         }
@@ -80,14 +79,6 @@ namespace Baracuda.Utilities
         {
             text = Regex.Replace(text, @"~~(.*?)~~", "<u>$1</u>", RegexOptions.Multiline);
             return Regex.Replace(text, @"__(.*?)__", "<u>$1</u>", RegexOptions.Multiline);
-        }
-
-        // Method to add extra half-line space after paragraphs
-        private static string AddExtraSpaceAfterParagraphs(string text)
-        {
-            // Adds a half-line space after paragraphs. Adjust <line-height> as needed for half-spacing.
-            return Regex.Replace(text, @"(.*?)(\r\n|\r|\n)(?!$|\r\n|\r|\n|(\*|-|\d+\.|\t| {4,}) )",
-                "$1$2<line-height=50%>\n<line-height=100%>", RegexOptions.Multiline);
         }
     }
 }

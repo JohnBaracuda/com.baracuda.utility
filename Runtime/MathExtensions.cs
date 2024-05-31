@@ -149,6 +149,13 @@ namespace Baracuda.Utilities
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Times(this float value, float multiplier)
+        {
+            return value * multiplier;
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WithMinLimit(this int value, int min)
         {
             return Mathf.Max(value, min);
@@ -208,6 +215,15 @@ namespace Baracuda.Utilities
         public static bool ApproximatelyEquals(this int rhs, int lhs, int acceptableDifference)
         {
             return math.abs(rhs - lhs) <= acceptableDifference;
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ApproximatelyEquals(this Vector3 v1, Vector3 v2, float tolerance = 0.0001f)
+        {
+            return Mathf.Abs(v1.x - v2.x) < tolerance &&
+                   Mathf.Abs(v1.y - v2.y) < tolerance &&
+                   Mathf.Abs(v1.z - v2.z) < tolerance;
         }
 
         [Pure]

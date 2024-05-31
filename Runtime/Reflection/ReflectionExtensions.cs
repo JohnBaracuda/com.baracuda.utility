@@ -317,7 +317,7 @@ namespace Baracuda.Utilities.Reflection
 #else
         public static Func<TTarget, TResult> CreateGetter<TTarget, TResult>(this FieldInfo field)
         {
-            return target => (TResult)field.GetValue(target);
+            return target => (TResult) field.GetValue(target);
         }
 
         public static Action<TTarget, TValue> CreateSetter<TTarget, TValue>(this FieldInfo field)

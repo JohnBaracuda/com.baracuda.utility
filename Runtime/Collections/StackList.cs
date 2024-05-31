@@ -4,18 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities.Collections
 {
     public sealed class StackList<T> : IEnumerable<T>
     {
-        private readonly List<T> _stack = new(8);
-
         /// <summary>Returns an enumerator that iterates through the collection.</summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public List<T>.Enumerator GetEnumerator()
         {
-            return _stack.GetEnumerator();
+            return List.GetEnumerator();
         }
 
         /// <summary>Returns an enumerator that iterates through the collection.</summary>
@@ -23,7 +21,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            return _stack.GetEnumerator();
+            return List.GetEnumerator();
         }
 
         /// <summary>Returns an enumerator that iterates through a collection.</summary>
@@ -31,7 +29,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _stack.GetEnumerator();
+            return List.GetEnumerator();
         }
 
         /// <summary>Inserts an object at the top of the <see cref="T:System.Collections.Generic.Stack`1" />.</summary>
@@ -42,7 +40,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Push(T item)
         {
-            _stack.Add(item);
+            List.Add(item);
         }
 
         /// <summary>Inserts an object at the top of the stack and ensure that it is only contained once in the stack</summary>
@@ -54,7 +52,7 @@ namespace Baracuda.Utilities.Types
         public void PushUnique(T item)
         {
             Remove(item);
-            _stack.Add(item);
+            List.Add(item);
         }
 
         /// <summary>Removes and returns the object at the top of the <see cref="T:System.Collections.Generic.Stack`1" />.</summary>
@@ -63,14 +61,14 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Pop()
         {
-            if (_stack.Count <= 0)
+            if (List.Count <= 0)
             {
                 return default(T);
             }
 
-            var index = _stack.Count - 1;
-            var result = _stack[index];
-            _stack.RemoveAt(index);
+            var index = List.Count - 1;
+            var result = List[index];
+            List.RemoveAt(index);
             return result;
         }
 
@@ -79,13 +77,13 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Peek()
         {
-            if (_stack.Count <= 0)
+            if (List.Count <= 0)
             {
                 return default(T);
             }
 
-            var index = _stack.Count - 1;
-            var result = _stack[index];
+            var index = List.Count - 1;
+            var result = List[index];
             return result;
         }
 
@@ -93,12 +91,12 @@ namespace Baracuda.Utilities.Types
         /// <returns>The object at the root of the <see cref="T:System.Collections.Generic.Stack`1" />.</returns>
         public T Root()
         {
-            if (_stack.Count <= 0)
+            if (List.Count <= 0)
             {
                 return default(T);
             }
 
-            return _stack[0];
+            return List[0];
         }
 
         /// <summary>
@@ -107,7 +105,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Remove(T item)
         {
-            var result = _stack.Remove(item);
+            var result = List.Remove(item);
             return result;
         }
 
@@ -130,14 +128,14 @@ namespace Baracuda.Utilities.Types
 
             foreach (var element in collection)
             {
-                _stack.Add(element);
+                List.Add(element);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryPeek(out T item)
         {
-            if (_stack.Count > 0)
+            if (List.Count > 0)
             {
                 item = Peek();
                 return true;
@@ -149,7 +147,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryPop(out T item)
         {
-            if (_stack.Count > 0)
+            if (List.Count > 0)
             {
                 item = Pop();
                 return true;
@@ -166,7 +164,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Clear()
         {
-            _stack.Clear();
+            List.Clear();
         }
 
         /// <summary>Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.</summary>
@@ -179,7 +177,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(T item)
         {
-            return _stack.Contains(item);
+            return List.Contains(item);
         }
 
         /// <summary>
@@ -206,7 +204,7 @@ namespace Baracuda.Utilities.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CopyTo(T[] array, int arrayIndex)
         {
-            _stack.CopyTo(array, arrayIndex);
+            List.CopyTo(array, arrayIndex);
         }
 
         /// <summary>Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
@@ -214,7 +212,7 @@ namespace Baracuda.Utilities.Types
         public int Count
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _stack.Count;
+            get => List.Count;
         }
 
         /// <summary>Gets a value indicating whether the <see cref="T:System.Collections.Generic.ICollection`1" /> is read-only.</summary>
@@ -241,10 +239,15 @@ namespace Baracuda.Utilities.Types
         public T this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _stack[index];
+            get => List[index];
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => _stack[index] = value;
+            set => List[index] = value;
         }
+
+        /// <summary>
+        ///     The wrapped list object.
+        /// </summary>
+        public List<T> List { get; } = new(8);
     }
 }

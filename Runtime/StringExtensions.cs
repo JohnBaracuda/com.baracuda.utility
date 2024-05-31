@@ -339,6 +339,30 @@ namespace Baracuda.Utilities
         #endregion
 
 
+        #region Hashing
+
+        /// <summary>
+        ///     Computes the FNV-1a hash for the input string.
+        ///     The FNV-1a hash is a non-cryptographic hash function known for its speed and good distribution properties.
+        ///     Useful for creating Dictionary keys instead of using strings.
+        ///     https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+        /// </summary>
+        /// <param name="value">The input string to hash.</param>
+        /// <returns>An integer representing the FNV-1a hash of the input string.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ComputeFNV1aHash(this string value)
+        {
+            var hash = 2166136261;
+            foreach (var character in value)
+            {
+                hash = (hash ^ character) * 16777619;
+            }
+            return unchecked((int) hash);
+        }
+
+        #endregion
+
+
         #region Rich Text
 
         public static Color SoftWhite { get; } = new(0.92f, 0.92f, 0.95f);
@@ -386,6 +410,12 @@ namespace Baracuda.Utilities
             stringBuilder.Append(content);
             stringBuilder.Append("</color>");
             return StringBuilderPool.BuildAndRelease(stringBuilder);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string ToColorBool(this bool value)
+        {
+            return value.ToString().Colorize(value ? Color.green : Color.red);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

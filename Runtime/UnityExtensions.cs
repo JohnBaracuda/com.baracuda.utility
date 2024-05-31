@@ -1,9 +1,11 @@
+using Baracuda.Utilities.Types;
 using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -185,6 +187,89 @@ namespace Baracuda.Utilities
             return new Vector2(screenRect.center.x, screenRect.center.y);
         }
 
+        private static void KeepChildInScrollViewPort(ScrollRect scrollRect, RectTransform child, Margin margin)
+        {
+            Canvas.ForceUpdateCanvases();
+
+            // Get min and max of the viewport and child in local space to the viewport so we can compare them.
+            // NOTE: use viewport instead of the scrollRect as viewport doesn't include the scrollbars in it.
+            var viewPosMin = scrollRect.viewport.rect.min;
+            var viewPosMax = scrollRect.viewport.rect.max;
+
+            Vector2 childPosMin = scrollRect.viewport.InverseTransformPoint(child.TransformPoint(child.rect.min));
+            Vector2 childPosMax = scrollRect.viewport.InverseTransformPoint(child.TransformPoint(child.rect.max));
+
+            // Apply the custom margins
+            childPosMin.x -= margin.left;
+            childPosMin.y -= margin.bottom;
+            childPosMax.x += margin.right;
+            childPosMax.y += margin.top;
+
+            var move = Vector2.zero;
+
+            // Check if one (or more) of the child bounding edges goes outside the viewport and
+            // calculate move vector for the content rect so it can keep it visible.
+            if (childPosMax.y > viewPosMax.y)
+            {
+                move.y = childPosMax.y - viewPosMax.y;
+            }
+            if (childPosMin.x < viewPosMin.x)
+            {
+                move.x = childPosMin.x - viewPosMin.x;
+            }
+            if (childPosMax.x > viewPosMax.x)
+            {
+                move.x = childPosMax.x - viewPosMax.x;
+            }
+            if (childPosMin.y < viewPosMin.y)
+            {
+                move.y = childPosMin.y - viewPosMin.y;
+            }
+
+            // Transform the move vector to world space, then to content local space (in case of scaling or rotation?) and apply it.
+            var worldMove = scrollRect.viewport.TransformDirection(move);
+            var inverse = scrollRect.content.InverseTransformDirection(worldMove);
+            var targetPosition = scrollRect.content.localPosition - inverse;
+
+            if (CanPerformAutoScroll(scrollRect, targetPosition) is false)
+            {
+                return;
+            }
+
+            scrollRect.content.localPosition = targetPosition;
+        }
+
+        private static bool CanPerformAutoScroll(ScrollRect scrollRect, Vector3 targetPosition)
+        {
+            if (targetPosition.ApproximatelyEquals(scrollRect.content.localPosition))
+            {
+                return false;
+            }
+
+            var contentRect = scrollRect.content.rect;
+            var viewportRect = scrollRect.viewport.rect;
+
+            if (scrollRect.horizontal)
+            {
+                var minX = Mathf.Min(viewportRect.width - contentRect.width, 0);
+                if (targetPosition.x > 0 || targetPosition.x < minX)
+                {
+                    return false;
+                }
+            }
+
+            if (scrollRect.vertical)
+            {
+                var minY = Mathf.Min(viewportRect.height - contentRect.height, 0);
+                if (targetPosition.y > 0 || targetPosition.y < minY)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         #endregion
 
 
@@ -259,7 +344,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsActiveInHierarchy<TComponent>(this TComponent component) where TComponent : Component
         {
-            return component.gameObject.activeInHierarchy;
+            return component != null && component.gameObject.activeInHierarchy;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -271,7 +356,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNotActiveInHierarchy<TComponent>(this TComponent component) where TComponent : Component
         {
-            return !component.gameObject.activeInHierarchy;
+            return component == null || !component.gameObject.activeInHierarchy;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -319,9 +404,9 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetOrCreateComponent<T>(this Component target) where T : Component
+        public static T GetOrAddComponent<T>(this Component target) where T : Component
         {
-            return target.gameObject.GetOrCreateComponent<T>();
+            return target.gameObject.GetOrAddComponent<T>();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -353,7 +438,7 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T GetOrCreateComponent<T>(this GameObject target) where T : Component
+        public static T GetOrAddComponent<T>(this GameObject target) where T : Component
         {
             if (!target.TryGetComponent(out T component))
             {
@@ -507,6 +592,54 @@ namespace Baracuda.Utilities
         public static Rect WithOffset(this Rect rect, float x = 0, float y = 0, float width = 0, float height = 0)
         {
             return new Rect(rect.x + x, rect.y + y, rect.width + width, rect.height + height);
+        }
+
+        public static bool Contains(this Rect rect1, Rect rect2)
+        {
+            if (rect1.position.x <= rect2.position.x &&
+                rect1.position.x + rect1.size.x >= rect2.position.x + rect2.size.x &&
+                rect1.position.y <= rect2.position.y &&
+                rect1.position.y + rect1.size.y >= rect2.position.y + rect2.size.y)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool Overlaps(this RectTransform a, RectTransform b)
+        {
+            var corners = new Vector3[4];
+            a.GetWorldCorners(corners);
+            var rec = new Rect(corners[0].x, corners[0].y, corners[2].x - corners[0].x, corners[2].y - corners[0].y);
+
+            b.GetWorldCorners(corners);
+            var rec2 = new Rect(corners[0].x, corners[0].y, corners[2].x - corners[0].x, corners[2].y - corners[0].y);
+
+            return rec.Overlaps(rec2);
+        }
+
+        public static bool Contains(this RectTransform a, RectTransform b)
+        {
+            var corners = new Vector3[4];
+            a.GetWorldCorners(corners);
+            var rec = new Rect(corners[0].x, corners[0].y, corners[2].x - corners[0].x, corners[2].y - corners[0].y);
+
+            b.GetWorldCorners(corners);
+            var rec2 = new Rect(corners[0].x, corners[0].y, corners[2].x - corners[0].x, corners[2].y - corners[0].y);
+
+            return rec.Contains(rec2);
+        }
+
+        #endregion
+
+
+        #region Color
+
+        public static Color WithAlpha(this Color color, float alpha)
+        {
+            ref var c = ref color;
+            c.a = alpha;
+            return color;
         }
 
         #endregion

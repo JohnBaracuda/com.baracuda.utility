@@ -1,3 +1,4 @@
+using Baracuda.Utilities.Types;
 using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
@@ -28,9 +29,16 @@ namespace Baracuda.Utilities
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Int(int min = int.MinValue, int max = int.MaxValue)
+        public static int Int(int min, int max)
         {
             return Random.Range(min, max);
+        }
+
+        [MustUseReturnValue]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Int(int max)
+        {
+            return Random.Range(0, max);
         }
 
         [MustUseReturnValue]
@@ -133,6 +141,47 @@ namespace Baracuda.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T GetRandomItemWithExceptionOf<T>([NotNull] IReadOnlyList<T> source, T itemToIgnore)
+        {
+            Assert.IsNotNull(source);
+            if (source.Count == 1)
+            {
+                return source[0];
+            }
+
+            if (source.Count == 2)
+            {
+                if (source[0].Equals(itemToIgnore))
+                {
+                    return source[1];
+                }
+                if (source[1].Equals(itemToIgnore))
+                {
+                    return source[0];
+                }
+
+                return GetRandomItem(source);
+            }
+
+            var attemptLimit = 10;
+            while (attemptLimit > 0)
+            {
+                var randomIndex = Random.Range(0, source.Count);
+                var randomItem = source[randomIndex];
+                if (randomItem.Equals(itemToIgnore))
+                {
+                    attemptLimit--;
+                }
+                else
+                {
+                    return randomItem;
+                }
+            }
+
+            return GetRandomItem(source);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T GetAndRemoveRandomItem<T>([NotNull] IList<T> source)
         {
             Assert.IsNotNull(source);
@@ -219,6 +268,48 @@ namespace Baracuda.Utilities
             }
 
             ListPool<T>.Release(buffer);
+        }
+
+        private static readonly Color[] loggingColors =
+        {
+            new(0.4f, 0.7f, 0.7f), // Soft teal
+            new(0.5f, 0.8f, 0.5f), // Soft green
+            new(0.5f, 0.7f, 0.9f), // Soft blue
+            new(0.9f, 0.5f, 0.6f), // Soft pink
+            new(0.7f, 0.6f, 0.5f), // Warm beige
+            new(0.7f, 0.7f, 0.7f), // Light grey
+            new(0.6f, 0.4f, 0.7f), // Soft purple
+            new(0.6f, 0.7f, 0.6f), // Grey
+            new(0.9f, 0.7f, 0.5f), // Peach
+            new(0.8f, 0.8f, 0.4f), // Soft yellow
+            new(0.6f, 0.7f, 0.3f), // Olive green
+            new(0.4f, 0.5f, 0.6f), // Slate
+            new(0.6f, 0.5f, 0.4f), // Muted brown
+            new(0.7f, 0.8f, 0.9f), // Light blue
+            new(0.8f, 0.7f, 0.8f), // Lavender
+            new(0.3f, 0.6f, 0.6f), // Darker teal
+            new(0.5f, 0.5f, 0.7f), // Dusky blue
+            new(0.4f, 0.4f, 0.5f), // Dark grey blue
+            new(0.7f, 0.4f, 0.4f), // Soft red
+            new(0.8f, 0.5f, 0.4f) // Soft orange
+        };
+
+        private static Loop? colorIndex;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color LoggingColor()
+        {
+            colorIndex ??= Loop.Create(loggingColors);
+            var loop = colorIndex.Value;
+            var color = loggingColors[loop];
+            colorIndex = ++loop;
+            return color;
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void InitializeRandomUtility()
+        {
+            colorIndex = null;
         }
     }
 }

@@ -8,18 +8,19 @@ namespace Baracuda.Utilities.Types
     {
         #region Properties
 
-        public int Iterations => iterations;
+        public int Iterations { get; private set; }
+        public int Value { get; set; }
+        public int Max { get; }
+        public int Min { get; }
+        public bool IsMin => Value == Min;
+        public bool IsMax => Value == Max;
 
         #endregion
 
 
         #region Fields
 
-        private int value;
-        private int iterations;
         private readonly int startValue;
-        private readonly int max;
-        private readonly int min;
 
         #endregion
 
@@ -53,16 +54,16 @@ namespace Baracuda.Utilities.Types
 
         public Loop(int value, int min, int max)
         {
-            this.value = value;
-            this.min = min;
-            this.max = max;
+            Value = value;
+            Min = min;
+            Max = max;
             startValue = value;
-            iterations = 0;
+            Iterations = 0;
         }
 
         public override string ToString()
         {
-            return value.ToString();
+            return Value.ToString();
         }
 
         #endregion
@@ -72,14 +73,14 @@ namespace Baracuda.Utilities.Types
 
         public static Loop operator ++(Loop looping)
         {
-            if (++looping.value > looping.max)
+            if (++looping.Value > looping.Max)
             {
-                looping.value = looping.min;
+                looping.Value = looping.Min;
             }
 
-            if (looping.value == looping.startValue)
+            if (looping.Value == looping.startValue)
             {
-                looping.iterations++;
+                looping.Iterations++;
             }
 
             return looping;
@@ -87,14 +88,14 @@ namespace Baracuda.Utilities.Types
 
         public static Loop operator --(Loop looping)
         {
-            if (--looping.value < looping.min)
+            if (--looping.Value < looping.Min)
             {
-                looping.value = looping.max;
+                looping.Value = looping.Max;
             }
 
-            if (looping.value == looping.startValue)
+            if (looping.Value == looping.startValue)
             {
-                looping.iterations--;
+                looping.Iterations--;
             }
 
             return looping;
@@ -102,7 +103,7 @@ namespace Baracuda.Utilities.Types
 
         public static implicit operator int(Loop loop)
         {
-            return loop.value;
+            return loop.Value;
         }
 
         #endregion

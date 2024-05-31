@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Utilities.Collections
 {
     /// <summary>
     ///     Class acts as a limited and fast generic first in last out collection.
     /// </summary>
-    public sealed class LimitedQueue<T> : IEnumerable<T>
+    public sealed class LimitedQueue<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
         private readonly Queue<T> _queue;
 

@@ -67,6 +67,16 @@ namespace Baracuda.Utilities.Types
             return guid.value;
         }
 
+        public static implicit operator Guid(RuntimeGUID value)
+        {
+            return new Guid(value.ToString());
+        }
+
+        public static implicit operator RuntimeGUID(Guid guid)
+        {
+            return new RuntimeGUID(guid.ToString());
+        }
+
 #if UNITY_EDITOR
         public static explicit operator RuntimeGUID(UnityEditor.GUID value)
         {

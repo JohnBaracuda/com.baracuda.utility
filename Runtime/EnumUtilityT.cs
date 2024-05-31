@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine.Pool;
 
 namespace Baracuda.Utilities
@@ -16,6 +17,20 @@ namespace Baracuda.Utilities
         static EnumUtility()
         {
             values = Enum.GetValues(typeof(T)).Cast<T>().ToArray();
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ToInt(T value)
+        {
+            return UnsafeUtility.As<T, int>(ref value);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FromInt(int value)
+        {
+            return UnsafeUtility.As<int, T>(ref value);
         }
 
         [Pure]
