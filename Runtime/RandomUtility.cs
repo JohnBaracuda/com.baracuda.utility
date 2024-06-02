@@ -311,5 +311,65 @@ namespace Baracuda.Utilities
         {
             colorIndex = null;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string Name()
+        {
+            return GetRandomItem(randomNames);
+        }
+
+        private static readonly string[] randomNames =
+        {
+            "Tracer Melone",
+            "John Baracuda",
+            "Smitty Werben",
+            "Alaric Thorngage",
+            "Brynna Tamsin",
+            "Cedric Vale",
+            "Daria Lunara",
+            "Eldric Fenwood",
+            "Fiora Starling",
+            "Galen Thorne",
+            "Hespera Glint",
+            "Icarus Windrider",
+            "Jareth Ember",
+            "Kaelin Darkwater",
+            "Liora Wisp",
+            "Merrick Shadow",
+            "Neris Solara",
+            "Orin Stonefist",
+            "Peregrine Frost",
+            "Quintus Bright",
+            "Rhiannon Gale",
+            "Silas Vire",
+            "Tamsin Draven",
+            "Ulric Nightshade",
+            "Vespera Moon",
+            "Wren Lyric",
+            "Xander Rune",
+            "Yara Thorne",
+            "Zephyr Shade",
+            "Aeris Nightshade",
+            "Bastian Ember",
+            "Calia Frost",
+            "Dorian Vale",
+            "Elysia Wren",
+            "Faelan Stonefist",
+            "Gideon Starling",
+            "Hale Fenwood",
+            "Isolde Glint",
+            "Jorin Windrider",
+            "Karis Tamsin",
+            "Liora Thorne",
+            "Marek Gale",
+            "Nyssa Rune",
+            "Oberon Solara",
+            "Phaedra Bright",
+            "Quinlan Darkwater",
+            "Rowan Frost",
+            "Soren Nightshade",
+            "Taryn Draven",
+            "Ulric Vire"
+        };
     }
 }
