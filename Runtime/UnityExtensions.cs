@@ -539,7 +539,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsGameObjectInScene(this Object obj)
         {
-            if (obj is GameObject gameObject && gameObject != null)
+            if (obj is GameObject gameObject)
             {
                 return gameObject.scene.name != null;
             }
