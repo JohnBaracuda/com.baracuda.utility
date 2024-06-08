@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Baracuda.Utilities.Types
 {
@@ -22,6 +23,11 @@ namespace Baracuda.Utilities.Types
         public InputActionMapReference(string name)
         {
             actionMapName = name;
+        }
+
+        public InputActionMapReference(InputActionMap inputActionMap)
+        {
+            actionMapName = inputActionMap.name;
         }
 
         public override string ToString()

@@ -25,6 +25,17 @@ namespace Baracuda.Utilities
             return count;
         }
 
+        public static void RemoveWhere<T>(this IList<T> source, Func<T, bool> predicate)
+        {
+            for (var index = source.Count - 1; index >= 0; index--)
+            {
+                if (predicate(source[index]))
+                {
+                    source.RemoveAt(index);
+                }
+            }
+        }
+
         public static IEnumerable<T> TakeLast<T>(this IList<T> source, int amount)
         {
             return source.Skip(Math.Max(0, source.Count - amount));

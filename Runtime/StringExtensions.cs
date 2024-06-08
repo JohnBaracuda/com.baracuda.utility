@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Unity.Burst;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -575,6 +577,25 @@ namespace Baracuda.Utilities
                 LogType.Warning => Color.yellow,
                 _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
             };
+        }
+
+        #endregion
+
+
+        #region Fixed String
+
+        [BurstDiscard]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static FixedString64Bytes ToTruncatedString64Bytes(this string value)
+        {
+            return new FixedString64Bytes(value.Length < 61 ? value : value[..61]);
+        }
+
+        [BurstDiscard]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static FixedString128Bytes ToTruncatedString128Bytes(this string value)
+        {
+            return new FixedString128Bytes(value.Length < 125 ? value : value[..125]);
         }
 
         #endregion
