@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,14 @@ namespace Baracuda.Utilities
     public static class EnumUtility<T> where T : unmanaged, Enum
     {
         private static readonly T[] values;
+        public static readonly EqualityComparer<T> Comparer = EqualityComparer<T>.Default;
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Equals(T value1, T value2)
+        {
+            return Comparer.Equals(value1, value2);
+        }
 
         static EnumUtility()
         {
@@ -31,6 +40,13 @@ namespace Baracuda.Utilities
         public static T FromInt(int value)
         {
             return UnsafeUtility.As<int, T>(ref value);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FromString(string value)
+        {
+            return Enum.TryParse(typeof(T), value, out var result) ? (T)result : default;
         }
 
         [Pure]
@@ -57,6 +73,13 @@ namespace Baracuda.Utilities
             var result = buffer.ToArray();
             ListPool<T>.Release(buffer);
             return result;
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsDefined(T enumValue)
+        {
+            return Enum.IsDefined(typeof(T), enumValue);
         }
     }
 }

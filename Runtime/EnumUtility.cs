@@ -129,5 +129,11 @@ namespace Baracuda.Utilities
         {
             return EnumUtility<T>.GetFlagsValueArray(flagsEnum);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsDefined<T>(this T enumValue) where T : unmanaged, Enum
+        {
+            return EnumUtility<T>.IsDefined(enumValue);
+        }
     }
 }

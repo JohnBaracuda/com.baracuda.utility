@@ -44,5 +44,10 @@ namespace Baracuda.Utilities.Types
         {
             return new UnscaledTimer(durationInSeconds);
         }
+
+        public static UnscaledTimer FromMilliseconds(int durationInMilliseconds)
+        {
+            return new UnscaledTimer(durationInMilliseconds / 1000f);
+        }
     }
 }

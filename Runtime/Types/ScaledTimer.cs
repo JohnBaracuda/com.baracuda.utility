@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace Baracuda.Utilities.Types
 {
-    public readonly struct Timer
+    public readonly struct ScaledTimer
     {
         private readonly float _targetTime;
         private readonly float _startTime;
 
-        private Timer(float delayInSeconds)
+        private ScaledTimer(float delayInSeconds)
         {
             _startTime = Time.time;
             _targetTime = _startTime + delayInSeconds;
@@ -31,19 +31,25 @@ namespace Baracuda.Utilities.Types
                 var passedTime = totalDuration - RemainingTime;
                 return passedTime / totalDuration;
             }
+
             return fallback;
         }
 
         public override string ToString()
         {
-            return $"{nameof(Timer)}: {RemainingTime}";
+            return $"{nameof(ScaledTimer)}: {RemainingTime:0.00} | IsRunning: {IsRunning.ToColorBool()}";
         }
 
-        public static Timer None => new();
-
-        public static Timer FromSeconds(float durationInSeconds)
+        public string ToString(string format)
         {
-            return new Timer(durationInSeconds);
+            return $"{nameof(ScaledTimer)}: {RemainingTime.ToString(format)}";
+        }
+
+        public static ScaledTimer None => new();
+
+        public static ScaledTimer FromSeconds(float durationInSeconds)
+        {
+            return new ScaledTimer(durationInSeconds);
         }
     }
 }

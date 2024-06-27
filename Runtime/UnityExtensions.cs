@@ -1,8 +1,8 @@
-using Baracuda.Utilities.Types;
 using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Baracuda.Utilities.Types;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -23,6 +23,7 @@ namespace Baracuda.Utilities
             {
                 buffer.Add(child);
             }
+
             var result = buffer.ToArray();
             ListPool<Transform>.Release(buffer);
             return result;
@@ -177,6 +178,7 @@ namespace Baracuda.Utilities
                 worldCorners[0].y,
                 worldCorners[2].x - worldCorners[0].x,
                 worldCorners[2].y - worldCorners[0].y);
+
             return result;
         }
 
@@ -213,14 +215,17 @@ namespace Baracuda.Utilities
             {
                 move.y = childPosMax.y - viewPosMax.y;
             }
+
             if (childPosMin.x < viewPosMin.x)
             {
                 move.x = childPosMin.x - viewPosMin.x;
             }
+
             if (childPosMax.x > viewPosMax.x)
             {
                 move.x = childPosMax.x - viewPosMax.x;
             }
+
             if (childPosMin.y < viewPosMin.y)
             {
                 move.y = childPosMin.y - viewPosMin.y;
@@ -415,6 +420,18 @@ namespace Baracuda.Utilities
             return component.transform.parent;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasComponent<TComponent>(this Component target) where TComponent : Component
+        {
+            return target.GetComponent<TComponent>() is not null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasComponent<TComponent>(this GameObject gameObject) where TComponent : Component
+        {
+            return gameObject.GetComponent<TComponent>() is not null;
+        }
+
         #endregion
 
 
@@ -495,10 +512,12 @@ namespace Baracuda.Utilities
                 case Component component:
                     component.transform.position = position;
                     return true;
+
                 case GameObject gameObject:
                     gameObject.transform.position = position;
                     return true;
             }
+
             return false;
         }
 
@@ -510,6 +529,7 @@ namespace Baracuda.Utilities
                 obj.SetActive(activeState);
                 return true;
             }
+
             return false;
         }
 
@@ -603,6 +623,7 @@ namespace Baracuda.Utilities
             {
                 return true;
             }
+
             return false;
         }
 

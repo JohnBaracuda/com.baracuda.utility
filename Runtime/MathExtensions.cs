@@ -70,9 +70,15 @@ namespace Baracuda.Utilities
             return Mathf.RoundToInt(origin);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Clamp(this ref int origin, int min, int max)
+        {
+            origin = Mathf.Clamp(origin, min, max);
+        }
+
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Clamp(this int origin, int min, int max)
+        public static int ClampPure(this int origin, int min, int max)
         {
             return Mathf.Clamp(origin, min, max);
         }
@@ -274,7 +280,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int SecondsToMilliseconds(this float seconds)
         {
-            return (int) (seconds * 1000);
+            return (int)(seconds * 1000);
         }
 
         [Pure]
@@ -319,6 +325,15 @@ namespace Baracuda.Utilities
             value.x = x ?? value.x;
             value.y = y ?? value.y;
             value.z = z ?? value.z;
+            return value;
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 With(this Vector2 value, float? x = null, float? y = null)
+        {
+            value.x = x ?? value.x;
+            value.y = y ?? value.y;
             return value;
         }
     }

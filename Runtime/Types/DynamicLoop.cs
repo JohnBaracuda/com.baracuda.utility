@@ -86,7 +86,7 @@ namespace Baracuda.Utilities.Types
             Value = value;
             _min = min;
             _max = max;
-            _startValue = value.Clamp(min(), max());
+            _startValue = value.ClampPure(min(), max());
             Iterations = 0;
         }
 
@@ -104,6 +104,7 @@ namespace Baracuda.Utilities.Types
         {
             looping.Value++;
             looping.ValidateIndex();
+
             if (looping.Value == looping._startValue)
             {
                 looping.Iterations++;
@@ -116,6 +117,7 @@ namespace Baracuda.Utilities.Types
         {
             looping.Value--;
             looping.ValidateIndex();
+
             if (looping.Value == looping._startValue)
             {
                 looping.Iterations--;

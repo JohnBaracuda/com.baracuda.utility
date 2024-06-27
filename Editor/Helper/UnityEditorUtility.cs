@@ -1,9 +1,9 @@
-using Baracuda.Utilities.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reflection;
+using Baracuda.Utilities.Reflection;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -292,7 +292,7 @@ namespace Baracuda.Utilities.Editor.Helper
             var assets = new List<T>();
             var guids = UnityEditor.AssetDatabase.FindAssets("t:prefab", new[]
             {
-                "Assets/Content/Systems"
+                "Assets/Content"
             });
             for (var i = 0; i < guids.Length; i++)
             {

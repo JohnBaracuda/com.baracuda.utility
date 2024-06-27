@@ -44,7 +44,7 @@ namespace Baracuda.Utilities.Types
         ///     Use <see cref="ValueOrDefault()" /> or <see cref="TryGetValue" /> if you don't know if accessing the value is
         ///     allowed.
         /// </summary>
-        public T GetValueDiscrete()
+        public T GetValueWithoutCheck()
         {
             return value;
         }
@@ -56,7 +56,7 @@ namespace Baracuda.Utilities.Types
         [Pure]
         public T ValueOrDefault()
         {
-            return TryGetValue(out var optionalValue) ? optionalValue : default(T);
+            return TryGetValue(out var optionalValue) ? optionalValue : default;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Baracuda.Utilities.Types
                 return true;
             }
 
-            optionalValue = default(T);
+            optionalValue = default;
             return false;
         }
 

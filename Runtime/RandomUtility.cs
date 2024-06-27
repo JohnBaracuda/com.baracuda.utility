@@ -1,9 +1,9 @@
-using Baracuda.Utilities.Types;
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Baracuda.Utilities.Types;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
@@ -29,6 +29,18 @@ namespace Baracuda.Utilities
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Index<T>(T[] array)
+        {
+            if (array.Length <= 0)
+            {
+                return -1;
+            }
+
+            return Int(0, array.Length - 1);
+        }
+
+        [MustUseReturnValue]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Int(int min, int max)
         {
             return Random.Range(min, max);
@@ -45,7 +57,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Int64()
         {
-            return (long) Random.Range(int.MinValue, int.MaxValue) + Random.Range(int.MinValue, int.MaxValue);
+            return (long)Random.Range(int.MinValue, int.MaxValue) + Random.Range(int.MinValue, int.MaxValue);
         }
 
         [MustUseReturnValue]
@@ -131,12 +143,18 @@ namespace Baracuda.Utilities
         public static T GetRandomItem<T>([NotNull] IReadOnlyList<T> source)
         {
             Assert.IsNotNull(source);
+
+            if (source.Count == 0)
+            {
+                return default;
+            }
+
             if (source.Count == 1)
             {
                 return source[0];
             }
 
-            var randomIndex = Random.Range(0, source.Count);
+            var randomIndex = Random.Range(0, source.Count - 1);
             return source[randomIndex];
         }
 
@@ -144,6 +162,7 @@ namespace Baracuda.Utilities
         public static T GetRandomItemWithExceptionOf<T>([NotNull] IReadOnlyList<T> source, T itemToIgnore)
         {
             Assert.IsNotNull(source);
+
             if (source.Count == 1)
             {
                 return source[0];
@@ -155,6 +174,7 @@ namespace Baracuda.Utilities
                 {
                     return source[1];
                 }
+
                 if (source[1].Equals(itemToIgnore))
                 {
                     return source[0];
@@ -164,10 +184,12 @@ namespace Baracuda.Utilities
             }
 
             var attemptLimit = 10;
+
             while (attemptLimit > 0)
             {
                 var randomIndex = Random.Range(0, source.Count);
                 var randomItem = source[randomIndex];
+
                 if (randomItem.Equals(itemToIgnore))
                 {
                     attemptLimit--;
@@ -321,55 +343,36 @@ namespace Baracuda.Utilities
         private static readonly string[] randomNames =
         {
             "Tracer Melone",
-            "John Baracuda",
+            "Anna Bolik",
             "Smitty Werben",
-            "Alaric Thorngage",
-            "Brynna Tamsin",
-            "Cedric Vale",
-            "Daria Lunara",
-            "Eldric Fenwood",
-            "Fiora Starling",
-            "Galen Thorne",
-            "Hespera Glint",
-            "Icarus Windrider",
-            "Jareth Ember",
-            "Kaelin Darkwater",
-            "Liora Wisp",
-            "Merrick Shadow",
-            "Neris Solara",
-            "Orin Stonefist",
-            "Peregrine Frost",
-            "Quintus Bright",
-            "Rhiannon Gale",
-            "Silas Vire",
-            "Tamsin Draven",
-            "Ulric Nightshade",
-            "Vespera Moon",
-            "Wren Lyric",
-            "Xander Rune",
-            "Yara Thorne",
-            "Zephyr Shade",
-            "Aeris Nightshade",
-            "Bastian Ember",
-            "Calia Frost",
-            "Dorian Vale",
-            "Elysia Wren",
-            "Faelan Stonefist",
-            "Gideon Starling",
-            "Hale Fenwood",
-            "Isolde Glint",
-            "Jorin Windrider",
-            "Karis Tamsin",
-            "Liora Thorne",
-            "Marek Gale",
-            "Nyssa Rune",
-            "Oberon Solara",
-            "Phaedra Bright",
-            "Quinlan Darkwater",
-            "Rowan Frost",
-            "Soren Nightshade",
-            "Taryn Draven",
-            "Ulric Vire"
+            "Sugondese",
+            "Joe Ligma",
+            "Stun Amongus",
+            "Al Beback",
+            "Dan Druff",
+            "Gene Poole",
+            "I.P. Freely",
+            "Justin Case",
+            "Moe Lester",
+            "Hugh Jass",
+            "Ben Dover",
+            "Anita Bath",
+            "Gabe Itch",
+            "Jim Nasium",
+            "Willie Stroker",
+            "Stu Pidman",
+            "Al Coholic",
+            "Sal Monella",
+            "Farrah Moan",
+            "Shanda Lear",
+            "Faye King",
+            "Ella Vator",
+            "Robin Banks",
+            "Bob Sled",
+            "Warren Peace",
+            "Doug Graves",
+            "Ray Sin",
+            "Mark Mywords"
         };
     }
 }
