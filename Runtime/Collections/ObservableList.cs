@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Baracuda.Utilities.Collections
 {
+    /// <summary>
+    ///     Wrapper for a generic List that exposes events when an element is added, removed or when the list has changed.
+    /// </summary>
     public class ObservableList<T> : IList<T>, IReadOnlyList<T>, IObservableCollection<T>
     {
         public event Action Changed

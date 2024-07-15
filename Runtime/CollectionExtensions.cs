@@ -1,9 +1,9 @@
-using Baracuda.Utilities.Pools;
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Baracuda.Utilities.Pools;
+using JetBrains.Annotations;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
@@ -62,19 +62,19 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullOrEmpty<T>(this T[] array)
         {
-            return array is not {Length: > 0};
+            return array is not { Length: > 0 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNotNullOrEmpty<T>(this T[] array)
         {
-            return array is {Length: > 0};
+            return array is { Length: > 0 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullOrEmpty<T>(this IList<T> list)
         {
-            return list is not {Count: > 0};
+            return list is not { Count: > 0 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -98,7 +98,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNotNullOrEmpty<T>(this IReadOnlyList<T> list)
         {
-            return list is {Count: > 0};
+            return list is { Count: > 0 };
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,7 +109,7 @@ namespace Baracuda.Utilities
                 element = array[index];
                 return true;
             }
-            element = default(T);
+            element = default;
             return false;
         }
 
@@ -121,7 +121,7 @@ namespace Baracuda.Utilities
                 element = list[index];
                 return true;
             }
-            element = default(T);
+            element = default;
             return false;
         }
 
@@ -171,7 +171,7 @@ namespace Baracuda.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool AddNullChecked<T>(this IList<T> list, T value) where T : class
         {
-            if (value.IsNull())
+            if (value == null)
             {
                 return false;
             }
@@ -329,7 +329,7 @@ namespace Baracuda.Utilities
             }
             else
             {
-                dictionary.Add(key, updateFunc(default(TValue)));
+                dictionary.Add(key, updateFunc(default));
             }
         }
 
@@ -520,7 +520,7 @@ namespace Baracuda.Utilities
                 return true;
             }
 
-            result = default(TResult);
+            result = default;
             return false;
         }
 

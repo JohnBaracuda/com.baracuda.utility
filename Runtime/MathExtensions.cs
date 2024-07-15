@@ -139,6 +139,37 @@ namespace Baracuda.Utilities
             return Mathf.Clamp(value, min, max);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefClamp(this ref float value, float min, float max)
+        {
+            value = Mathf.Clamp(value, min, max);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefClamp(this ref int value, int min, int max)
+        {
+            value = Mathf.Clamp(value, min, max);
+        }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Abs(this float value)
+        {
+            return Mathf.Abs(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefAbs(this ref float value)
+        {
+            value = Mathf.Abs(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefAbs(this ref int value)
+        {
+            value = Mathf.Abs(value);
+        }
+
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WithMaxLimit(this int value, int limit)
@@ -167,11 +198,41 @@ namespace Baracuda.Utilities
             return Mathf.Max(value, min);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WithMinLimitRef(this ref int value, int min)
+        {
+            value = Mathf.Max(value, min);
+        }
+
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float WithMinLimit(this float value, float min)
         {
             return Mathf.Max(value, min);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefWithMinLimit(this ref float value, float min)
+        {
+            value = Mathf.Max(value, min);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefWithMinLimit(this ref int value, int min)
+        {
+            value = Mathf.Max(value, min);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefWithMaxLimit(this ref float value, float max)
+        {
+            value = Mathf.Min(value, max);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RefWithMaxLimit(this ref int value, int max)
+        {
+            value = Mathf.Min(value, max);
         }
 
         [Pure]

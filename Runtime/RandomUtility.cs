@@ -91,35 +91,42 @@ namespace Baracuda.Utilities
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 Vector()
+        public static Vector3 Vector3()
         {
             return new Vector3(Float(-1, 1), Float(-1, 1), Float(-1, 1));
         }
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 Vector(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
+        public static Vector3 Vector2()
+        {
+            return new Vector2(Float(-1, 1), Float(-1, 1));
+        }
+
+        [MustUseReturnValue]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 Vector3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
         {
             return new Vector3(Float(minX, maxX), Float(minY, maxY), Float(minZ, maxZ));
         }
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 Vector(Vector3 min, Vector3 max)
+        public static Vector3 Vector3(Vector3 min, Vector3 max)
         {
             return new Vector3(Float(min.x, max.x), Float(min.y, max.y), Float(min.z, max.z));
         }
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 Vector(float x, float y, float z)
+        public static Vector3 Vector3(float x, float y, float z)
         {
             return new Vector3(Float(-x, x), Float(-y, y), Float(-z, z));
         }
 
         [MustUseReturnValue]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 Vector(float value)
+        public static Vector3 Vector3(float value)
         {
             return new Vector3(Float(-value, value), Float(-value, value), Float(-value, value));
         }
@@ -156,6 +163,25 @@ namespace Baracuda.Utilities
 
             var randomIndex = Random.Range(0, source.Count - 1);
             return source[randomIndex];
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T GetRandomItemOfCollection<T>([NotNull] ICollection<T> source)
+        {
+            Assert.IsNotNull(source);
+
+            if (source.Count == 0)
+            {
+                return default;
+            }
+
+            if (source.Count == 1)
+            {
+                return source.First();
+            }
+
+            var randomIndex = Random.Range(0, source.Count - 1);
+            return source.ElementAt(randomIndex);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

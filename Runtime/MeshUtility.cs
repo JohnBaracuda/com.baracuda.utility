@@ -19,8 +19,8 @@ namespace Baracuda.Utilities
             // Compile a new mesh
             var mesh = new Mesh();
 
-            radius = radius.WithMinLimit(0);
-            height = height.WithMinLimit(2 * radius);
+            radius = Mathf.Max(radius, 0);
+            height = Mathf.Max(height, 2 * radius);
 
             // Calculate the number of vertices and triangles
             var longitudeSegments = resolution;
@@ -32,6 +32,9 @@ namespace Baracuda.Utilities
 
             // Compile vertices
             var index = 0;
+
+            // Rotation to align with the axis
+            var rotation = Quaternion.FromToRotation(Vector3.up, axis.normalized);
 
             // Top hemisphere
             for (var lat = 0; lat <= latitudeSegments; lat++)
@@ -50,7 +53,7 @@ namespace Baracuda.Utilities
                     var y = cosTheta;
                     var z = sinPhi * sinTheta;
 
-                    var vertex = new Vector3(x, y, z) * radius;
+                    var vertex = rotation * new Vector3(x, y, z) * radius;
                     vertices[index++] = center + vertex + axis.normalized * (height / 2 - radius);
                 }
             }
@@ -72,7 +75,7 @@ namespace Baracuda.Utilities
                     var y = -cosTheta; // Notice the sign change here to point outward
                     var z = sinPhi * sinTheta;
 
-                    var vertex = new Vector3(x, y, z) * radius;
+                    var vertex = rotation * new Vector3(x, y, z) * radius;
                     vertices[index++] = center + vertex - axis.normalized * (height / 2 - radius);
                 }
             }
@@ -87,7 +90,7 @@ namespace Baracuda.Utilities
                 var x = cosPhi;
                 var z = sinPhi;
 
-                var vertex = new Vector3(x, 0, z) * radius;
+                var vertex = rotation * new Vector3(x, 0, z) * radius;
                 vertices[index++] = center + vertex + axis.normalized * (height / 2 - radius);
                 vertices[index++] = center + vertex - axis.normalized * (height / 2 - radius);
             }
