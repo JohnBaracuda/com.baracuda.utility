@@ -360,5 +360,25 @@ namespace Baracuda.Utilities
         }
 
         #endregion
+
+
+        #region Delegate
+
+        public static void InvokeCritical(this Action action)
+        {
+            foreach (var @delegate in action.GetInvocationList())
+            {
+                try
+                {
+                    @delegate.DynamicInvoke();
+                }
+                catch (Exception exception)
+                {
+                    Debug.Log(exception);
+                }
+            }
+        }
+
+        #endregion
     }
 }
