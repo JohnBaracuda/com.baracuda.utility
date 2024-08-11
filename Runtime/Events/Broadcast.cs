@@ -219,12 +219,12 @@ namespace Baracuda.Utilities.Events
                 return false;
             }
 
-            Add(listener);
+            AddListener(listener);
             return true;
         }
 
         /// <inheritdoc />
-        public void Add(Action<T> listener)
+        public void AddListener(Action<T> listener)
         {
             if (_listener.Length <= Count)
             {
@@ -268,7 +268,7 @@ namespace Baracuda.Utilities.Events
         #region Remove Listener
 
         /// <inheritdoc />
-        public bool Remove(Action<T> listener)
+        public bool RemoveListener(Action<T> listener)
         {
             for (var i = 0; i < Count; i++)
             {

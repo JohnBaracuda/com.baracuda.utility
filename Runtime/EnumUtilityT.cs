@@ -81,5 +81,24 @@ namespace Baracuda.Utilities
         {
             return Enum.IsDefined(typeof(T), enumValue);
         }
+
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryParse(string text, out T result)
+        {
+            if (text.IsNullOrWhitespace())
+            {
+                result = default;
+                return false;
+            }
+            if (Enum.TryParse(typeof(T), text, out var enumObject))
+            {
+                result = (T)enumObject;
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
     }
 }

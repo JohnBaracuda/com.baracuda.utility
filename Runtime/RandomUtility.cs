@@ -369,36 +369,12 @@ namespace Baracuda.Utilities
         private static readonly string[] randomNames =
         {
             "Tracer Melone",
-            "Anna Bolik",
             "Smitty Werben",
-            "Sugondese",
+            "Sugon Dese",
             "Joe Ligma",
             "Stun Amongus",
-            "Al Beback",
-            "Dan Druff",
-            "Gene Poole",
-            "I.P. Freely",
-            "Justin Case",
             "Moe Lester",
-            "Hugh Jass",
-            "Ben Dover",
-            "Anita Bath",
-            "Gabe Itch",
-            "Jim Nasium",
-            "Willie Stroker",
-            "Stu Pidman",
-            "Al Coholic",
-            "Sal Monella",
-            "Farrah Moan",
-            "Shanda Lear",
-            "Faye King",
-            "Ella Vator",
-            "Robin Banks",
-            "Bob Sled",
-            "Warren Peace",
-            "Doug Graves",
-            "Ray Sin",
-            "Mark Mywords"
+            "Robin Banks"
         };
     }
 }

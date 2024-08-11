@@ -11,6 +11,16 @@ namespace Baracuda.Utilities
 {
     public static class CollectionExtensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddNullChecked<T>(this HashSet<T> hashSet, T value)
+        {
+            if (value != null)
+            {
+                hashSet.Add(value);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int InstanceCount<T>(this IEnumerable<T> enumerable, T element)
         {
             var count = 0;
@@ -25,6 +35,7 @@ namespace Baracuda.Utilities
             return count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RemoveWhere<T>(this IList<T> source, Func<T, bool> predicate)
         {
             for (var index = source.Count - 1; index >= 0; index--)
@@ -36,6 +47,7 @@ namespace Baracuda.Utilities
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> TakeLast<T>(this IList<T> source, int amount)
         {
             return source.Skip(Math.Max(0, source.Count - amount));

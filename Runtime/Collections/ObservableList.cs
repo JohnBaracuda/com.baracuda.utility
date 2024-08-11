@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Baracuda.Utilities.Events;
 
 namespace Baracuda.Utilities.Collections
 {
@@ -13,26 +14,26 @@ namespace Baracuda.Utilities.Collections
         {
             add
             {
-                _changed += value;
+                _changed.Add(value);
                 value();
             }
-            remove => _changed -= value;
+            remove => _changed.Remove(value);
         }
         public event Action<T> Added
         {
-            add => _added += value;
-            remove => _added -= value;
+            add => _added.AddListener(value);
+            remove => _added.RemoveListener(value);
         }
         public event Action<T> Removed
         {
-            add => _removed += value;
-            remove => _removed -= value;
+            add => _removed.AddListener(value);
+            remove => _removed.RemoveListener(value);
         }
 
         private readonly List<T> _list = new();
-        private Action _changed;
-        private Action<T> _added;
-        private Action<T> _removed;
+        private readonly Broadcast _changed = new();
+        private readonly Broadcast<T> _added = new();
+        private readonly Broadcast<T> _removed = new();
 
         public List<T> GetInternalList()
         {
@@ -45,7 +46,7 @@ namespace Baracuda.Utilities.Collections
             set
             {
                 _list[index] = value;
-                _changed?.Invoke();
+                _changed.Raise();
             }
         }
 
@@ -65,14 +66,14 @@ namespace Baracuda.Utilities.Collections
         public void Add(T item)
         {
             _list.Add(item);
-            _added?.Invoke(item);
-            _changed?.Invoke();
+            _added.RaiseCritical(item);
+            _changed.Raise();
         }
 
         public void Clear()
         {
             _list.Clear();
-            _changed?.Invoke();
+            _changed.Raise();
         }
 
         public bool Contains(T item)
@@ -98,8 +99,8 @@ namespace Baracuda.Utilities.Collections
         public void Insert(int index, T item)
         {
             _list.Insert(index, item);
-            _added?.Invoke(item);
-            _changed?.Invoke();
+            _added.RaiseCritical(item);
+            _changed.Raise();
         }
 
         public bool Remove(T item)
@@ -107,8 +108,8 @@ namespace Baracuda.Utilities.Collections
             var removed = _list.Remove(item);
             if (removed)
             {
-                _removed?.Invoke(item);
-                _changed?.Invoke();
+                _removed.RaiseCritical(item);
+                _changed.Raise();
             }
             return removed;
         }
@@ -117,13 +118,21 @@ namespace Baracuda.Utilities.Collections
         {
             var item = _list[index];
             _list.RemoveAt(index);
-            _removed?.Invoke(item);
-            _changed?.Invoke();
+            _removed.RaiseCritical(item);
+            _changed.Raise();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Reset()
+        {
+            _changed.Clear();
+            _added.Clear();
+            _removed.Clear();
+            _list.Clear();
         }
     }
 }

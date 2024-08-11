@@ -136,16 +136,16 @@ namespace Baracuda.Utilities
         {
             if (value is not null)
             {
-                return (T) Convert.ChangeType(value, typeof(T));
+                return (T)Convert.ChangeType(value, typeof(T));
             }
 
-            return default(T);
+            return default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T CastExplicit<T>(this object value)
         {
-            return (T) value;
+            return (T)value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -153,7 +153,7 @@ namespace Baracuda.Utilities
         {
             try
             {
-                return (T) value;
+                return (T)value;
             }
             catch (Exception)
             {
@@ -374,7 +374,7 @@ namespace Baracuda.Utilities
                 }
                 catch (Exception exception)
                 {
-                    Debug.Log(exception);
+                    Debug.LogException(exception);
                 }
             }
         }
