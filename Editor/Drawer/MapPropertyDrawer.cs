@@ -1,6 +1,6 @@
-using Baracuda.Utilities.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Baracuda.Bedrock.Collections;
 using UnityEngine;
 
 namespace Baracuda.Utilities.Editor.Drawer
@@ -190,6 +190,7 @@ namespace Baracuda.Utilities.Editor.Drawer
 
                     break;
                 }
+
                 case Action.Remove:
                 {
                     DeleteArrayElementAtIndex(keyArrayProperty, buttonActionIndex);
@@ -498,8 +499,7 @@ namespace Baracuda.Utilities.Editor.Drawer
                     var name = iterator.name;
                     var value = GetPropertyValue(iterator);
                     dict.Add(name, value);
-                }
-                while (iterator.Next(false) && iterator.propertyPath != end.propertyPath);
+                } while (iterator.Next(false) && iterator.propertyPath != end.propertyPath);
             }
 
             return dict;
@@ -507,7 +507,7 @@ namespace Baracuda.Utilities.Editor.Drawer
 
         private static void SetPropertyValueArray(UnityEditor.SerializedProperty property, object v)
         {
-            var array = (object[]) v;
+            var array = (object[])v;
             property.arraySize = array.Length;
             for (var i = 0; i < property.arraySize; i++)
             {
@@ -518,7 +518,7 @@ namespace Baracuda.Utilities.Editor.Drawer
 
         private static void SetPropertyValueGeneric(UnityEditor.SerializedProperty property, object v)
         {
-            var dict = (Dictionary<string, object>) v;
+            var dict = (Dictionary<string, object>)v;
             var iterator = property.Copy();
             if (iterator.Next(true))
             {
@@ -527,8 +527,7 @@ namespace Baracuda.Utilities.Editor.Drawer
                 {
                     var name = iterator.name;
                     SetPropertyValue(iterator, dict[name]);
-                }
-                while (iterator.Next(false) && iterator.propertyPath != end.propertyPath);
+                } while (iterator.Next(false) && iterator.propertyPath != end.propertyPath);
             }
         }
 
@@ -596,10 +595,9 @@ namespace Baracuda.Utilities.Editor.Drawer
                 {
                     yield return new EnumerationEntry(keyProperty, valueProperty, index);
                     index++;
-                }
-                while (keyProperty.Next(false)
-                       && (valueProperty == null || valueProperty.Next(false))
-                       && !UnityEditor.SerializedProperty.EqualContents(keyProperty, endProperty));
+                } while (keyProperty.Next(false)
+                         && (valueProperty == null || valueProperty.Next(false))
+                         && !UnityEditor.SerializedProperty.EqualContents(keyProperty, endProperty));
             }
         }
     }

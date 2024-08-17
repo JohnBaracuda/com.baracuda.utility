@@ -1,5 +1,5 @@
-﻿using Baracuda.Utilities.Types;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Baracuda.Bedrock.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     public class DictionaryQueue<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
@@ -39,7 +39,7 @@ namespace Baracuda.Utilities.Collections
         {
             if (Queue.Count == 0)
             {
-                value = default(TValue);
+                value = default;
                 return false;
             }
 
@@ -52,7 +52,7 @@ namespace Baracuda.Utilities.Collections
         {
             if (Queue.Count == 0)
             {
-                key = default(TKey);
+                key = default;
                 return false;
             }
 
@@ -69,7 +69,7 @@ namespace Baracuda.Utilities.Collections
         {
             if (Queue.Count == 0)
             {
-                value = default(TValue);
+                value = default;
                 return false;
             }
 

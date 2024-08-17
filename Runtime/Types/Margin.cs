@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Bedrock.Types
 {
     [Serializable]
     public struct Margin

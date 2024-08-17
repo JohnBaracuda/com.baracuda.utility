@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Bedrock.Types
 {
     [StructLayout(LayoutKind.Auto)]
     public struct Loop

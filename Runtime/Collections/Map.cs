@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     /// <summary>
     ///     Serializable Dictionary
@@ -22,7 +22,7 @@ namespace Baracuda.Utilities.Collections
                 return true;
             }
 
-            result = default(KeyValuePair<TKey, TValue>);
+            result = default;
             return false;
         }
 
@@ -34,7 +34,7 @@ namespace Baracuda.Utilities.Collections
                 return true;
             }
 
-            result = default(TValue);
+            result = default;
             return false;
         }
 

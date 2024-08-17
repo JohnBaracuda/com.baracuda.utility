@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Baracuda.Utilities.Events;
+using System.Runtime.CompilerServices;
+using Baracuda.Bedrock.Types;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     /// <summary>
     ///     Wrapper for a generic HashSet that exposes events when an element is added, removed or when the set has changed.
@@ -14,89 +15,158 @@ namespace Baracuda.Utilities.Collections
         {
             add
             {
-                _changed.Add(value);
+                _changed.AddListener(value);
                 value();
             }
-            remove => _changed.Remove(value);
+            remove => _changed.RemoveListener(value);
         }
+
         public event Action<T> Added
         {
             add => _added.AddListener(value);
             remove => _added.RemoveListener(value);
         }
+
         public event Action<T> Removed
         {
             add => _removed.AddListener(value);
             remove => _removed.RemoveListener(value);
         }
 
-        private readonly HashSet<T> _set = new();
+        public event Action FirstAdded
+        {
+            add => _firstAdded.AddListener(value);
+            remove => _firstAdded.RemoveListener(value);
+        }
+
+        public event Action LastRemoved
+        {
+            add => _lastRemoved.AddListener(value);
+            remove => _lastRemoved.RemoveListener(value);
+        }
+
+        private readonly HashSet<T> _hashSet = new();
+
         private readonly Broadcast _changed = new();
         private readonly Broadcast<T> _added = new();
         private readonly Broadcast<T> _removed = new();
+        private readonly Broadcast _firstAdded = new();
+        private readonly Broadcast _lastRemoved = new();
 
-        public bool IsNotEmpty => _set.Count > 0;
-        public bool IsEmpty => _set.Count <= 0;
+        public bool IsNotEmpty => _hashSet.Count > 0;
+        public bool IsEmpty => _hashSet.Count <= 0;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public HashSet<T> GetInternalSet()
         {
-            return _set;
+            return _hashSet;
         }
 
-        public int Count => _set.Count;
+        public int Count => _hashSet.Count;
 
         public bool IsReadOnly => false;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Add(T item)
         {
-            var added = _set.Add(item);
+            var added = _hashSet.Add(item);
             if (added)
             {
                 _added.Raise(item);
+                if (Count == 1)
+                {
+                    _firstAdded.Raise();
+                }
                 _changed.Raise();
             }
             return added;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void AddOrRemove(T value, bool add)
+        {
+            if (add)
+            {
+                Add(value);
+            }
+            else
+            {
+                Remove(value);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddRange(IEnumerable<T> range)
         {
             foreach (var item in range)
             {
-                Add(item);
+                if (_hashSet.Add(item))
+                {
+                    _added.Raise(item);
+                    if (Count == 1)
+                    {
+                        _firstAdded.Raise();
+                    }
+                }
             }
+
+            _changed.Raise();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void RemoveRange(IEnumerable<T> range)
         {
             foreach (var item in range)
             {
-                Remove(item);
+                if (_hashSet.Remove(item))
+                {
+                    _removed.Raise(item);
+                    if (Count == 0)
+                    {
+                        _lastRemoved.Raise();
+                    }
+                }
             }
-        }
 
-        public void Clear()
-        {
-            _set.Clear();
             _changed.Raise();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Clear()
+        {
+            var isNotEmpty = IsNotEmpty;
+            _hashSet.Clear();
+            _changed.Raise();
+            if (isNotEmpty)
+            {
+                _lastRemoved.Raise();
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(T item)
         {
-            return _set.Contains(item);
+            return _hashSet.Contains(item);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CopyTo(T[] array, int arrayIndex)
         {
-            _set.CopyTo(array, arrayIndex);
+            _hashSet.CopyTo(array, arrayIndex);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ExceptWith(IEnumerable<T> other)
         {
             foreach (var item in other)
             {
-                if (_set.Remove(item))
+                if (_hashSet.Remove(item))
                 {
                     _removed.Raise(item);
+                    if (Count == 0)
+                    {
+                        _lastRemoved.Raise();
+                    }
                 }
             }
             _changed.Raise();
@@ -104,48 +174,48 @@ namespace Baracuda.Utilities.Collections
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _set.GetEnumerator();
+            return _hashSet.GetEnumerator();
         }
 
         public void IntersectWith(IEnumerable<T> other)
         {
-            _set.IntersectWith(other);
+            _hashSet.IntersectWith(other);
             _changed.Raise();
         }
 
         public bool IsProperSubsetOf(IEnumerable<T> other)
         {
-            return _set.IsProperSubsetOf(other);
+            return _hashSet.IsProperSubsetOf(other);
         }
 
         public bool IsProperSupersetOf(IEnumerable<T> other)
         {
-            return _set.IsProperSupersetOf(other);
+            return _hashSet.IsProperSupersetOf(other);
         }
 
         public bool IsSubsetOf(IEnumerable<T> other)
         {
-            return _set.IsSubsetOf(other);
+            return _hashSet.IsSubsetOf(other);
         }
 
         public bool IsSupersetOf(IEnumerable<T> other)
         {
-            return _set.IsSupersetOf(other);
+            return _hashSet.IsSupersetOf(other);
         }
 
         public bool Overlaps(IEnumerable<T> other)
         {
-            return _set.Overlaps(other);
+            return _hashSet.Overlaps(other);
         }
 
         public bool SetEquals(IEnumerable<T> other)
         {
-            return _set.SetEquals(other);
+            return _hashSet.SetEquals(other);
         }
 
         public void SymmetricExceptWith(IEnumerable<T> other)
         {
-            _set.SymmetricExceptWith(other);
+            _hashSet.SymmetricExceptWith(other);
             _changed.Raise();
         }
 
@@ -153,9 +223,13 @@ namespace Baracuda.Utilities.Collections
         {
             foreach (var item in other)
             {
-                if (_set.Add(item))
+                if (_hashSet.Add(item))
                 {
                     _added.Raise(item);
+                    if (Count == 1)
+                    {
+                        _firstAdded.Raise();
+                    }
                 }
             }
             _changed.Raise();
@@ -168,7 +242,7 @@ namespace Baracuda.Utilities.Collections
 
         public bool Remove(T item)
         {
-            var removed = _set.Remove(item);
+            var removed = _hashSet.Remove(item);
             if (removed)
             {
                 _removed.Raise(item);
@@ -187,7 +261,12 @@ namespace Baracuda.Utilities.Collections
             _changed.Clear();
             _added.Clear();
             _removed.Clear();
-            _set.Clear();
+            var isNotEmpty = IsNotEmpty;
+            _hashSet.Clear();
+            if (isNotEmpty)
+            {
+                _lastRemoved.Raise();
+            }
         }
     }
 }

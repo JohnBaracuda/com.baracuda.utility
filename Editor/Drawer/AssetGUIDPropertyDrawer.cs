@@ -1,10 +1,10 @@
-﻿using Baracuda.Utilities.Types;
+﻿using Baracuda.Bedrock.Attributes;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Helper.GUIUtility;
+using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
 
 namespace Baracuda.Utilities.Editor.Drawer
 {
-    [UnityEditor.CustomPropertyDrawer(typeof(AssetGUID))]
+    [UnityEditor.CustomPropertyDrawer(typeof(AssetGUIDAttribute))]
     public class AssetGUIDPropertyDrawer : UnityEditor.PropertyDrawer
     {
         private const int ToggleButtonWidth = 40;

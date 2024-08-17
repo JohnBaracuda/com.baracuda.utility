@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Baracuda.Utilities.Events;
+using Baracuda.Bedrock.Types;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     /// <summary>
     ///     Wrapper for a generic List that exposes events when an element is added, removed or when the list has changed.
@@ -14,10 +14,10 @@ namespace Baracuda.Utilities.Collections
         {
             add
             {
-                _changed.Add(value);
+                _changed.AddListener(value);
                 value();
             }
-            remove => _changed.Remove(value);
+            remove => _changed.RemoveListener(value);
         }
         public event Action<T> Added
         {

@@ -1,6 +1,8 @@
 ﻿using System;
+using Baracuda.Bedrock.Collections;
+using Baracuda.Bedrock.Utilities;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Bedrock.Types
 {
     public struct EnumLoop<TEnum> where TEnum : unmanaged, Enum
     {
@@ -24,7 +26,7 @@ namespace Baracuda.Utilities.Types
 
         public EnumLoop(TEnum startValue, params TEnum[] without)
         {
-            _values = EnumUtility<TEnum>.GetValueArray();
+            _values = EnumUtility.GetValueArray<TEnum>();
             ArrayUtility.Remove(ref _values, without);
             var startIndex = _values.IndexOf(startValue);
             _index = Loop.Create(startIndex, _values);

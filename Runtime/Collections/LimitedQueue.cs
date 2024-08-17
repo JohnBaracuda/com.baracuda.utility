@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     /// <summary>
     ///     Class acts as a limited and fast generic first in last out collection.

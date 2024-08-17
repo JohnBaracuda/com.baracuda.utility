@@ -1,10 +1,10 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     public sealed class StackList<T> : IEnumerable<T>
     {
@@ -63,7 +63,7 @@ namespace Baracuda.Utilities.Collections
         {
             if (List.Count <= 0)
             {
-                return default(T);
+                return default;
             }
 
             var index = List.Count - 1;
@@ -79,7 +79,7 @@ namespace Baracuda.Utilities.Collections
         {
             if (List.Count <= 0)
             {
-                return default(T);
+                return default;
             }
 
             var index = List.Count - 1;
@@ -93,7 +93,7 @@ namespace Baracuda.Utilities.Collections
         {
             if (List.Count <= 0)
             {
-                return default(T);
+                return default;
             }
 
             return List[0];
@@ -140,7 +140,7 @@ namespace Baracuda.Utilities.Collections
                 item = Peek();
                 return true;
             }
-            item = default(T);
+            item = default;
             return false;
         }
 
@@ -152,7 +152,7 @@ namespace Baracuda.Utilities.Collections
                 item = Pop();
                 return true;
             }
-            item = default(T);
+            item = default;
             return false;
         }
 

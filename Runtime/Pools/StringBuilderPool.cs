@@ -1,7 +1,7 @@
 using System.Text;
 using UnityEngine.Pool;
 
-namespace Baracuda.Utilities.Pools
+namespace Baracuda.Bedrock.Pools
 {
     public static class StringBuilderPool
     {

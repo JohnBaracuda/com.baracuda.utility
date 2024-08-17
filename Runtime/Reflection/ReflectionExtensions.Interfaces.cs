@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Baracuda.Bedrock.Utilities;
 using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Reflection
+namespace Baracuda.Bedrock.Reflection
 {
     public static partial class ReflectionExtensions
     {

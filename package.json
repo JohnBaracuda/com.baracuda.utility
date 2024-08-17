@@ -1,12 +1,12 @@
 {
-  "name": "com.baracuda.utilities",
-  "version": "1.0.0",
-  "displayName": "Utilities",
-  "description": "Collection of non project specific utility. This includes generally applicable types, classes, extension methods, editors and more. ",
-  "unity": "2021.3",
-  "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities",
-  "changelogUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/JohnBaracuda/com.baracuda.utilities/blob/main/LICENSE.md",
+  "name": "com.baracuda.bedrock",
+  "version": "2.0.0",
+  "displayName": "Bedrock",
+  "description": "Collection of non project specific utility. This includes generally applicable types, classes, extension methods, editors and more.",
+  "unity": "2022.3",
+  "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.bedrock",
+  "changelogUrl": "https://github.com/JohnBaracuda/com.baracuda.bedrock/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/JohnBaracuda/com.baracuda.bedrock/blob/main/LICENSE.md",
   "keywords": [
     "utility",
     "extensions"

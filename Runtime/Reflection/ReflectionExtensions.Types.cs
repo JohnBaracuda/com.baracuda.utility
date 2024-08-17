@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Reflection
+namespace Baracuda.Bedrock.Reflection
 {
     public static partial class ReflectionExtensions
     {

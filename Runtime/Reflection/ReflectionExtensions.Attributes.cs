@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Baracuda.Utilities.Reflection
+namespace Baracuda.Bedrock.Reflection
 {
     public static partial class ReflectionExtensions
     {

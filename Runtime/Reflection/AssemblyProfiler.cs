@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Baracuda.Utilities.Reflection
+namespace Baracuda.Bedrock.Reflection
 {
     public static class AssemblyProfiler
     {
@@ -76,24 +76,17 @@ namespace Baracuda.Utilities.Reflection
         private static bool IsAssemblyValid(this Assembly assembly, IReadOnlyList<string> excludeNames,
             IReadOnlyList<string> excludePrefixes)
         {
-            if (assembly.HasAttribute<DisableAssemblyReflectionAttribute>())
-            {
-                return false;
-            }
-
             var assemblyFullName = assembly.FullName;
-            for (var i = 0; i < bannedAssemblyPrefixes.Length; i++)
+            foreach (var prefix in bannedAssemblyPrefixes)
             {
-                var prefix = bannedAssemblyPrefixes[i];
                 if (!string.IsNullOrWhiteSpace(prefix) && assemblyFullName.StartsWith(prefix))
                 {
                     return false;
                 }
             }
 
-            for (var i = 0; i < excludePrefixes.Count; i++)
+            foreach (var prefix in excludePrefixes)
             {
-                var prefix = excludePrefixes[i];
                 if (!string.IsNullOrWhiteSpace(prefix) && assemblyFullName.StartsWith(prefix))
                 {
                     return false;
@@ -101,18 +94,16 @@ namespace Baracuda.Utilities.Reflection
             }
 
             var assemblyShortName = assembly.GetName().Name;
-            for (var i = 0; i < bannedAssemblyNames.Length; i++)
+            foreach (var name in bannedAssemblyNames)
             {
-                var name = bannedAssemblyNames[i];
                 if (assemblyShortName == name)
                 {
                     return false;
                 }
             }
 
-            for (var i = 0; i < excludeNames.Count; i++)
+            foreach (var name in excludeNames)
             {
-                var name = excludeNames[i];
                 if (assemblyShortName == name)
                 {
                     return false;

@@ -1,0 +1,20 @@
+{
+  "name": "Baracuda.Mediation.FMOD",
+  "rootNamespace": "Baracuda.Bedrock",
+  "references": [
+    "GUID:0c752da273b17c547ae705acf0f2adf2",
+    "GUID:ebf14bd9950c0cb429d7280a2c7ab8fe",
+    "GUID:8210c1b9ce26abb449d76e69f5ce90d2"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "FMOD_UNITY"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

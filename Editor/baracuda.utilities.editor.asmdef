@@ -3,7 +3,8 @@
     "rootNamespace": "Baracuda.Utilities",
     "references": [
         "GUID:ebf14bd9950c0cb429d7280a2c7ab8fe",
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:7d2ecdd5e38a1c54aa7b9457466b5f91"
     ],
     "includePlatforms": [
         "Editor"

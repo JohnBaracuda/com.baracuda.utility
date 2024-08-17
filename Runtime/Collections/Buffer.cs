@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Pool;
 
-namespace Baracuda.Utilities.Collections
+namespace Baracuda.Bedrock.Collections
 {
     public readonly struct Buffer<T> : IList<T>, IReadOnlyList<T>, IDisposable
     {

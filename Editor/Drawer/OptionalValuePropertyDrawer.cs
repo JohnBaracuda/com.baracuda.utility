@@ -1,7 +1,8 @@
-﻿using Baracuda.Utilities.Editor.Helper;
-using Baracuda.Utilities.Types;
+﻿using Baracuda.Bedrock.Types;
+using Baracuda.Bedrock.Utilities;
+using Baracuda.Utilities.Editor.Utilities;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Helper.GUIUtility;
+using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
 
 namespace Baracuda.Utilities.Editor.Drawer
 {

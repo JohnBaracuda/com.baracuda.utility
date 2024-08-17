@@ -1,4 +1,3 @@
-using Baracuda.Utilities.Pools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +6,14 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using Baracuda.Bedrock.Pools;
+using Baracuda.Bedrock.Utilities;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Reflection
+namespace Baracuda.Bedrock.Reflection
 {
     public static partial class ReflectionExtensions
     {
@@ -192,7 +193,7 @@ namespace Baracuda.Utilities.Reflection
                     nameof(fieldName));
             }
 
-            return (TValue) field.GetValue(target);
+            return (TValue)field.GetValue(target);
         }
 
         public static void SetPropertyValue<T, TValue>(this T target, string propertyName, TValue value)
@@ -240,7 +241,7 @@ namespace Baracuda.Utilities.Reflection
                     nameof(propertyName));
             }
 
-            return (TValue) property.GetValue(target);
+            return (TValue)property.GetValue(target);
         }
 
         #endregion
@@ -267,7 +268,7 @@ namespace Baracuda.Utilities.Reflection
         {
             if (field.IsLiteral)
             {
-                return target => (TResult) field.GetValue(target);
+                return target => (TResult)field.GetValue(target);
                 ;
             }
 
@@ -288,7 +289,7 @@ namespace Baracuda.Utilities.Reflection
             }
 
             gen.Emit(OpCodes.Ret);
-            return (Func<TTarget, TResult>) setterMethod.CreateDelegate(typeof(Func<TTarget, TResult>));
+            return (Func<TTarget, TResult>)setterMethod.CreateDelegate(typeof(Func<TTarget, TResult>));
         }
 
         public static Action<TTarget, TValue> CreateSetter<TTarget, TValue>(this FieldInfo field)
@@ -312,7 +313,7 @@ namespace Baracuda.Utilities.Reflection
             }
 
             gen.Emit(OpCodes.Ret);
-            return (Action<TTarget, TValue>) setterMethod.CreateDelegate(typeof(Action<TTarget, TValue>));
+            return (Action<TTarget, TValue>)setterMethod.CreateDelegate(typeof(Action<TTarget, TValue>));
         }
 #else
         public static Func<TTarget, TResult> CreateGetter<TTarget, TResult>(this FieldInfo field)
@@ -328,7 +329,7 @@ namespace Baracuda.Utilities.Reflection
 
         public static Func<TResult> CreateStaticGetter<TResult>(this FieldInfo field)
         {
-            return () => (TResult) field.GetValue(null);
+            return () => (TResult)field.GetValue(null);
         }
 
         #endregion
@@ -544,11 +545,14 @@ namespace Baracuda.Utilities.Reflection
             switch (member.MemberType)
             {
                 case MemberTypes.Field:
-                    return ((FieldInfo) member).FieldType;
+                    return ((FieldInfo)member).FieldType;
+
                 case MemberTypes.Property:
-                    return ((PropertyInfo) member).PropertyType;
+                    return ((PropertyInfo)member).PropertyType;
+
                 case MemberTypes.Event:
-                    return ((EventInfo) member).EventHandlerType;
+                    return ((EventInfo)member).EventHandlerType;
+
                 default:
                     throw new ArgumentException("MemberInfo must be if type FieldInfo, PropertyInfo or EventInfo",
                         nameof(member));
@@ -900,34 +904,49 @@ namespace Baracuda.Utilities.Reflection
             {
                 case "String":
                     return "string";
+
                 case "Int32":
                     return "int";
+
                 case "Single":
                     return "float";
+
                 case "Boolean":
                     return "bool";
+
                 case "Byte":
                     return "byte";
+
                 case "SByte":
                     return "sbyte";
+
                 case "Char":
                     return "char";
+
                 case "Decimal":
                     return "decimal";
+
                 case "Double":
                     return "double";
+
                 case "UInt32":
                     return "uint";
+
                 case "Int64":
                     return "long";
+
                 case "UInt64":
                     return "ulong";
+
                 case "Int16":
                     return "short";
+
                 case "UInt16":
                     return "ushort";
+
                 case "Object":
                     return "object";
+
                 default:
                     return typeName;
             }
@@ -940,36 +959,52 @@ namespace Baracuda.Utilities.Reflection
             {
                 case "string":
                     return "System.String";
+
                 case "sbyte":
                     return "System.SByte";
+
                 case "byte":
                     return "System.Byte";
+
                 case "short":
                     return "System.Int16";
+
                 case "ushort":
                     return "System.UInt16";
+
                 case "int":
                     return "System.Int32";
+
                 case "uint":
                     return "System.UInt32";
+
                 case "long":
                     return "System.Int64";
+
                 case "ulong":
                     return "System.UInt64";
+
                 case "char":
                     return "System.Char";
+
                 case "float":
                     return "System.Single";
+
                 case "double":
                     return "System.Double";
+
                 case "bool":
                     return "System.Boolean";
+
                 case "decimal":
                     return "System.Decimal";
+
                 case "void":
                     return "System.Void";
+
                 case "object":
                     return "System.Object";
+
                 default:
                     return typeKeyword;
             }
@@ -1073,9 +1108,11 @@ namespace Baracuda.Utilities.Reflection
                     case FieldInfo fi:
                         fi.SetValue(target, value);
                         break;
+
                     case PropertyInfo pi:
                         pi.SetValue(target, value);
                         break;
+
                     case MethodInfo mi:
                         mi.Invoke(target, new object[]
                         {
@@ -1168,7 +1205,9 @@ namespace Baracuda.Utilities.Reflection
                 switch (memberInfo)
                 {
                     case FieldInfo fi: return fi.GetValue(target);
+
                     case PropertyInfo pi: return pi.GetValue(target);
+
                     case MethodInfo mi: return mi.Invoke(target, Array.Empty<object>());
                 }
             }

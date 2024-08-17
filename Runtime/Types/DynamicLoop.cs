@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Baracuda.Bedrock.Utilities;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Bedrock.Types
 {
     public struct DynamicLoop
     {

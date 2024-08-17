@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using static Unity.Mathematics.math;
 
-namespace Baracuda.Utilities.Types
+namespace Baracuda.Bedrock.Types
 {
     public struct NativeCurve : IDisposable
     {
@@ -54,7 +54,7 @@ namespace Baracuda.Utilities.Types
 
             for (var i = 0; i < resolution; i++)
             {
-                _values[i] = curve.Evaluate(i / (float) resolution);
+                _values[i] = curve.Evaluate(i / (float)resolution);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Baracuda.Utilities.Types
             t = HandleWrapModes(t);
 
             var it = t * (count - 1);
-            var lower = (int) it;
+            var lower = (int)it;
             var upper = Mathf.Min(lower + 1, count - 1); // Ensure upper is within bounds
 
             return lerp(_values[lower], _values[upper], it - lower);
@@ -98,8 +98,10 @@ namespace Baracuda.Utilities.Types
             {
                 default:
                     return 0f;
+
                 case WrapMode.Loop:
                     return 1f - abs(t) % 1f;
+
                 case WrapMode.PingPong:
                     return Pingpong(t, 1f);
             }
@@ -111,8 +113,10 @@ namespace Baracuda.Utilities.Types
             {
                 default:
                     return 1f;
+
                 case WrapMode.Loop:
                     return t % 1f;
+
                 case WrapMode.PingPong:
                     return Pingpong(t, 1f);
             }
