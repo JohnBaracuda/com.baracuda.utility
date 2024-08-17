@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Baracuda.Bedrock.Utilities
 {
-    public static class UnityUtility
+    public static class GameObjectUtility
     {
         /// <summary>
         ///     Creates a divider GameObject and sets its sibling index to 0
