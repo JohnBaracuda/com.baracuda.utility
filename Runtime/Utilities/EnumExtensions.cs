@@ -1,11 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine;
 
 namespace Baracuda.Bedrock.Utilities
 {
     public static class EnumExtensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrRemoveFlagRef<TEnum>(this ref TEnum enumValue, TEnum flag, bool add) where TEnum : unmanaged, Enum
+        {
+            if (add)
+            {
+                ref var intValue = ref UnsafeUtility.As<TEnum, int>(ref enumValue);
+                ref var intFlag = ref UnsafeUtility.As<TEnum, int>(ref flag);
+                intValue |= ~intFlag;
+            }
+            else
+            {
+                ref var intValue = ref UnsafeUtility.As<TEnum, int>(ref enumValue);
+                ref var intFlag = ref UnsafeUtility.As<TEnum, int>(ref flag);
+                intValue &= ~intFlag;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static TEnum AddOrRemoveFlag<TEnum>(this TEnum enumValue, TEnum flag, bool addFlag) where TEnum : unmanaged, Enum
+        {
+            if (addFlag)
+            {
+                ref var intValue = ref UnsafeUtility.As<TEnum, int>(ref enumValue);
+                ref var intFlag = ref UnsafeUtility.As<TEnum, int>(ref flag);
+                intValue |= intFlag;
+                return UnsafeUtility.As<int, TEnum>(ref intValue);
+            }
+            else
+            {
+                ref var intValue = ref UnsafeUtility.As<TEnum, int>(ref enumValue);
+                ref var intFlag = ref UnsafeUtility.As<TEnum, int>(ref flag);
+                intValue &= intFlag;
+                return UnsafeUtility.As<int, TEnum>(ref intValue);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrRemoveFlag(this Component component, HideFlags flag, bool addFlag)
+        {
+            if (addFlag)
+            {
+                component.hideFlags |= flag;
+            }
+            else
+            {
+                component.hideFlags &= ~flag;
+            }
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlagFast<TEnum>(this TEnum lhs, TEnum rhs) where TEnum : unmanaged, Enum
         {

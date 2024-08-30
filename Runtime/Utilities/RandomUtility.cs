@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Types;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using Index = Baracuda.Bedrock.Types.Index;
 using Random = UnityEngine.Random;
 
 namespace Baracuda.Bedrock.Utilities
@@ -101,6 +101,13 @@ namespace Baracuda.Bedrock.Utilities
         public static Vector3 Vector2()
         {
             return new Vector2(Float(-1, 1), Float(-1, 1));
+        }
+
+        [MustUseReturnValue]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 Vector2(float min, float max)
+        {
+            return new Vector2(Float(min, max), Float(min, max));
         }
 
         [MustUseReturnValue]
@@ -342,12 +349,12 @@ namespace Baracuda.Bedrock.Utilities
             new(0.8f, 0.5f, 0.4f) // Soft orange
         };
 
-        private static Loop? colorIndex;
+        private static Index? colorIndex;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color LoggingColor()
         {
-            colorIndex ??= Loop.Create(loggingColors);
+            colorIndex ??= Types.Index.Create(loggingColors);
             var loop = colorIndex.Value;
             var color = loggingColors[loop];
             colorIndex = ++loop;

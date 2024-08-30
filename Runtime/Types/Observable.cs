@@ -10,14 +10,15 @@ namespace Baracuda.Bedrock.Types
         private TValue _value;
         private readonly Broadcast<TValue> _changed = new();
 
-        public event Action<TValue> Changed
+        public void AddObserver(Action<TValue> observer)
         {
-            add
-            {
-                _changed.AddListener(value);
-                value(_value);
-            }
-            remove => _changed.RemoveListener(value);
+            _changed.AddListener(observer);
+            observer(_value);
+        }
+
+        public void RemoveObserver(Action<TValue> observer)
+        {
+            _changed.RemoveListener(observer);
         }
 
         [PublicAPI]
@@ -86,6 +87,11 @@ namespace Baracuda.Bedrock.Types
                 await UniTask.Yield();
             }
             return _value;
+        }
+
+        public override string ToString()
+        {
+            return _value != null ? _value.ToString() : "null";
         }
     }
 }

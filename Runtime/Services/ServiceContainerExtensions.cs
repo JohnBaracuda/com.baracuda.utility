@@ -10,7 +10,7 @@ namespace Baracuda.Bedrock.Services
     public static class ServiceContainerExtensions
     {
         [PublicAPI]
-        public static T AddSingleton<TInterface, T>(this ServiceContainer container) where T : TInterface, new()
+        public static T Add<TInterface, T>(this IServiceContainer container) where T : TInterface, new()
         {
             var instance = new T();
             container.Add<TInterface>(instance);
@@ -18,14 +18,14 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static T AddSingleton<TInterface, T>(this ServiceContainer container, T instance) where T : TInterface
+        public static T Add<TInterface, T>(this IServiceContainer container, T instance) where T : TInterface
         {
             container.Add<TInterface>(instance);
             return instance;
         }
 
         [PublicAPI]
-        public static T AddSingleton<T>(this ServiceContainer container) where T : class, new()
+        public static T Add<T>(this IServiceContainer container) where T : class, new()
         {
             var instance = new T();
             container.Add(instance);
@@ -33,14 +33,14 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static T AddSingleton<T>(this ServiceContainer container, T instance) where T : class
+        public static T Add<T>(this IServiceContainer container, T instance) where T : class
         {
             container.Add(instance);
             return instance;
         }
 
         [PublicAPI]
-        public static T AddSingletonBehaviour<T>(this ServiceContainer container) where T : MonoBehaviour
+        public static T AddMonoBehaviour<T>(this IServiceContainer container) where T : MonoBehaviour
         {
             var instance = new GameObject($"[{typeof(T).Name}]");
             instance.DontDestroyOnLoad();
@@ -50,7 +50,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static T AddSingletonBehaviour<TInterface, T>(this ServiceContainer container) where T : MonoBehaviour, TInterface
+        public static T AddMonoBehaviour<TInterface, T>(this IServiceContainer container) where T : MonoBehaviour, TInterface
         {
             var instance = new GameObject($"[{typeof(TInterface).Name}] [{typeof(T).Name}]");
             instance.DontDestroyOnLoad();
@@ -60,7 +60,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static T AddSingletonPrefab<T>(this ServiceContainer container, T prefab) where T : MonoBehaviour
+        public static T AddPrefab<T>(this IServiceContainer container, T prefab) where T : MonoBehaviour
         {
             var instance = Object.Instantiate(prefab);
             instance.name = $"[{typeof(T).Name}]";
@@ -70,7 +70,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static T AddSingletonPrefab<T>(this ServiceContainer container, T prefab, Action<T> callback) where T : MonoBehaviour
+        public static T AddPrefab<T>(this IServiceContainer container, T prefab, Action<T> callback) where T : MonoBehaviour
         {
             var instance = Object.Instantiate(prefab);
             instance.name = $"[{typeof(T).Name}]";
@@ -81,7 +81,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static T AddSingletonPrefab<T>(this ServiceContainer container, GameObject prefab) where T : MonoBehaviour
+        public static T AddPrefab<T>(this IServiceContainer container, GameObject prefab) where T : MonoBehaviour
         {
             var gameObject = Object.Instantiate(prefab);
             var instance = gameObject.GetComponent<T>();
@@ -91,7 +91,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static void AddSingletonPrefabLazy<T>(this ServiceContainer container, T prefab) where T : MonoBehaviour
+        public static void AddPrefabLazy<T>(this IServiceContainer container, T prefab) where T : MonoBehaviour
         {
             container.AddLazy(() =>
             {
@@ -103,7 +103,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static void SortMonoBehaviourHierarchy(this ServiceContainer container)
+        public static void SortMonoBehaviourHierarchy(this IServiceContainer container)
         {
             foreach (var globalService in container.GetAllServices().Reverse())
             {

@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Odin;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Bedrock.Collections.Assets
 {
     /// <summary>
     ///     Collection Asset representing a dictionary that can be modified during runtime.
@@ -12,8 +11,7 @@ namespace Baracuda.Bedrock.Collections
     public abstract class DictionaryAsset<TKey, TValue> : RuntimeCollectionAsset<KeyValuePair<TKey, TValue>>,
         IDictionary<TKey, TValue>
     {
-        [ReadOnly]
-        [ShowInInspector]
+        [ShowNonSerializedField]
         [Foldout("Elements")]
         private readonly Dictionary<TKey, TValue> _dictionary = new(16);
 

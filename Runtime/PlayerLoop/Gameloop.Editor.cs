@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using Baracuda.Bedrock.Types;
 using Object = UnityEngine.Object;
 
 namespace Baracuda.Bedrock.PlayerLoop
@@ -10,15 +10,12 @@ namespace Baracuda.Bedrock.PlayerLoop
     {
         public delegate void WillDeleteAssetCallback(string assetPath, Object asset);
 
-        public static event WillDeleteAssetCallback BeforeDeleteAsset;
-
-        private static readonly List<Action> editorUpdateCallbacks = new(Capacity32);
-        private static readonly List<Action> exitPlayModeDelegate = new(Capacity32);
-        private static readonly List<Action> enterPlayModeDelegate = new(Capacity32);
-        private static readonly List<Action> exitEditModeDelegate = new(Capacity32);
-        private static readonly List<Action> enterEditModeDelegate = new(Capacity32);
-        private static readonly List<Action<BuildReportData>> buildPreprocessorCallbacks = new(Capacity4);
-        private static readonly List<Action<BuildReportData>> buildPostprocessorCallbacks = new(Capacity4);
+        private static readonly Broadcast editorUpdateCallbacks = new(Capacity32);
+        private static readonly Broadcast exitPlayModeDelegate = new(Capacity32);
+        private static readonly Broadcast enterPlayModeDelegate = new(Capacity32);
+        private static readonly Broadcast exitEditModeDelegate = new(Capacity32);
+        private static readonly Broadcast enterEditModeDelegate = new(Capacity32);
+        private static readonly Broadcast<WillDeleteAssetCallback> beforeDeleteAsset = new(Capacity4);
 
 
         #region Asset Handling
@@ -36,8 +33,6 @@ namespace Baracuda.Bedrock.PlayerLoop
             {
                 Debug.LogException(exception);
             }
-
-            UnregisterInternal(asset);
 
             return UnityEditor.AssetDeleteResult.DidNotDelete;
         }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Baracuda.Bedrock.Odin;
 using Baracuda.Bedrock.PlayerLoop;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Bedrock.Collections.Assets
 {
     public abstract class RuntimeCollectionAsset<T> : ScriptableObject
     {
@@ -22,7 +21,6 @@ namespace Baracuda.Bedrock.Collections
         private protected abstract int CountInternal { get; }
         private protected abstract IEnumerable<T> CollectionInternal { get; }
 
-        [CallbackOnEnterEditMode]
         private void OnEnterEditMode()
         {
             if (logLeaks && CountInternal > 0)
@@ -39,8 +37,14 @@ namespace Baracuda.Bedrock.Collections
             }
         }
 
+        private void OnEnable()
+        {
+#if UNITY_EDITOR
+            Gameloop.EnterEditMode += OnEnterEditMode;
+#endif
+        }
+
         [Button("Clear")]
-        [Foldout("Options")]
         private protected abstract void ClearInternal();
     }
 }

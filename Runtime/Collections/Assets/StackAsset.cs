@@ -2,16 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Odin;
 using JetBrains.Annotations;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Bedrock.Collections.Assets
 {
     public abstract class StackAsset<T> : RuntimeCollectionAsset<T>, IEnumerable<T>
     {
         [ReadOnly]
-        [ShowInInspector]
+        [ShowNonSerializedField]
         [Foldout("Elements")]
         private readonly List<T> _stack = new(8);
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Baracuda.Bedrock.PlayerLoop;
 using Baracuda.Bedrock.Utilities;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,8 +14,8 @@ namespace Baracuda.Bedrock.Services
         #region Static Fields
 
         private static ServiceLocator runtimeServiceLocator;
-        private static readonly ServiceContainer domainServices = new();
-        private static readonly ServiceContainer editorServices = new();
+        private static readonly IServiceContainer domainServices = new ServiceContainer();
+        private static readonly IServiceContainer editorServices = new ServiceContainer();
         private static Dictionary<Scene, ServiceLocator> SceneLocators { get; } = new();
         private static Dictionary<string, ServiceLocator> ScopedLocators { get; } = new();
 
@@ -25,7 +27,7 @@ namespace Baracuda.Bedrock.Services
 
         #region Fields
 
-        private readonly ServiceContainer _container = new();
+        private readonly IServiceContainer _container = new ServiceContainer();
 
         #endregion
 
@@ -33,7 +35,7 @@ namespace Baracuda.Bedrock.Services
         #region Internal
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer GetRuntimeContainerInternal()
+        private static IServiceContainer GetRuntimeContainerInternal()
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -52,24 +54,24 @@ namespace Baracuda.Bedrock.Services
             containerGameObject.DontDestroyOnLoad();
             var container = serviceLocator.Container();
             runtimeServiceLocator = serviceLocator;
-            container.WithFallbackContainer(domainServices);
+            container.SetFallbackContainer(domainServices);
             return container;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer GetDomainContainerInternal()
+        private static IServiceContainer GetDomainContainerInternal()
         {
             return domainServices;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer GetEditorContainerInternal()
+        private static IServiceContainer GetEditorContainerInternal()
         {
             return editorServices;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer ForActiveSceneInternal(bool create)
+        private static IServiceContainer ForActiveSceneInternal(bool create)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -84,7 +86,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer ForSceneOfInternal(MonoBehaviour monoBehaviour, bool create)
+        private static IServiceContainer ForSceneOfInternal(MonoBehaviour monoBehaviour, bool create)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -102,7 +104,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer ForSceneInternal(Scene scene, bool create)
+        private static IServiceContainer ForSceneInternal(Scene scene, bool create)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -118,7 +120,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static ServiceContainer ForScopeInternal(string scope)
+        private static IServiceContainer ForScopeInternal(string scope)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -137,6 +139,19 @@ namespace Baracuda.Bedrock.Services
             ScopedLocators.Add(scope, serviceLocator);
 
             return serviceLocator._container;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static async UniTask<T> GetAsyncInternal<T>() where T : class
+        {
+            while (true)
+            {
+                if (TryGet<T>(out var result))
+                {
+                    return result;
+                }
+                await UniTask.NextFrame(Gameloop.RuntimeToken);
+            }
         }
 
         #endregion

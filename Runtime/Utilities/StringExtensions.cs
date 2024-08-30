@@ -4,8 +4,6 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Baracuda.Bedrock.Pools;
-using Unity.Burst;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -352,7 +350,7 @@ namespace Baracuda.Bedrock.Utilities
         /// <param name="value">The input string to hash.</param>
         /// <returns>An integer representing the FNV-1a hash of the input string.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ComputeFNV1aHash(this string value)
+        public static int ComputeFnv1AHash(this string value)
         {
             var hash = 2166136261;
             foreach (var character in value)
@@ -577,25 +575,6 @@ namespace Baracuda.Bedrock.Utilities
                 LogType.Warning => Color.yellow,
                 _ => throw new ArgumentOutOfRangeException(nameof(logType), logType, null)
             };
-        }
-
-        #endregion
-
-
-        #region Fixed String
-
-        [BurstDiscard]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static FixedString64Bytes ToTruncatedString64Bytes(this string value)
-        {
-            return new FixedString64Bytes(value.Length < 61 ? value : value[..61]);
-        }
-
-        [BurstDiscard]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static FixedString128Bytes ToTruncatedString128Bytes(this string value)
-        {
-            return new FixedString128Bytes(value.Length < 125 ? value : value[..125]);
         }
 
         #endregion

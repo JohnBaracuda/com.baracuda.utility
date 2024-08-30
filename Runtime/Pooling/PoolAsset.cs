@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Odin;
 using Baracuda.Bedrock.PlayerLoop;
-using Baracuda.Bedrock.Types;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using Index = Baracuda.Bedrock.Types.Index;
 using Object = UnityEngine.Object;
-
-// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace Baracuda.Bedrock.Pooling
 {
@@ -22,20 +19,20 @@ namespace Baracuda.Bedrock.Pooling
     {
         #region Settings
 
-        [SerializeField] private bool useAddressables;
-        [HideIf(nameof(useAddressables))]
+        [Header("Assets")]
         [SerializeField] private T[] prefabs;
-        [Header("Pool Limit")]
+
+        [Header("Settings")]
         [SerializeField] private bool limitPoolSize;
         [ShowIf(nameof(limitPoolSize))]
         [SerializeField] private int poolLimit = 100;
-        [Header("Borrow Limit")]
+
         [SerializeField] private bool limitBorrowedElements;
         [ShowIf(nameof(limitBorrowedElements))]
         [SerializeField] private int borrowLimit = 100;
         [ShowIf(nameof(limitBorrowedElements))]
         [SerializeField] private bool recallBorrowedElements;
-        [Header("Initialization")]
+
         [SerializeField] private bool initializeOnLoad = true;
         [SerializeField] private int initialElementsInPool = 10;
 
@@ -44,15 +41,13 @@ namespace Baracuda.Bedrock.Pooling
 
         #region Fields
 
-        [Line(SpaceBefore = 8, SpaceAfter = 8)]
-        [ReadonlyInspector]
         private readonly Queue<T> _pool = new();
-        [ReadonlyInspector]
+        [ReadOnly]
         private readonly List<T> _borrowedElements = new();
-        private Loop _createIndex;
-        [ReadonlyInspector]
+        private Index _createIndex;
+        [ReadOnly]
         private bool _isInitialized;
-        [ReadonlyInspector]
+        [ReadOnly]
         private Transform _poolTransform;
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -122,9 +117,13 @@ namespace Baracuda.Bedrock.Pooling
 
         #region Internal
 
-        [CallbackOnInitialization]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnLoad()
+        private void OnEnable()
+        {
+            Gameloop.InitializationCompleted += OnInitializationCompleted;
+            Gameloop.ApplicationQuit += OnShutdown;
+        }
+
+        private void OnInitializationCompleted()
         {
             if (initializeOnLoad)
             {
@@ -132,8 +131,6 @@ namespace Baracuda.Bedrock.Pooling
             }
         }
 
-        [CallbackOnApplicationQuit]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnShutdown()
         {
             _isInitialized = false;
@@ -147,19 +144,19 @@ namespace Baracuda.Bedrock.Pooling
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void InitializeInternal()
         {
-            Assert.IsFalse(useAddressables, "Synchronous initialization is not supported for addressable pools! Please use async initialization API!");
             if (_isInitialized)
             {
                 return;
             }
             _poolTransform = PoolTransform.Create(this);
-            _createIndex = Loop.Create(prefabs);
+            _createIndex = Index.Create(prefabs);
             _cancellationTokenSource = new CancellationTokenSource();
             _isInitialized = true;
 
             for (var i = 0; i < initialElementsInPool; i++)
             {
                 var element = CreateElement();
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 if (element is IPoolObject objectCallbacks)
                 {
                     objectCallbacks.OnReleaseToPool();

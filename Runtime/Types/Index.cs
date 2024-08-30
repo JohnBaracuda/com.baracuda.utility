@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Baracuda.Bedrock.Types
 {
     [StructLayout(LayoutKind.Auto)]
-    public struct Loop
+    public struct Index
     {
         #region Properties
 
@@ -12,8 +12,8 @@ namespace Baracuda.Bedrock.Types
         public int Value { get; set; }
         public int Max { get; }
         public int Min { get; }
-        public bool IsMin => Value == Min;
-        public bool IsMax => Value == Max;
+        public readonly bool IsMin => Value == Min;
+        public readonly bool IsMax => Value == Max;
 
         #endregion
 
@@ -27,32 +27,32 @@ namespace Baracuda.Bedrock.Types
 
         #region Factory
 
-        public static Loop Create(int min, int max)
+        public static Index Create(int min, int max)
         {
-            return new Loop(0, min, max);
+            return new Index(0, min, max);
         }
 
-        public static Loop Create(int max)
+        public static Index Create(int max)
         {
-            return new Loop(0, 0, max);
+            return new Index(0, 0, max);
         }
 
-        public static Loop Create<T>(IList<T> list)
+        public static Index Create<T>(IList<T> list)
         {
-            return new Loop(0, 0, list.Count - 1);
+            return new Index(0, 0, list.Count - 1);
         }
 
-        public static Loop Create(int startIndex, int min, int max)
+        public static Index Create(int startIndex, int min, int max)
         {
-            return new Loop(startIndex, min, max);
+            return new Index(startIndex, min, max);
         }
 
-        public static Loop Create<T>(int startIndex, IList<T> list)
+        public static Index Create<T>(int startIndex, IList<T> list)
         {
-            return new Loop(startIndex, 0, list.Count - 1);
+            return new Index(startIndex, 0, list.Count - 1);
         }
 
-        public Loop(int value, int min, int max)
+        public Index(int value, int min, int max)
         {
             Value = value;
             Min = min;
@@ -61,7 +61,7 @@ namespace Baracuda.Bedrock.Types
             Iterations = 0;
         }
 
-        public override string ToString()
+        public readonly override string ToString()
         {
             return Value.ToString();
         }
@@ -71,7 +71,7 @@ namespace Baracuda.Bedrock.Types
 
         #region Operator
 
-        public static Loop operator ++(Loop looping)
+        public static Index operator ++(Index looping)
         {
             if (++looping.Value > looping.Max)
             {
@@ -86,7 +86,7 @@ namespace Baracuda.Bedrock.Types
             return looping;
         }
 
-        public static Loop operator --(Loop looping)
+        public static Index operator --(Index looping)
         {
             if (--looping.Value < looping.Min)
             {
@@ -101,9 +101,9 @@ namespace Baracuda.Bedrock.Types
             return looping;
         }
 
-        public static implicit operator int(Loop loop)
+        public static implicit operator int(Index index)
         {
-            return loop.Value;
+            return index.Value;
         }
 
         #endregion

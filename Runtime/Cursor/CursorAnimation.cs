@@ -1,5 +1,5 @@
 using Baracuda.Bedrock.Services;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Baracuda.Bedrock.Cursor
@@ -10,7 +10,6 @@ namespace Baracuda.Bedrock.Cursor
     [CreateAssetMenu(menuName = "Cursor/Cursor-Animation", fileName = "Cursor-Animation", order = 100)]
     public class CursorAnimation : CursorFile
     {
-        [Title("Animation")]
         [SerializeField] private float framesPerSecond = 10f;
         [SerializeField] public CursorAnimationType cursorAnimationType;
         [SerializeField] public Texture2D[] frames;
@@ -35,7 +34,6 @@ namespace Baracuda.Bedrock.Cursor
 #if UNITY_EDITOR
 
         [Button]
-        [HorizontalGroup("Debug")]
         private void SetActiveCursor()
         {
             if (Application.isPlaying)
@@ -45,7 +43,6 @@ namespace Baracuda.Bedrock.Cursor
         }
 
         [Button]
-        [HorizontalGroup("Debug")]
         private void RemoveActiveCursor()
         {
             if (Application.isPlaying)

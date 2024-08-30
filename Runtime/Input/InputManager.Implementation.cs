@@ -4,11 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Baracuda.Bedrock.Collections;
 using Baracuda.Bedrock.Cursor;
-using Baracuda.Bedrock.Odin;
 using Baracuda.Bedrock.Services;
 using Baracuda.Bedrock.Types;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -35,7 +34,7 @@ namespace Baracuda.Bedrock.Input
         private readonly StackList<Func<EscapeUsage>> _escapeConsumerStack = new();
         private readonly List<Action> _escapeListener = new();
 
-        [ReadonlyInspector]
+        [ShowNativeProperty]
         private List<object> EscapeConsumer => _escapeConsumerStack.Select(item => item.Target).ToList();
 
         private readonly Broadcast _onBecameControllerScheme = new();
@@ -43,10 +42,10 @@ namespace Baracuda.Bedrock.Input
         private readonly Broadcast _onNavigationInputReceived = new();
         private readonly Broadcast _onMouseInputReceived = new();
 
-        [ReadonlyInspector]
+        [ShowNonSerializedField]
         private readonly Dictionary<InputActionMapReference, HashSet<object>> _inputActionMapProvider = new();
 
-        [ReadonlyInspector]
+        [ShowNonSerializedField]
         private readonly Dictionary<InputActionMapReference, HashSet<object>> _inputActionMapBlocker = new();
 
         private readonly HashSet<InputActionMap> _mapsToEnable = new();

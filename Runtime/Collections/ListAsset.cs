@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Odin;
+using Baracuda.Bedrock.Collections.Assets;
 using Baracuda.Bedrock.Types;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 
 namespace Baracuda.Bedrock.Collections
 {
     public abstract class ListAsset<T> : RuntimeCollectionAsset<T>, IList<T>, IReadOnlyList<T>
     {
         [ReadOnly]
-        [ShowInInspector]
+        [ShowNonSerializedField]
         [Foldout("Elements")]
         private readonly List<T> _list = new(16);
         private readonly Broadcast _changed = new();

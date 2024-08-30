@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Odin;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Bedrock.Collections.Assets
 {
     /// <summary>
     ///     Collection Asset representing a constant value list that is serialized in the inspector and cannot be modified
@@ -14,9 +13,6 @@ namespace Baracuda.Bedrock.Collections
     public abstract class ArrayAsset<T> : ScriptableObject, IReadOnlyList<T>, IReadOnlyCollection<T>
     {
 #pragma warning disable 414
-        [Foldout("Options")]
-        [SerializeField] private bool showMoreOptions;
-
         [Foldout("Elements")]
         [SerializeField] private List<T> items = new(16);
 
@@ -58,8 +54,7 @@ namespace Baracuda.Bedrock.Collections
 
         /// <summary>Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</summary>
         /// <returns>The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
-        [ShowIf(nameof(showMoreOptions))]
-        [Foldout("Options")]
+        [ShowNativeProperty]
         public int Count
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -106,16 +101,12 @@ namespace Baracuda.Bedrock.Collections
         #region Editor
 
         [Button]
-        [Foldout("Options")]
-        [ShowIf(nameof(showMoreOptions))]
         private void RemoveDuplicates()
         {
             items.RemoveDuplicates();
         }
 
         [Button]
-        [Foldout("Options")]
-        [ShowIf(nameof(showMoreOptions))]
         private void RemoveNullObjects()
         {
             items.RemoveNull();

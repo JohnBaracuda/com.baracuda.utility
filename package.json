@@ -1,6 +1,6 @@
 {
   "name": "com.baracuda.bedrock",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "displayName": "Bedrock",
   "description": "Collection of non project specific utility. This includes generally applicable types, classes, extension methods, editors and more.",
   "unity": "2022.3",
@@ -16,5 +16,12 @@
     "email": "johnBaracudaGames@gmail.com",
     "url": "https://github.com/JohnBaracuda"
   },
-  "type": "tool"
+  "type": "tool",
+  "dependencies": {
+    "com.baracuda.debug": "1.0.0",
+    "com.unity.inputsystem": "",
+    "com.cysharp.unitask": "",
+    "com.unity.addressables": "",
+    "com.dbrizov.naughtyattributes": ""
+  }
 }

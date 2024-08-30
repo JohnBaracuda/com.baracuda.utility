@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Odin;
 using UnityEngine;
 
 namespace Baracuda.Bedrock.Collections
@@ -12,7 +11,6 @@ namespace Baracuda.Bedrock.Collections
     /// </summary>
     public abstract class MapAsset<TKey, TValue> : ScriptableObject, IReadOnlyDictionary<TKey, TValue>
     {
-        [Foldout("Elements")]
         [SerializeField] private Map<TKey, TValue> map;
 
         /// <summary>Returns an enumerator that iterates through the collection.</summary>

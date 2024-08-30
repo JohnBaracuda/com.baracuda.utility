@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Odin;
 using Baracuda.Bedrock.PlayerLoop;
 using Baracuda.Bedrock.Timing;
 using Baracuda.Bedrock.Utilities;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,7 +19,7 @@ namespace Baracuda.Bedrock.Types
     {
         #region Fields
 
-        [Debug]
+        [ShowNonSerializedField]
         private TState _state;
         private TState _previousState;
         private readonly LimitedQueue<TState> _stateHistory = new(16);
@@ -40,13 +40,17 @@ namespace Baracuda.Bedrock.Types
         // Transitions
         private readonly Dictionary<TState, List<ConditionalStateTransition>> _conditionalStateTransitions = new();
         private readonly Dictionary<TState, TimedStateTransition> _timedStateTransitions = new();
-        [Debug] private bool _isTimerTransitionActive;
-        [Debug] private bool _isTransitionActive;
-        [Debug] private Transition _transition;
+        private bool _isTimerTransitionActive;
+        private bool _isTransitionActive;
+        private Transition _transition;
 
         // Blocking
-        [Debug] private readonly Dictionary<TState, HashSet<object>> _stateBlocker = new();
-        [Debug] private readonly HashSet<object> _stateMachineBlocker = new();
+
+        [ShowNonSerializedField]
+        private readonly Dictionary<TState, HashSet<object>> _stateBlocker = new();
+
+        [ShowNonSerializedField]
+        private readonly HashSet<object> _stateMachineBlocker = new();
 
         // Alias
         private readonly Dictionary<string, TState> _stateAlias = new(StringComparer.CurrentCultureIgnoreCase);
@@ -729,7 +733,7 @@ namespace Baracuda.Bedrock.Types
                     {
                         foreach (var callback in callbacks)
                         {
-                            callback(timer.Delta());
+                            callback(timer.CalculateDelta());
                         }
                     }
                 }

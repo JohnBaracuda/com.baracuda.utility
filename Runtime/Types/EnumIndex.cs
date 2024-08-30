@@ -4,18 +4,18 @@ using Baracuda.Bedrock.Utilities;
 
 namespace Baracuda.Bedrock.Types
 {
-    public struct EnumLoop<TEnum> where TEnum : unmanaged, Enum
+    public struct EnumIndex<TEnum> where TEnum : unmanaged, Enum
     {
         #region Properties
 
-        private Loop _index;
+        private Index _index;
 
         #endregion
 
 
         #region Fields
 
-        public TEnum Value => _values[_index];
+        public readonly TEnum Value => _values[_index];
 
         private readonly TEnum[] _values;
 
@@ -24,20 +24,20 @@ namespace Baracuda.Bedrock.Types
 
         #region Factory
 
-        public EnumLoop(TEnum startValue, params TEnum[] without)
+        public EnumIndex(TEnum startValue, params TEnum[] without)
         {
             _values = EnumUtility.GetValueArray<TEnum>();
             ArrayUtility.Remove(ref _values, without);
             var startIndex = _values.IndexOf(startValue);
-            _index = Loop.Create(startIndex, _values);
+            _index = Index.Create(startIndex, _values);
         }
 
-        public override string ToString()
+        public readonly override string ToString()
         {
             return Value.ToString();
         }
 
-        public void Update(TEnum value)
+        public void Set(TEnum value)
         {
             var index = _values.IndexOf(value);
             if (index == -1)
@@ -52,23 +52,23 @@ namespace Baracuda.Bedrock.Types
 
         #region Operator
 
-        public static EnumLoop<TEnum> operator ++(EnumLoop<TEnum> enumLoop)
+        public static EnumIndex<TEnum> operator ++(EnumIndex<TEnum> enumIndex)
         {
-            ref var index = ref enumLoop._index;
+            ref var index = ref enumIndex._index;
             index++;
-            return enumLoop;
+            return enumIndex;
         }
 
-        public static EnumLoop<TEnum> operator --(EnumLoop<TEnum> enumLoop)
+        public static EnumIndex<TEnum> operator --(EnumIndex<TEnum> enumIndex)
         {
-            ref var index = ref enumLoop._index;
+            ref var index = ref enumIndex._index;
             index--;
-            return enumLoop;
+            return enumIndex;
         }
 
-        public static implicit operator TEnum(EnumLoop<TEnum> loop)
+        public static implicit operator TEnum(EnumIndex<TEnum> index)
         {
-            return loop.Value;
+            return index.Value;
         }
 
         #endregion

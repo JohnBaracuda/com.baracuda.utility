@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Odin;
 using Baracuda.Bedrock.PlayerLoop;
 using Baracuda.Bedrock.Services;
 using Baracuda.Bedrock.Utilities;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Baracuda.Bedrock.Cursor
@@ -23,19 +23,22 @@ namespace Baracuda.Bedrock.Cursor
         private CursorSystemSettings _settings;
         private readonly StackList<CursorFile> _cursorStack = new();
 
-        [ReadonlyInspector]
+        [ShowNonSerializedField]
         private readonly HashSet<object> _visibilityProvider = new();
-        [ReadonlyInspector]
+
+        [ShowNonSerializedField]
         private readonly HashSet<object> _visibilityBlocker = new();
 
-        [ReadonlyInspector]
+        [ShowNonSerializedField]
         private readonly HashSet<object> _lockProvider = new();
-        [ReadonlyInspector]
+
+        [ShowNonSerializedField]
         private readonly HashSet<object> _lockBlocker = new();
 
-        [ReadonlyInspector]
+        [ShowNonSerializedField]
         private readonly HashSet<object> _confineProvider = new();
-        [ReadonlyInspector]
+
+        [ShowNonSerializedField]
         private readonly HashSet<object> _confineBlocker = new();
 
         #endregion
@@ -448,7 +451,6 @@ namespace Baracuda.Bedrock.Cursor
 
         #region Application Focus
 
-        [CallbackMethod(Segment.ApplicationFocus)]
         private void OnApplicationFocus(bool focus)
         {
             _hasFocus = focus;

@@ -1,14 +1,12 @@
-using Baracuda.Bedrock.Odin;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Baracuda.Bedrock.Cursor
 {
     public class CursorTexture : CursorFile
     {
-        [Line(SpaceAfter = 0)]
         [Tooltip("Requires RGBA32 format, have alphaIsTransparency enabled, and have no mip chain!")]
-        [InlineEditor(InlineEditorModes.LargePreview)]
+        [ShowAssetPreview]
         [SerializeField] private Texture2D texture;
 
         public Texture2D Texture => texture;

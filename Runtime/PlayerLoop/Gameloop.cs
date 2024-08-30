@@ -3,8 +3,8 @@ using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 using Baracuda.Bedrock.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Baracuda.Bedrock.PlayerLoop
 {
@@ -15,37 +15,6 @@ namespace Baracuda.Bedrock.PlayerLoop
     public partial class Gameloop
     {
         #region Callbacks
-
-        /// <summary>
-        ///     AddSingleton an object making it receive custom callbacks.
-        /// </summary>
-        /// <param name="target">The object to register</param>
-        public static void Register(Object target)
-        {
-#if !DISABLE_GAMELOOP_CALLBACKS
-            RegisterInternal(target);
-#endif
-        }
-
-        /// <summary>
-        ///     Unregister an object making it no longer receive custom callbacks.
-        /// </summary>
-        /// <param name="target">The object to unregister</param>
-        public static void Unregister(Object target)
-        {
-#if !DISABLE_GAMELOOP_CALLBACKS
-            UnregisterInternal(target);
-#endif
-        }
-
-        /// <summary>
-        ///     Inject a custom callback method.
-        /// </summary>
-        /// <param name="callback">The name of the callback method</param>
-        public static void RaiseCallback(string callback)
-        {
-            RaiseCallbackInternal(callback);
-        }
 
         /// <summary>
         ///     Inject the initialization completed callback.
@@ -130,101 +99,102 @@ namespace Baracuda.Bedrock.PlayerLoop
         ///     Called before the first scene is loaded.
         ///     This event is called retroactively.
         /// </summary>
+        [PublicAPI]
         public static event Action BeforeFirstSceneLoad
         {
-            add => beforeFirstSceneLoadCallbacks.AddNullChecked(value);
-            remove => beforeFirstSceneLoadCallbacks.Remove(value);
+            add => beforeFirstSceneLoadCallbacks.AddListener(value);
+            remove => beforeFirstSceneLoadCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called after the first scene is loaded.
         ///     This event is called retroactively.
         /// </summary>
+        [PublicAPI]
         public static event Action AfterFirstSceneLoad
         {
-            add => afterFirstSceneLoadCallbacks.AddNullChecked(value);
-            remove => afterFirstSceneLoadCallbacks.Remove(value);
+            add => afterFirstSceneLoadCallbacks.AddListener(value);
+            remove => afterFirstSceneLoadCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called during shutdown.
         /// </summary>
+        [PublicAPI]
         public static event Action ApplicationQuit
         {
-            add => applicationQuitCallbacks.AddNullChecked(value);
-            remove => applicationQuitCallbacks.Remove(value);
+            add => applicationQuitCallbacks.AddListener(value);
+            remove => applicationQuitCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called when the focus of the application was changed.
         /// </summary>
+        [PublicAPI]
         public static event Action<bool> ApplicationFocusChanged
         {
-            add => applicationFocusCallbacks.AddNullChecked(value);
-            remove => applicationFocusCallbacks.Remove(value);
+            add => applicationFocusCallbacks.AddListener(value);
+            remove => applicationFocusCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called when pause state of the application was changed.
         /// </summary>
+        [PublicAPI]
         public static event Action<bool> ApplicationPauseChanged
         {
-            add => applicationPauseCallbacks.AddNullChecked(value);
-            remove => applicationPauseCallbacks.Remove(value);
+            add => applicationPauseCallbacks.AddListener(value);
+            remove => applicationPauseCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called every frame.
         /// </summary>
+        [PublicAPI]
         public static event Action Update
         {
-            add => updateCallbacks.AddNullChecked(value);
-            remove => updateCallbacks.Remove(value);
+            add => updateCallbacks.AddListener(value);
+            remove => updateCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called every frame during late update.
         /// </summary>
+        [PublicAPI]
         public static event Action LateUpdate
         {
-            add => lateUpdateCallbacks.AddNullChecked(value);
-            remove => lateUpdateCallbacks.Remove(value);
-        }
-
-        /// <summary>
-        ///     Called every frame during late update.
-        /// </summary>
-        public static event Action PostLateUpdate
-        {
-            add => postLateUpdateCallbacks.AddNullChecked(value);
-            remove => postLateUpdateCallbacks.Remove(value);
+            add => lateUpdateCallbacks.AddListener(value);
+            remove => lateUpdateCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called every physics update.
         /// </summary>
+        [PublicAPI]
         public static event Action FixedUpdate
         {
-            add => fixedUpdateCallbacks.AddNullChecked(value);
-            remove => fixedUpdateCallbacks.Remove(value);
+            add => fixedUpdateCallbacks.AddListener(value);
+            remove => fixedUpdateCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called once every second.
         /// </summary>
+        [PublicAPI]
         public static event Action SlowTick
         {
-            add => slowTickUpdateCallbacks.AddNullChecked(value);
-            remove => slowTickUpdateCallbacks.Remove(value);
+            add => slowTickUpdateCallbacks.AddListener(value);
+            remove => slowTickUpdateCallbacks.RemoveListener(value);
         }
 
         /// <summary>
         ///     Called 10 times per second.
         /// </summary>
+        [PublicAPI]
         public static event Action Tick
         {
-            add => tickUpdateCallbacks.AddNullChecked(value);
-            remove => tickUpdateCallbacks.Remove(value);
+            add => tickUpdateCallbacks.AddListener(value);
+            remove => tickUpdateCallbacks.RemoveListener(value);
         }
 
         /// <summary>
@@ -232,10 +202,11 @@ namespace Baracuda.Bedrock.PlayerLoop
         ///     Requires <see cref="RaiseInitializationCompleted" /> to be called.
         ///     This event is called retroactively.
         /// </summary>
+        [PublicAPI]
         public static event Action InitializationCompleted
         {
-            add => initializationCompletedCallbacks.AddNullChecked(value);
-            remove => initializationCompletedCallbacks.Remove(value);
+            add => initializationCompletedCallbacks.AddListener(value);
+            remove => initializationCompletedCallbacks.RemoveListener(value);
         }
 
         #endregion
@@ -246,11 +217,13 @@ namespace Baracuda.Bedrock.PlayerLoop
         /// <summary>
         ///     When enabled, TimeScaleDelegates can be added to control the time scale of the game.
         /// </summary>
+        [PublicAPI]
         public static bool ControlTimeScale { get; set; } = true;
 
         /// <summary>
         ///     AddSingleton a custom timescale modification source.
         /// </summary>
+        [PublicAPI]
         public static void AddTimeScaleModifier(TimeScaleDelegate modifier)
         {
             timeScaleModifier.AddUnique(modifier);
@@ -259,6 +232,7 @@ namespace Baracuda.Bedrock.PlayerLoop
         /// <summary>
         ///     Remove a custom timescale modification source.
         /// </summary>
+        [PublicAPI]
         public static void RemoveTimeScaleModifier(TimeScaleDelegate modifier)
         {
             timeScaleModifier.Remove(modifier);
@@ -267,6 +241,7 @@ namespace Baracuda.Bedrock.PlayerLoop
         /// <summary>
         ///     Removes all active time scale modification sources.
         /// </summary>
+        [PublicAPI]
         public static void ClearTimeScaleModifier()
         {
             timeScaleModifier.Clear();
@@ -277,6 +252,7 @@ namespace Baracuda.Bedrock.PlayerLoop
 
         #region Coroutines
 
+        [PublicAPI]
         public static Coroutine StartCoroutine(IEnumerator enumerator)
         {
             if (monoBehaviour == null)
@@ -287,6 +263,7 @@ namespace Baracuda.Bedrock.PlayerLoop
             return monoBehaviour.StartCoroutine(enumerator);
         }
 
+        [PublicAPI]
         public static void StopCoroutine(Coroutine coroutine)
         {
             if (monoBehaviour == null)
@@ -302,19 +279,19 @@ namespace Baracuda.Bedrock.PlayerLoop
 
         #region Validations
 
-        // ReSharper disable Unity.PerformanceAnalysis
+        [PublicAPI]
         public static bool IsDelegateSubscribedToUpdate(Action update)
         {
             return updateCallbacks.Contains(update);
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
+        [PublicAPI]
         public static bool IsDelegateSubscribedToLateUpdate(Action update)
         {
             return lateUpdateCallbacks.Contains(update);
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
+        [PublicAPI]
         public static bool IsDelegateSubscribedToFixedUpdate(Action update)
         {
             return fixedUpdateCallbacks.Contains(update);
@@ -325,8 +302,10 @@ namespace Baracuda.Bedrock.PlayerLoop
 
         #region Editor
 
-        public static float TickDelta => TickScaledTimer.Delta();
+        [PublicAPI]
+        public static float TickDelta => TickScaledTimer.CalculateDelta();
 
+        [PublicAPI]
         public static async Task DelayedCallAsync()
         {
 #if UNITY_EDITOR
@@ -337,6 +316,47 @@ namespace Baracuda.Bedrock.PlayerLoop
             await Task.CompletedTask;
 #endif
         }
+
+#if UNITY_EDITOR
+
+        [PublicAPI]
+        public static event Action EditorUpdate
+        {
+            add => editorUpdateCallbacks.AddListener(value);
+            remove => editorUpdateCallbacks.RemoveListener(value);
+        }
+
+        [PublicAPI]
+        public static event Action ExitPlayMode
+        {
+            add => exitPlayModeDelegate.AddListener(value);
+            remove => exitPlayModeDelegate.RemoveListener(value);
+        }
+
+        [PublicAPI]
+        public static event Action EnterPlayMode
+        {
+            add => enterPlayModeDelegate.AddListener(value);
+            remove => enterPlayModeDelegate.RemoveListener(value);
+        }
+
+        [PublicAPI]
+        public static event Action ExitEditMode
+        {
+            add => exitEditModeDelegate.AddListener(value);
+            remove => exitEditModeDelegate.RemoveListener(value);
+        }
+
+        [PublicAPI]
+        public static event Action EnterEditMode
+        {
+            add => enterEditModeDelegate.AddListener(value);
+            remove => enterEditModeDelegate.RemoveListener(value);
+        }
+
+        [PublicAPI]
+        public static event WillDeleteAssetCallback BeforeDeleteAsset;
+#endif
 
         #endregion
     }

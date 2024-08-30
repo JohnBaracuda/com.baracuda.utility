@@ -11,14 +11,8 @@ namespace Baracuda.Bedrock.PlayerLoop
         private Action _onFixedUpdate;
         private Action _onLateUpdate;
         private Action _onUpdate;
-        private Action _onStart;
         private Action<bool> _onFocus;
         private Action<bool> _onPause;
-
-        private void Start()
-        {
-            _onStart();
-        }
 
         private void Update()
         {
@@ -46,7 +40,6 @@ namespace Baracuda.Bedrock.PlayerLoop
         }
 
         internal static MonoBehaviour Create(
-            Action onStart,
             Action onUpdate,
             Action onLateUpdate,
             Action onFixedUpdate,
@@ -58,7 +51,6 @@ namespace Baracuda.Bedrock.PlayerLoop
             gameObject.DontDestroyOnLoad();
             gameObject.hideFlags |= HideFlags.HideInHierarchy;
 
-            instance._onStart = onStart;
             instance._onUpdate = onUpdate;
             instance._onLateUpdate = onLateUpdate;
             instance._onFixedUpdate = onFixedUpdate;

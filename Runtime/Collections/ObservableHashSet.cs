@@ -134,10 +134,10 @@ namespace Baracuda.Bedrock.Collections
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Clear()
         {
-            var isNotEmpty = IsNotEmpty;
+            var wasNotEmpty = IsNotEmpty;
             _hashSet.Clear();
             _changed.Raise();
-            if (isNotEmpty)
+            if (wasNotEmpty)
             {
                 _lastRemoved.Raise();
             }
@@ -247,6 +247,10 @@ namespace Baracuda.Bedrock.Collections
             {
                 _removed.Raise(item);
                 _changed.Raise();
+                if (Count == 0)
+                {
+                    _lastRemoved.Raise();
+                }
             }
             return removed;
         }

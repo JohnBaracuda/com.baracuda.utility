@@ -335,9 +335,9 @@ namespace Baracuda.Bedrock.Types
         {
             var increasedArr = new Action<T>[_listener.Length * 2];
 
-            for (var i = 0; i < _listener.Length; i++)
+            for (var index = 0; index < _listener.Length; index++)
             {
-                increasedArr[i] = _listener[i];
+                increasedArr[index] = _listener[index];
             }
 
             _listener = increasedArr;

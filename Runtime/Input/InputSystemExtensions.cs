@@ -15,6 +15,18 @@ namespace Baracuda.Bedrock.Input
     public static class InputSystemExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddListener(this InputActionReference inputActionReference, Action<CallbackContext> listener)
+        {
+            inputActionReference.action.performed += listener;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void RemoveListener(this InputActionReference inputActionReference, Action<CallbackContext> listener)
+        {
+            inputActionReference.action.performed -= listener;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryAddListener(this InputActionReference inputActionReference,
             Action<CallbackContext> listener, InputActionEventType eventType = InputActionEventType.Performed)
         {

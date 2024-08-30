@@ -18,22 +18,22 @@ namespace Baracuda.Bedrock.Timing
 
         public bool IsNotRunning => IsRunning is false;
 
-        public bool Expired => 0 < _targetTime && _targetTime <= Time.time;
+        public bool Expired => _targetTime > 0 && _targetTime <= Time.time;
 
         public bool ExpiredOrNotRunning => _targetTime <= Time.time;
 
         public float RemainingTime => IsRunning ? _targetTime - Time.time : 0;
 
-        public float Delta(float fallback = 0)
+        public float CalculateDelta(float fallback = 0)
         {
-            if (IsRunning)
+            if (IsNotRunning)
             {
-                var totalDuration = _targetTime - _startTime;
-                var passedTime = totalDuration - RemainingTime;
-                return passedTime / totalDuration;
+                return fallback;
             }
 
-            return fallback;
+            var totalDuration = _targetTime - _startTime;
+            var passedTime = totalDuration - RemainingTime;
+            return passedTime / totalDuration;
         }
 
         public override string ToString()

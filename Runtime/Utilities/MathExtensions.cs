@@ -1,6 +1,5 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Baracuda.Bedrock.Utilities
@@ -265,27 +264,6 @@ namespace Baracuda.Bedrock.Utilities
 
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool ApproximatelyEquals(this double rhs, double lhs, double acceptableDifference)
-        {
-            return math.abs(rhs - lhs) <= acceptableDifference;
-        }
-
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool ApproximatelyEquals(this float rhs, float lhs, float acceptableDifference)
-        {
-            return math.abs(rhs - lhs) <= acceptableDifference;
-        }
-
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool ApproximatelyEquals(this int rhs, int lhs, int acceptableDifference)
-        {
-            return math.abs(rhs - lhs) <= acceptableDifference;
-        }
-
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEquals(this Vector3 v1, Vector3 v2, float tolerance = 0.0001f)
         {
             return Mathf.Abs(v1.x - v2.x) < tolerance &&
@@ -349,13 +327,6 @@ namespace Baracuda.Bedrock.Utilities
         public static int SecondsToMilliseconds(this int seconds)
         {
             return seconds * 1000;
-        }
-
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float3 ToFloat3(this Vector3 vector3)
-        {
-            return new float3(vector3.x, vector3.y, vector3.z);
         }
 
         [Pure]

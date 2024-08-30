@@ -16,62 +16,62 @@ namespace Baracuda.Bedrock.Services
         ///     This includes runtime managers and systems.
         /// </summary>
         [PublicAPI]
-        public static ServiceContainer Runtime => GetRuntimeContainerInternal();
+        public static IServiceContainer Runtime => GetRuntimeContainerInternal();
 
         /// <summary>
         ///     Get the service container that holds all domain services.
         ///     This includes settings and systems that are available both during runtime and in the editor.
         /// </summary>
         [PublicAPI]
-        public static ServiceContainer Domain => GetDomainContainerInternal();
+        public static IServiceContainer Domain => GetDomainContainerInternal();
 
         /// <summary>
         ///     Get the service container that holds all editor services.
         ///     This includes settings and systems that are only available in the editor.
         /// </summary>
         [PublicAPI]
-        public static ServiceContainer Editor => GetEditorContainerInternal();
+        public static IServiceContainer Editor => GetEditorContainerInternal();
 
         /// <summary>
-        ///     Get the <see cref="ServiceContainer" /> for the active scene. This call will create a new
+        ///     Get the <see cref="IServiceContainer" /> for the active scene. This call will create a new
         ///     ServiceContainer for the active scene if none is found. Use <see cref="ForActiveSceneOrNull" />
         ///     if you try to get the service container
         ///     instead.
         /// </summary>
         [PublicAPI]
-        public static ServiceContainer ForActiveScene => ForActiveSceneInternal(true);
+        public static IServiceContainer ForActiveScene => ForActiveSceneInternal(true);
 
         /// <summary>
-        ///     Get the <see cref="ServiceContainer" /> for the active scene or null. This call will not create a new
+        ///     Get the <see cref="IServiceContainer" /> for the active scene or null. This call will not create a new
         ///     ServiceContainer for the active scene if none is found. Use <see cref="ForActiveScene" />
         ///     if you want to ensure that a new service container is created if none is found.
         /// </summary>
         [PublicAPI]
         [CanBeNull]
-        public static ServiceContainer ForActiveSceneOrNull => ForActiveSceneInternal(false);
+        public static IServiceContainer ForActiveSceneOrNull => ForActiveSceneInternal(false);
 
         [PublicAPI]
         [CanBeNull]
-        public static ServiceContainer ForSceneOf(MonoBehaviour monoBehaviour, bool create = false)
+        public static IServiceContainer ForSceneOf(MonoBehaviour monoBehaviour, bool create = false)
         {
             return ForSceneOfInternal(monoBehaviour, create);
         }
 
         [PublicAPI]
         [CanBeNull]
-        public static ServiceContainer ForScene(Scene scene, bool create = false)
+        public static IServiceContainer ForScene(Scene scene, bool create = false)
         {
             return ForSceneInternal(scene, create);
         }
 
         [PublicAPI]
-        public static ServiceContainer ForScope(string scope)
+        public static IServiceContainer ForScope(string scope)
         {
             return ForScopeInternal(scope);
         }
 
         [PublicAPI]
-        public ServiceContainer Container()
+        public IServiceContainer Container()
         {
             return _container;
         }
@@ -84,14 +84,7 @@ namespace Baracuda.Bedrock.Services
         [PublicAPI]
         public static async UniTask<T> GetAsync<T>() where T : class
         {
-            while (true)
-            {
-                if (TryGet<T>(out var result))
-                {
-                    return result;
-                }
-                await UniTask.NextFrame();
-            }
+            return await GetAsyncInternal<T>();
         }
 
         [PublicAPI]
@@ -125,13 +118,13 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public static void AddSingleton<T>(T service)
+        public static void Add<T>(T service)
         {
             Runtime?.Add(service);
         }
 
         [PublicAPI]
-        public static void AddSingleton(Type type, object service)
+        public static void Add(Type type, object service)
         {
             Runtime?.Add(type, service);
         }

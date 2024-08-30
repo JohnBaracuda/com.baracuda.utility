@@ -4,14 +4,13 @@ using Baracuda.Bedrock.Collections;
 using Baracuda.Bedrock.PlayerLoop;
 using Baracuda.Bedrock.Utilities;
 using Baracuda.Utilities.Editor.Odin;
-using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
 using Object = UnityEngine.Object;
 
 namespace Baracuda.Utilities.Editor.Tools
 {
-    public abstract class ProjectEditorWindow : OdinEditorWindow
+    public abstract class ProjectEditorWindow : UnityEditor.EditorWindow
     {
         #region Settings
 
@@ -86,16 +85,14 @@ namespace Baracuda.Utilities.Editor.Tools
 
         #region Setup
 
-        protected async override void OnEnable()
+        protected async virtual void OnEnable()
         {
-            base.OnEnable();
             await Gameloop.DelayedCallAsync();
             InitializeEditor();
         }
 
-        protected override void OnDisable()
+        protected virtual void OnDisable()
         {
-            base.OnDisable();
             Foldout?.SaveState();
             _headerInstructions.Clear();
             _footerInstructions.Clear();
@@ -131,7 +128,7 @@ namespace Baracuda.Utilities.Editor.Tools
 
         #region GUI
 
-        protected override void OnImGUI()
+        protected virtual void OnGUI()
         {
             if (!_initialized)
             {

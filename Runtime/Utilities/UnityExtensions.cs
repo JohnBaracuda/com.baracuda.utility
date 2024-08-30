@@ -321,9 +321,9 @@ namespace Baracuda.Bedrock.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetActive<TComponent>(this TComponent component, bool active) where TComponent : Component
+        public static void SetActive<TComponent>(this TComponent component, bool activeState) where TComponent : Component
         {
-            component.gameObject.SetActive(active);
+            component.gameObject.SetActive(activeState);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -405,7 +405,7 @@ namespace Baracuda.Bedrock.Utilities
         public static bool TryGetComponentInParent<T>(this Component target, out T component,
             bool includeInactive = false)
         {
-            component = target.GetComponentInChildren<T>(includeInactive);
+            component = target.GetComponentInParent<T>(includeInactive);
             return component != null;
         }
 

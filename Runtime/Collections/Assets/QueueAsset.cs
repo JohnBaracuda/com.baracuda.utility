@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Odin;
 using JetBrains.Annotations;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Bedrock.Collections.Assets
 {
     /// <summary>
     ///     Collection Asset representing a queue that can be modified during runtime.
@@ -13,7 +12,7 @@ namespace Baracuda.Bedrock.Collections
     public abstract class QueueAsset<T> : RuntimeCollectionAsset<T>, IEnumerable<T>
     {
         [ReadOnly]
-        [ShowInInspector]
+        [ShowNonSerializedField]
         [Foldout("Elements")]
         private readonly Queue<T> _queue = new(8);
 

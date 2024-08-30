@@ -1,5 +1,5 @@
 ﻿using Baracuda.Bedrock.Utilities;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Baracuda.Bedrock.Pooling

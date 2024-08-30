@@ -1,7 +1,6 @@
 using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Odin;
 using Baracuda.Bedrock.Services;
-using Sirenix.OdinInspector;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -42,7 +41,6 @@ namespace Baracuda.Bedrock.Cursor
 #if UNITY_EDITOR
 
         [Button]
-        [Line]
         private void Initialize()
         {
             var assets = ListPool<CursorType>.Get();

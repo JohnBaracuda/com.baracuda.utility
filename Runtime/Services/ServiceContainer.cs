@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 namespace Baracuda.Bedrock.Services
 {
-    public class ServiceContainer
+    public class ServiceContainer : IServiceContainer
     {
         #region Fields
 
@@ -15,7 +15,7 @@ namespace Baracuda.Bedrock.Services
         private readonly Dictionary<Type, Delegate> _lazyServices = new();
         private readonly HashSet<Type> _registeredServiceTypes = new();
         private readonly LogCategory _category = nameof(ServiceContainer);
-        private ServiceContainer _fallbackContainer;
+        private IServiceContainer _fallbackContainer;
 
         #endregion
 
@@ -23,9 +23,20 @@ namespace Baracuda.Bedrock.Services
         #region Public API: Get
 
         [PublicAPI]
-        public IEnumerable<object> GetAllServices()
+        public IEnumerable<object> GetAllServices(bool includeLazy = false, bool includeTransient = false)
         {
-            return _services.Values;
+            foreach (var services in _services.Values)
+            {
+                yield return services;
+            }
+            if (includeLazy)
+            {
+                throw new NotImplementedException();
+            }
+            if (includeTransient)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [PublicAPI]
@@ -170,7 +181,7 @@ namespace Baracuda.Bedrock.Services
         #region Public API: Add Singleton
 
         [PublicAPI]
-        public ServiceContainer Add<T>(T service)
+        public IServiceContainer Add<T>(T service)
         {
             var type = typeof(T);
 
@@ -186,7 +197,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public ServiceContainer Add(Type type, object service)
+        public IServiceContainer Add(Type type, object service)
         {
             if (!type.IsInstanceOfType(service))
             {
@@ -206,7 +217,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public ServiceContainer AddTransient<T>(Func<T> func)
+        public IServiceContainer AddTransient<T>(Func<T> func)
         {
             var type = typeof(T);
 
@@ -222,7 +233,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public ServiceContainer AddTransient(Type type, Delegate func)
+        public IServiceContainer AddTransient(Type type, Delegate func)
         {
             if (!_registeredServiceTypes.Add(type))
             {
@@ -242,7 +253,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public ServiceContainer AddLazy<T>(Func<T> func)
+        public IServiceContainer AddLazy<T>(Func<T> func)
         {
             var type = typeof(T);
 
@@ -258,7 +269,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public ServiceContainer AddLazy(Type type, Delegate func)
+        public IServiceContainer AddLazy(Type type, Delegate func)
         {
             if (!_registeredServiceTypes.Add(type))
             {
@@ -293,7 +304,7 @@ namespace Baracuda.Bedrock.Services
         #region Public API: Remove
 
         [PublicAPI]
-        public ServiceContainer Remove<T>(T service)
+        public IServiceContainer Remove<T>(T service)
         {
             var type = typeof(T);
 
@@ -309,7 +320,7 @@ namespace Baracuda.Bedrock.Services
         }
 
         [PublicAPI]
-        public ServiceContainer Remove<T>()
+        public IServiceContainer Remove<T>()
         {
             var type = typeof(T);
 
@@ -329,7 +340,7 @@ namespace Baracuda.Bedrock.Services
 
         #region Internal API:
 
-        internal ServiceContainer WithFallbackContainer(ServiceContainer fallback)
+        public IServiceContainer SetFallbackContainer(IServiceContainer fallback)
         {
             _fallbackContainer = fallback;
             return this;
