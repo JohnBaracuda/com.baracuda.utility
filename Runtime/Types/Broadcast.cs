@@ -545,7 +545,7 @@ namespace Baracuda.Bedrock.Types
                 return false;
             }
 
-            Add(listener);
+            AddListener(listener);
             return true;
         }
 
@@ -555,7 +555,7 @@ namespace Baracuda.Bedrock.Types
         /// <param name="listener">The listener to add.</param>
         [PublicAPI]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Add(Action<T1, T2> listener)
+        public void AddListener(Action<T1, T2> listener)
         {
             Assert.IsNotNull(listener);
 
@@ -613,7 +613,7 @@ namespace Baracuda.Bedrock.Types
         /// <returns>True if the listener was removed, false if it was not found.</returns>
         [PublicAPI]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Remove(Action<T1, T2> listener)
+        public bool RemoveListener(Action<T1, T2> listener)
         {
             for (var i = 0; i < Count; i++)
             {

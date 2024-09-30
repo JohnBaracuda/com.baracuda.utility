@@ -3,6 +3,7 @@ using Baracuda.Bedrock.Types;
 using FMOD.Studio;
 using FMODUnity;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using UnityEngine;
 using StopMode = FMOD.Studio.STOP_MODE;
 using Attribute3D = FMOD.ATTRIBUTES_3D;
@@ -15,6 +16,7 @@ namespace Baracuda.Bedrock.FMOD
 
         [SerializeField] private EventReference eventReference;
         [SerializeField] private Optional<float> volume = new(1f, false);
+        [SerializeField] private SpacialAudioSettings spacialSettings;
 
         #endregion
 
@@ -25,6 +27,21 @@ namespace Baracuda.Bedrock.FMOD
 
         [PublicAPI]
         public EventReference EventReference => eventReference;
+
+        [PublicAPI]
+        public SpacialAudioSettings SpacialSettings => spacialSettings;
+
+        #endregion
+
+
+        #region Validate
+
+        [Button]
+        [UsedImplicitly]
+        private void AutoUpdateSpacialSettings()
+        {
+            spacialSettings = SpacialAudioUtility.GetSpacialAudioSettings(eventReference, ref spacialSettings);
+        }
 
         #endregion
 
@@ -112,7 +129,7 @@ namespace Baracuda.Bedrock.FMOD
             }
         }
 
-        public void StartInstance(out EventInstance audioInstance, GameObject target)
+        public void PlayAttached(out EventInstance audioInstance, GameObject target)
         {
             audioInstance = RuntimeManager.CreateInstance(eventReference);
             audioInstance.start();

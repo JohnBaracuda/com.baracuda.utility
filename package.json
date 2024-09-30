@@ -1,6 +1,6 @@
 {
   "name": "com.baracuda.bedrock",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "displayName": "Bedrock",
   "description": "Collection of non project specific utility. This includes generally applicable types, classes, extension methods, editors and more.",
   "unity": "2022.3",

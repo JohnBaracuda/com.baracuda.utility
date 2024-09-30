@@ -139,19 +139,22 @@ namespace Baracuda.Bedrock.Collections
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void RemoveDuplicates<T>(this IList<T> list)
+        public static bool RemoveDuplicates<T>(this IList<T> list)
         {
+            var hasDuplicates = false;
             var set = HashSetPool<T>.Get();
 
             for (var i = list.Count - 1; i >= 0; i--)
             {
                 if (!set.Add(list[i]))
                 {
+                    hasDuplicates = true;
                     list.RemoveAt(i);
                 }
             }
 
             HashSetPool<T>.Release(set);
+            return hasDuplicates;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

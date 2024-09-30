@@ -171,7 +171,7 @@ namespace Baracuda.Bedrock.Types
             return index.Value;
         }
 
-        private void ValidateIndex()
+        public void ValidateIndex()
         {
             if (Value < _min())
             {

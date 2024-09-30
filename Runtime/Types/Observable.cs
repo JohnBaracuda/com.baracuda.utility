@@ -44,7 +44,7 @@ namespace Baracuda.Bedrock.Types
         [PublicAPI]
         public bool TryGetValue(out TValue value)
         {
-            if (_value != null)
+            if (_value is not null)
             {
                 value = _value;
                 return true;

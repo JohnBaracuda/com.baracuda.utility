@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Baracuda.Bedrock.Collections;
 using Baracuda.Bedrock.Types;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -142,6 +143,24 @@ namespace Baracuda.Bedrock.Utilities
                     transform.SetPositionAndRotation(parentTransform);
                 }
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SlerpLocalRotationTo(this Transform transform, Quaternion targetRotation, float sharpness)
+        {
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, sharpness * Time.deltaTime);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LerpLocalRotationTo(this Transform transform, Quaternion targetRotation, float sharpness)
+        {
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, sharpness * Time.deltaTime);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void LerpLocalPositionTo(this Transform transform, Vector3 targetRotation, float sharpness)
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetRotation, sharpness * Time.deltaTime);
         }
 
         #endregion
@@ -327,10 +346,10 @@ namespace Baracuda.Bedrock.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void SetParent<TComponent>(this TComponent component, Transform parent)
+        public static void SetParent<TComponent>(this TComponent component, Transform parent, bool worldPositionStays = true)
             where TComponent : Component
         {
-            component.transform.SetParent(parent);
+            component.transform.SetParent(parent, worldPositionStays);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -480,6 +499,18 @@ namespace Baracuda.Bedrock.Utilities
             {
                 child.gameObject.SetLayerRecursively(layer);
             }
+        }
+
+        #endregion
+
+
+        #region Layer
+
+        [PublicAPI]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsMatch(this LayerMask layerMask, int layer)
+        {
+            return (layerMask.value & (1 << layer)) != 0;
         }
 
         #endregion

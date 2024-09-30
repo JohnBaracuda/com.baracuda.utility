@@ -91,6 +91,6 @@ namespace Baracuda.Bedrock.Services
         /// <summary>
         ///     Resets the container by removing all services.
         /// </summary>
-        void Reset();
+        void Clear();
     }
 }

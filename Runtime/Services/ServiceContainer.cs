@@ -346,7 +346,7 @@ namespace Baracuda.Bedrock.Services
             return this;
         }
 
-        public void Reset()
+        public void Clear()
         {
             _services.Clear();
             _transientServices.Clear();

@@ -353,9 +353,9 @@ namespace Baracuda.Bedrock.Utilities
         public static int ComputeFnv1AHash(this string value)
         {
             var hash = 2166136261;
-            foreach (var character in value)
+            for (var index = 0; index < value.Length; index++)
             {
-                hash = (hash ^ character) * 16777619;
+                hash = (hash ^ value[index]) * 16777619;
             }
             return unchecked((int)hash);
         }

@@ -13,7 +13,6 @@ namespace Baracuda.Bedrock.Collections.Assets
     public abstract class ArrayAsset<T> : ScriptableObject, IReadOnlyList<T>, IReadOnlyCollection<T>
     {
 #pragma warning disable 414
-        [Foldout("Elements")]
         [SerializeField] private List<T> items = new(16);
 
         /// <summary>Returns an enumerator that iterates through the collection.</summary>
