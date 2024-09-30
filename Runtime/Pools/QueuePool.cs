@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.Pool;
 
-namespace Baracuda.Bedrock.Pools
+namespace Baracuda.Utility.Pools
 {
     public class QueuePool<T>
     {

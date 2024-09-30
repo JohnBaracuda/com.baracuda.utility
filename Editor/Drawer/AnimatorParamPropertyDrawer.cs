@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Baracuda.Bedrock.Attributes;
-using Baracuda.Bedrock.Reflection;
+using Baracuda.Utility.Attributes;
+using Baracuda.Utility.Reflection;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(AnimatorParamAttribute))]
     public class AnimatorParamPropertyDrawer : UnityEditor.PropertyDrawer

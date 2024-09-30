@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using UnityEngine.Assertions;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     /// <summary>
     ///     A class that allows broadcasting events to multiple listeners.

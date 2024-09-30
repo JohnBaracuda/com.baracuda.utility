@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Baracuda.Bedrock.Reflection;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Reflection;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
+using GUIUtility = Baracuda.Utility.Editor.Utilities.GUIUtility;
 using Object = UnityEngine.Object;
 using UnityEditorUtility = Baracuda.Utilities.Editor.Utilities.UnityEditorUtility;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     public class ScriptableObjectFactory : UnityEditor.EditorWindow
     {

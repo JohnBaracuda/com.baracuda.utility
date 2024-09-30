@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
-using Baracuda.Bedrock.Collections;
+using Baracuda.Utility.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.PlayerLoop
+namespace Baracuda.Utility.PlayerLoop
 {
     /// <summary>
     ///     Class handles custom gameloop specific callbacks as well as other gameloop relevant data.

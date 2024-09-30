@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class ObjectExtensions
     {

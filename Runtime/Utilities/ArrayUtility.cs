@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public class ArrayUtility
     {

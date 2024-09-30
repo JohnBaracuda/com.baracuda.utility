@@ -1,4 +1,4 @@
-﻿namespace Baracuda.Bedrock.PlayerLoop
+﻿namespace Baracuda.Utility.PlayerLoop
 {
     public enum Segment
     {

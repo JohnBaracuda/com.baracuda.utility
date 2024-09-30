@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Cursor
+namespace Baracuda.Utility.Cursor
 {
     /// <summary>
     ///     Class for storing custom cursor animation / texture data.

@@ -1,7 +1,7 @@
-﻿using Baracuda.Bedrock.Attributes;
+﻿using Baracuda.Utility.Attributes;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(StringSelectionAttribute))]
     internal class StringSelectionDrawer : UnityEditor.PropertyDrawer

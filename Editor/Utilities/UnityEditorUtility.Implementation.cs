@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Baracuda.Bedrock.Reflection;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Reflection;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

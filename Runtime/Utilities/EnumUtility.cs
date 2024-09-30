@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine.Pool;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class EnumUtility
     {

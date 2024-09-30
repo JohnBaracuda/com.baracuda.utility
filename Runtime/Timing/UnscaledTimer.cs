@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Baracuda.Bedrock.Timing
+namespace Baracuda.Utility.Timing
 {
     public readonly struct UnscaledTimer
     {

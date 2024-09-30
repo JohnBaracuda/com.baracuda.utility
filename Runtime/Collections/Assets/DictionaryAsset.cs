@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using NaughtyAttributes;
 
-namespace Baracuda.Bedrock.Collections.Assets
+namespace Baracuda.Utility.Collections.Assets
 {
     /// <summary>
     ///     Collection Asset representing a dictionary that can be modified during runtime.

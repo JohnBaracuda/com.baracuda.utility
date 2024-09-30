@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Types;
 using FMOD.Studio;
 using FMODUnity;
 using JetBrains.Annotations;

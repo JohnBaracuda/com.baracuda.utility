@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     /// <summary>
     ///     Base type for developer specific configuration files.

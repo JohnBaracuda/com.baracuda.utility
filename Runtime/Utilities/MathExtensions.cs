@@ -2,7 +2,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class MathExtensions
     {

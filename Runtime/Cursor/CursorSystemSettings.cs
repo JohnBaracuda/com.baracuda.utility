@@ -1,7 +1,7 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Cursor
+namespace Baracuda.Utility.Cursor
 {
     public class CursorSystemSettings : ScriptableObject
     {

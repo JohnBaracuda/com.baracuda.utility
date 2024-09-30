@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     public class Observable<TValue>
     {

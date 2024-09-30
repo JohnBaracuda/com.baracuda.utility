@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public class CoroutineUtility
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     public interface IObservableCollection<out T>
     {

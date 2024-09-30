@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class ResolutionUtility
     {

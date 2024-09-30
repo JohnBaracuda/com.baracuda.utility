@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     /// <summary>
     ///     Serializable Dictionary

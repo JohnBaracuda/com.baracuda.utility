@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.PlayerLoop;
-using Baracuda.Bedrock.Utilities;
-using Baracuda.Utilities.Editor.Odin;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Editor.Drawer;
+using Baracuda.Utility.PlayerLoop;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
+using GUIUtility = Baracuda.Utility.Editor.Utilities.GUIUtility;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     public abstract class ProjectEditorWindow : UnityEditor.EditorWindow
     {

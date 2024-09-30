@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     public class FindAllReferences : UnityEditor.EditorWindow
     {

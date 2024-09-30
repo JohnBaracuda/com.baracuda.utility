@@ -1,8 +1,8 @@
 using System;
-using Baracuda.Bedrock.Services;
+using Baracuda.Utility.Services;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Development
+namespace Baracuda.Utility.Development
 {
     /// <summary>
     ///     Base type for developer specific configuration files.

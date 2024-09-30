@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Input
+namespace Baracuda.Utility.Input
 {
     [Serializable]
     public struct ControlSchemeReference : IEquatable<ControlSchemeReference>

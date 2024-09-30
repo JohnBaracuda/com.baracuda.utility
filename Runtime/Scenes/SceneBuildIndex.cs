@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.SceneManagement;
 
-namespace Baracuda.Bedrock.Scenes
+namespace Baracuda.Utility.Scenes
 {
     public readonly struct SceneBuildIndex : IEquatable<SceneBuildIndex>
     {

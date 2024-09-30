@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Baracuda.Bedrock.Utilities;
-using Baracuda.Utilities.Editor.Odin;
+using Baracuda.Utility.Editor.Drawer;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
+using GUIUtility = Baracuda.Utility.Editor.Utilities.GUIUtility;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     [Flags]
     public enum SearchOptions

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Baracuda.Bedrock.PlayerLoop;
+using Baracuda.Utility.PlayerLoop;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     /// <summary>
     ///     Dynamically manages script execution order for Mono scripts based on these attributes:<br />

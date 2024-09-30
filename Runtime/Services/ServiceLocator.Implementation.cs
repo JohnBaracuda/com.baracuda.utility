@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.PlayerLoop;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.PlayerLoop;
+using Baracuda.Utility.Utilities;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Baracuda.Bedrock.Services
+namespace Baracuda.Utility.Services
 {
     public sealed partial class ServiceLocator : MonoBehaviour
     {

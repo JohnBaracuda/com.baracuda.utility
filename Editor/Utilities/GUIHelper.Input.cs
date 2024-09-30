@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Utilities;
 
-namespace Baracuda.Utilities.Editor.Utilities
+namespace Baracuda.Utility.Editor.Utilities
 {
     public static partial class GUIUtility
     {

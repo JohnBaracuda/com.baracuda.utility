@@ -6,14 +6,14 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using Baracuda.Bedrock.Pools;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Pools;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Bedrock.Reflection
+namespace Baracuda.Utility.Reflection
 {
     public static partial class ReflectionExtensions
     {

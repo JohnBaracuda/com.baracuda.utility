@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Baracuda.Bedrock.Pools;
+using Baracuda.Utility.Pools;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class StringExtensions
     {

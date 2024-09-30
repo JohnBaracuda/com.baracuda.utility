@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     public sealed class PriorityQueue<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {

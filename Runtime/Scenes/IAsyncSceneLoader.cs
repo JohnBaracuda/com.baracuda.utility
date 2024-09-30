@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
-namespace Baracuda.Bedrock.Scenes
+namespace Baracuda.Utility.Scenes
 {
     public interface IAsyncSceneLoader
     {

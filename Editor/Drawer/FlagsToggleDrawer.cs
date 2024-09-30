@@ -1,10 +1,10 @@
 ﻿using System;
-using Baracuda.Bedrock.Attributes;
 using Baracuda.Utilities.Editor.Utilities;
+using Baracuda.Utility.Attributes;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
+using GUIUtility = Baracuda.Utility.Editor.Utilities.GUIUtility;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(FlagsToggleAttribute))]
     public class FlagsToggleDrawer : UnityEditor.PropertyDrawer

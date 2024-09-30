@@ -1,4 +1,4 @@
-﻿namespace Baracuda.Bedrock.Input
+﻿namespace Baracuda.Utility.Input
 {
     public enum EscapeUsage
     {

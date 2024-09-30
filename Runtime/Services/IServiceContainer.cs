@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace Baracuda.Bedrock.Services
+namespace Baracuda.Utility.Services
 {
     [PublicAPI]
     public interface IServiceContainer

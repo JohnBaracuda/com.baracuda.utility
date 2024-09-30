@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Baracuda.Bedrock.PlayerLoop;
+using Baracuda.Utility.PlayerLoop;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Collections.Assets
+namespace Baracuda.Utility.Collections.Assets
 {
     public abstract class RuntimeCollectionAsset<T> : ScriptableObject
     {

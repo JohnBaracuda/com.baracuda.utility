@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.PlayerLoop;
-using Baracuda.Bedrock.Services;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.PlayerLoop;
+using Baracuda.Utility.Services;
+using Baracuda.Utility.Utilities;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Cursor
+namespace Baracuda.Utility.Cursor
 {
     /// <summary>
     ///     Base class for managing cursor state / textures / animations.

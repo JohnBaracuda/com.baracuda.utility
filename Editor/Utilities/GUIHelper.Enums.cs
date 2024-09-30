@@ -1,10 +1,10 @@
 using System;
-using Baracuda.Bedrock.Reflection;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Reflection;
+using Baracuda.Utility.Utilities;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Utilities
+namespace Baracuda.Utility.Editor.Utilities
 {
     public static partial class GUIUtility
     {

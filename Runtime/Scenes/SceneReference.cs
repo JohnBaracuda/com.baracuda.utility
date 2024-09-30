@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Bedrock.Scenes
+namespace Baracuda.Utility.Scenes
 {
     [Serializable]
     public struct SceneReference

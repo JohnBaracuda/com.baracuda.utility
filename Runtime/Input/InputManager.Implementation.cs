@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Cursor;
-using Baracuda.Bedrock.Services;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Cursor;
+using Baracuda.Utility.Services;
+using Baracuda.Utility.Types;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
-namespace Baracuda.Bedrock.Input
+namespace Baracuda.Utility.Input
 {
     /// <summary>
     ///     Input Manager handles input state (controller or desktop) and input map states.

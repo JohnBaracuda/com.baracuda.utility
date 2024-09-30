@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     /// <summary>
     ///     Collection Asset representing a serializable dictionary that cannot be modified during runtime.

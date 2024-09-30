@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine.AddressableAssets;
 
-namespace Baracuda.Bedrock.Scenes
+namespace Baracuda.Utility.Scenes
 {
     [Serializable]
     public class AssetReferenceScene

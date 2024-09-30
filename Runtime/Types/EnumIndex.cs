@@ -1,8 +1,8 @@
 ﻿using System;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Utilities;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     public struct EnumIndex<TEnum> where TEnum : unmanaged, Enum
     {

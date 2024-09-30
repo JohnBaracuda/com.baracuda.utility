@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     /// <summary>
     ///     Wrap a value <see cref="T" /> in this struct to make accessing it conditional.

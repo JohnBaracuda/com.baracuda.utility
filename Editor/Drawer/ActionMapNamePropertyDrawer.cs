@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Baracuda.Bedrock.Input;
+using Baracuda.Utility.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(InputActionMapReference))]
     public class ActionMapNamePropertyDrawer : UnityEditor.PropertyDrawer

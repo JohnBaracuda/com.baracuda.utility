@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 
-namespace Baracuda.Bedrock.Collections.Assets
+namespace Baracuda.Utility.Collections.Assets
 {
     public abstract class StackAsset<T> : RuntimeCollectionAsset<T>, IEnumerable<T>
     {

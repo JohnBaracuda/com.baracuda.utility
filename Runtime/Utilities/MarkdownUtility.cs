@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class MarkdownUtility
     {

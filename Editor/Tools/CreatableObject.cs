@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Baracuda.Bedrock.Pools;
-using Baracuda.Bedrock.Reflection;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Pools;
+using Baracuda.Utility.Reflection;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     internal class CreatableObject
     {

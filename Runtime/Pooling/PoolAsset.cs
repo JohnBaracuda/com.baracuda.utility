@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.PlayerLoop;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.PlayerLoop;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
-using Index = Baracuda.Bedrock.Types.Index;
+using Index = Baracuda.Utility.Types.Index;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Bedrock.Pooling
+namespace Baracuda.Utility.Pooling
 {
     public abstract class PoolAsset<T> : ScriptableObject, IObjectPool<T> where T : Object
     {

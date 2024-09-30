@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Pools;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Pools;
+using Baracuda.Utility.Utilities;
 using JetBrains.Annotations;
 using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     public static class CollectionExtensions
     {

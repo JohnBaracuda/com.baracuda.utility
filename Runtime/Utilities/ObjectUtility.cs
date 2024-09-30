@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public class ObjectUtility : MonoBehaviour
     {

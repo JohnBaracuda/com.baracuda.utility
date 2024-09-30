@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Odin
+namespace Baracuda.Utility.Editor.Drawer
 {
     public enum FoldoutStyle
     {

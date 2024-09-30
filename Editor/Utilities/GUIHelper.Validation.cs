@@ -1,8 +1,9 @@
 ﻿using System;
+using Baracuda.Utilities.Editor.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Editor.Utilities
+namespace Baracuda.Utility.Editor.Utilities
 {
     public static partial class GUIUtility
     {

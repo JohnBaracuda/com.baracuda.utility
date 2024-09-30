@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
-using Baracuda.Bedrock.Reflection;
+using Baracuda.Utility.Reflection;
 using UnityEngine;
 
 namespace Baracuda.Utilities.Editor.Addressables

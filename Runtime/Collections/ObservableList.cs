@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Types;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     /// <summary>
     ///     Wrapper for a generic List that exposes events when an element is added, removed or when the list has changed.

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Baracuda.Bedrock.Input
+namespace Baracuda.Utility.Input
 {
     /// <summary>
     ///     Input Manager handles input state (controller or desktop) and input map states.

@@ -1,10 +1,10 @@
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Services;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Services;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Baracuda.Bedrock.Cursor
+namespace Baracuda.Utility.Cursor
 {
     public class CursorSet : ScriptableObject
     {

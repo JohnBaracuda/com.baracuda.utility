@@ -1,4 +1,4 @@
-﻿namespace Baracuda.Bedrock.Timing
+﻿namespace Baracuda.Utility.Timing
 {
     public interface ICountdownDurationModifier
     {

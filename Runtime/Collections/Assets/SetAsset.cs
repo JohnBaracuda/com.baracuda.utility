@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Collections.Assets
+namespace Baracuda.Utility.Collections.Assets
 {
     /// <summary>
     ///     Collection Asset representing a constant value set that is serialized in the inspector, cannot contain duplicates

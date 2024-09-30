@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Attributes
+namespace Baracuda.Utility.Attributes
 {
     [Conditional("UNITY_EDITOR")]
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]

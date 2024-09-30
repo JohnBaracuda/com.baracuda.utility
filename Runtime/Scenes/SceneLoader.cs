@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.PlayerLoop;
+using Baracuda.Utility.PlayerLoop;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 
-namespace Baracuda.Bedrock.Scenes
+namespace Baracuda.Utility.Scenes
 {
     /// <summary>
     ///     This struct can be used to layout and then execute complex scene load operations.

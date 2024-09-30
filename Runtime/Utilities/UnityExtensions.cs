@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Types;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class UnityExtensions
     {

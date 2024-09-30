@@ -1,8 +1,8 @@
-using Baracuda.Bedrock.Services;
+using Baracuda.Utility.Services;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Cursor
+namespace Baracuda.Utility.Cursor
 {
     /// <summary>
     ///     Class for storing custom cursor animation data

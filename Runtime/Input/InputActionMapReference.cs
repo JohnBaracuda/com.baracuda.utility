@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Baracuda.Bedrock.Input
+namespace Baracuda.Utility.Input
 {
     [Serializable]
     public struct InputActionMapReference : IEquatable<InputActionMapReference>

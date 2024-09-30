@@ -1,7 +1,7 @@
-﻿using Baracuda.Bedrock.Types;
+﻿using Baracuda.Utility.Types;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(Optional<>))]
     public class OptionalValuePropertyDrawer : UnityEditor.PropertyDrawer

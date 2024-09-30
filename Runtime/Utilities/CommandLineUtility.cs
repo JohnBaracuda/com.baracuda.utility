@@ -2,7 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class CommandLineUtility
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Baracuda.Bedrock.Reflection
+namespace Baracuda.Utility.Reflection
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class AddressablesGroupAttribute : Attribute

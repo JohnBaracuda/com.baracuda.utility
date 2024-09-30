@@ -1,4 +1,4 @@
-namespace Baracuda.Bedrock.Cursor
+namespace Baracuda.Utility.Cursor
 {
     public enum CursorAnimationType
     {

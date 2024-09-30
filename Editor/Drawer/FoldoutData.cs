@@ -1,4 +1,4 @@
-﻿namespace Baracuda.Utilities.Editor.Odin
+﻿namespace Baracuda.Utility.Editor.Drawer
 {
     public readonly struct FoldoutData
     {

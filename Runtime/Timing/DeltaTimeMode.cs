@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Timing
+namespace Baracuda.Utility.Timing
 {
     public enum DeltaTimeMode
     {

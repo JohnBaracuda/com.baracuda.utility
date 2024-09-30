@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Utilities.Editor.Utilities
+namespace Baracuda.Utility.Editor.Utilities
 {
     public static partial class GUIUtility
     {

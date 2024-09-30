@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Baracuda.Bedrock.Timing;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Timing;
+using Baracuda.Utility.Types;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.PlayerLoop
+namespace Baracuda.Utility.PlayerLoop
 {
     public partial class Gameloop
     {

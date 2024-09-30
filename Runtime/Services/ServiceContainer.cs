@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Utilities;
 using JetBrains.Annotations;
 
-namespace Baracuda.Bedrock.Services
+namespace Baracuda.Utility.Services
 {
     public class ServiceContainer : IServiceContainer
     {

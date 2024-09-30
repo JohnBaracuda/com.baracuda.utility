@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Utilities;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     public struct DynamicIndex
     {

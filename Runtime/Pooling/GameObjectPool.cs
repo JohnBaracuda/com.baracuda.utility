@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Baracuda.Bedrock.Pooling
+namespace Baracuda.Utility.Pooling
 {
     public class GameObjectPool : PoolAsset<GameObject>
     {

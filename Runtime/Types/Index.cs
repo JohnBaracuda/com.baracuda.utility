@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     [StructLayout(LayoutKind.Auto)]
     public struct Index

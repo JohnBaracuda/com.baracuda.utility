@@ -1,8 +1,8 @@
-﻿using Baracuda.Bedrock.Attributes;
+﻿using Baracuda.Utility.Attributes;
 using UnityEngine;
-using GUIUtility = Baracuda.Utilities.Editor.Utilities.GUIUtility;
+using GUIUtility = Baracuda.Utility.Editor.Utilities.GUIUtility;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(AssetGUIDAttribute))]
     public class AssetGUIDPropertyDrawer : UnityEditor.PropertyDrawer

@@ -1,8 +1,8 @@
 ﻿using System;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Types;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Bedrock.PlayerLoop
+namespace Baracuda.Utility.PlayerLoop
 {
 #if UNITY_EDITOR
     [UnityEditor.InitializeOnLoadAttribute]

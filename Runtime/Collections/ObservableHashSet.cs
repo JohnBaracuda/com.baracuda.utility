@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Types;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     /// <summary>
     ///     Wrapper for a generic HashSet that exposes events when an element is added, removed or when the set has changed.

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Collections.Assets;
-using Baracuda.Bedrock.Types;
+using Baracuda.Utility.Collections.Assets;
+using Baracuda.Utility.Types;
 using NaughtyAttributes;
 
-namespace Baracuda.Bedrock.Collections
+namespace Baracuda.Utility.Collections
 {
     public abstract class ListAsset<T> : RuntimeCollectionAsset<T>, IList<T>, IReadOnlyList<T>
     {

@@ -1,7 +1,7 @@
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Utilities;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Timing
+namespace Baracuda.Utility.Timing
 {
     public readonly struct ScaledTimer
     {

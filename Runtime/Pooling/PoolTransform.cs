@@ -1,8 +1,8 @@
-﻿using Baracuda.Bedrock.Utilities;
+﻿using Baracuda.Utility.Utilities;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.Pooling
+namespace Baracuda.Utility.Pooling
 {
     internal sealed class PoolTransform : MonoBehaviour
     {

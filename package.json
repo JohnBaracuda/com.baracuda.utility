@@ -1,7 +1,7 @@
 {
-  "name": "com.baracuda.bedrock",
-  "version": "2.1.2",
-  "displayName": "Bedrock",
+  "name": "com.baracuda.utility",
+  "version": "3.0.0",
+  "displayName": "Utility",
   "description": "Collection of non project specific utility. This includes generally applicable types, classes, extension methods, editors and more.",
   "unity": "2022.3",
   "documentationUrl": "https://github.com/JohnBaracuda/com.baracuda.bedrock",

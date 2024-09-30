@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
-namespace Baracuda.Bedrock.Input
+namespace Baracuda.Utility.Input
 {
     public enum InputActionEventType
     {

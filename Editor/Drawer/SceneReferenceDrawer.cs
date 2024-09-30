@@ -1,8 +1,8 @@
-using Baracuda.Bedrock.Scenes;
+using Baracuda.Utility.Scenes;
 using UnityEngine;
 using SceneUtility = UnityEngine.SceneManagement.SceneUtility;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(SceneReference))]
     public class SceneReferenceDrawer : UnityEditor.PropertyDrawer

@@ -6,10 +6,10 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
-using Index = Baracuda.Bedrock.Types.Index;
+using Index = Baracuda.Utility.Types.Index;
 using Random = UnityEngine.Random;
 
-namespace Baracuda.Bedrock.Utilities
+namespace Baracuda.Utility.Utilities
 {
     public static class RandomUtility
     {

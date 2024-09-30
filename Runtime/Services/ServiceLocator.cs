@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Baracuda.Bedrock.Services
+namespace Baracuda.Utility.Services
 {
     [DisallowMultipleComponent]
     public sealed partial class ServiceLocator : MonoBehaviour

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Baracuda.Bedrock.Attributes
+namespace Baracuda.Utility.Attributes
 {
     public class AssetGUIDAttribute : PropertyAttribute
     {

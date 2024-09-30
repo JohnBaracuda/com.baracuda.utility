@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Utilities;
 using JetBrains.Annotations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Baracuda.Bedrock.Services
+namespace Baracuda.Utility.Services
 {
     public static class ServiceContainerExtensions
     {

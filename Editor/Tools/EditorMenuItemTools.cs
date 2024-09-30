@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Tools
+namespace Baracuda.Utility.Editor.Tools
 {
     public static class EditorMenuItemTools
     {

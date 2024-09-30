@@ -1,9 +1,9 @@
-﻿using Baracuda.Bedrock.Collections;
+﻿using Baracuda.Utility.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Baracuda.Bedrock.Scenes
+namespace Baracuda.Utility.Scenes
 {
     public static class SceneUtility
     {

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Reflection;
-using Baracuda.Bedrock.Collections;
+using Baracuda.Utility.Collections;
 using UnityEngine;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(Map<,>))]
     public class MapPropertyDrawer : UnityEditor.PropertyDrawer

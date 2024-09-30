@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.PlayerLoop;
-using Baracuda.Bedrock.Timing;
-using Baracuda.Bedrock.Utilities;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.PlayerLoop;
+using Baracuda.Utility.Timing;
+using Baracuda.Utility.Utilities;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using Unity.Collections.LowLevel.Unsafe;
@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Action = System.Action;
 
-namespace Baracuda.Bedrock.Types
+namespace Baracuda.Utility.Types
 {
     public class StateMachine<TState> : MonoBehaviour where TState : unmanaged, Enum
     {

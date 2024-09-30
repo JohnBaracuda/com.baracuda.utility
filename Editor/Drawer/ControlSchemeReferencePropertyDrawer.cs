@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Baracuda.Bedrock.Collections;
-using Baracuda.Bedrock.Input;
+using Baracuda.Utility.Collections;
+using Baracuda.Utility.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
-namespace Baracuda.Utilities.Editor.Drawer
+namespace Baracuda.Utility.Editor.Drawer
 {
     [UnityEditor.CustomPropertyDrawer(typeof(ControlSchemeReference))]
     public class ControlSchemeReferencePropertyDrawer : UnityEditor.PropertyDrawer
