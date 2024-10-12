@@ -40,64 +40,95 @@ namespace Baracuda.Utility.Services
         }
 
         [PublicAPI]
-        public static T AddMonoBehaviour<T>(this IServiceContainer container) where T : MonoBehaviour
+        public static T AddMonoBehaviour<T>(this IServiceContainer container, bool dontDestroyOnLoad = true) where T : MonoBehaviour
         {
             var instance = new GameObject($"[{typeof(T).Name}]");
-            instance.DontDestroyOnLoad();
+            if (dontDestroyOnLoad)
+            {
+                instance.DontDestroyOnLoad();
+            }
             var service = instance.AddComponent<T>();
             container.Add(service);
             return service;
         }
 
         [PublicAPI]
-        public static T AddMonoBehaviour<TInterface, T>(this IServiceContainer container) where T : MonoBehaviour, TInterface
+        public static T AddMonoBehaviour<TInterface, T>(this IServiceContainer container, bool dontDestroyOnLoad = true) where T : MonoBehaviour, TInterface
         {
             var instance = new GameObject($"[{typeof(TInterface).Name}] [{typeof(T).Name}]");
-            instance.DontDestroyOnLoad();
+            if (dontDestroyOnLoad)
+            {
+                instance.DontDestroyOnLoad();
+            }
             var service = instance.AddComponent<T>();
             container.Add<TInterface>(service);
             return service;
         }
 
         [PublicAPI]
-        public static T AddPrefab<T>(this IServiceContainer container, T prefab) where T : MonoBehaviour
+        public static T AddPrefab<T>(this IServiceContainer container, T prefab, bool dontDestroyOnLoad = true) where T : MonoBehaviour
         {
             var instance = Object.Instantiate(prefab);
             instance.name = $"[{typeof(T).Name}]";
-            instance.DontDestroyOnLoad();
+            if (dontDestroyOnLoad)
+            {
+                instance.DontDestroyOnLoad();
+            }
             container.Add(instance);
             return instance;
         }
 
         [PublicAPI]
-        public static T AddPrefab<T>(this IServiceContainer container, T prefab, Action<T> callback) where T : MonoBehaviour
+        public static T AddPrefab<TInterface, T>(this IServiceContainer container, T prefab, bool dontDestroyOnLoad = true) where T : MonoBehaviour, TInterface
         {
             var instance = Object.Instantiate(prefab);
             instance.name = $"[{typeof(T).Name}]";
-            instance.DontDestroyOnLoad();
+            if (dontDestroyOnLoad)
+            {
+                instance.DontDestroyOnLoad();
+            }
+            container.Add<TInterface>(instance);
+            return instance;
+        }
+
+        [PublicAPI]
+        public static T AddPrefab<T>(this IServiceContainer container, T prefab, Action<T> callback, bool dontDestroyOnLoad = true) where T : MonoBehaviour
+        {
+            var instance = Object.Instantiate(prefab);
+            instance.name = $"[{typeof(T).Name}]";
+            if (dontDestroyOnLoad)
+            {
+                instance.DontDestroyOnLoad();
+            }
             container.Add(instance);
             callback(instance);
             return instance;
         }
 
         [PublicAPI]
-        public static T AddPrefab<T>(this IServiceContainer container, GameObject prefab) where T : MonoBehaviour
+        public static T AddPrefab<T>(this IServiceContainer container, GameObject prefab, bool dontDestroyOnLoad = true) where T : MonoBehaviour
         {
             var gameObject = Object.Instantiate(prefab);
             var instance = gameObject.GetComponent<T>();
-            instance.DontDestroyOnLoad();
+            if (dontDestroyOnLoad)
+            {
+                instance.DontDestroyOnLoad();
+            }
             container.Add(instance);
             return instance;
         }
 
         [PublicAPI]
-        public static void AddPrefabLazy<T>(this IServiceContainer container, T prefab) where T : MonoBehaviour
+        public static void AddPrefabLazy<T>(this IServiceContainer container, T prefab, bool dontDestroyOnLoad = true) where T : MonoBehaviour
         {
             container.AddLazy(() =>
             {
                 var instance = Object.Instantiate(prefab);
                 instance.name = $"[{typeof(T).Name}]";
-                instance.DontDestroyOnLoad();
+                if (dontDestroyOnLoad)
+                {
+                    instance.DontDestroyOnLoad();
+                }
                 return instance;
             });
         }

@@ -90,31 +90,39 @@ namespace Baracuda.Utility.Services
         [PublicAPI]
         public static T Get<T>() where T : class
         {
-            return Runtime.Get<T>();
+            return Runtime.Get<T>() ?? ForActiveScene.Get<T>();
         }
 
         [PublicAPI]
         public static void Inject<T>(ref T field) where T : class
         {
-            field = Runtime.Get<T>();
+            field = Runtime.Get<T>() ?? ForActiveScene.Get<T>();
         }
 
         [PublicAPI]
         public static object Get(Type type)
         {
-            return Runtime.Get(type);
+            return Runtime.Get(type) ?? ForActiveScene.Get(type);
         }
 
         [PublicAPI]
         public static bool TryGet<T>(out T service) where T : class
         {
-            return Runtime.TryGet(out service);
+            if (Runtime.TryGet(out service))
+            {
+                return true;
+            }
+            return ForActiveScene.TryGet(out service);
         }
 
         [PublicAPI]
         public static bool TryGet(Type type, out object value)
         {
-            return Runtime.TryGet(type, out value);
+            if (Runtime.TryGet(type, out value))
+            {
+                return true;
+            }
+            return ForActiveScene.TryGet(type, out value);
         }
 
         [PublicAPI]

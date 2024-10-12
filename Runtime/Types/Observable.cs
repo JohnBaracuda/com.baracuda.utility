@@ -41,6 +41,18 @@ namespace Baracuda.Utility.Types
             _changed.Raise(value);
         }
 
+        /// <summary>
+        ///     Set the value to its default if the passed value equals the current value.
+        /// </summary>
+        [PublicAPI]
+        public void UnsetValue(TValue value)
+        {
+            if (Is(value))
+            {
+                SetValue(default);
+            }
+        }
+
         [PublicAPI]
         public bool TryGetValue(out TValue value)
         {

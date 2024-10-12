@@ -282,6 +282,12 @@ namespace Baracuda.Utility.Collections
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T PeekOrDefault<T>(this Queue<T> queue, T defaultValue = default)
+        {
+            return queue.TryPeek(out var result) ? result : defaultValue;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UpdateEntry<T>([NotNull] this IList<T> list, T value, bool nullCheck = false)
         {
             if (list == null)

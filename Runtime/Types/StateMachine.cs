@@ -7,7 +7,6 @@ using Baracuda.Utility.PlayerLoop;
 using Baracuda.Utility.Timing;
 using Baracuda.Utility.Utilities;
 using JetBrains.Annotations;
-using NaughtyAttributes;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,7 +18,6 @@ namespace Baracuda.Utility.Types
     {
         #region Fields
 
-        [ShowNonSerializedField]
         private TState _state;
         private TState _previousState;
         private readonly LimitedQueue<TState> _stateHistory = new(16);
@@ -46,10 +44,7 @@ namespace Baracuda.Utility.Types
 
         // Blocking
 
-        [ShowNonSerializedField]
         private readonly Dictionary<TState, HashSet<object>> _stateBlocker = new();
-
-        [ShowNonSerializedField]
         private readonly HashSet<object> _stateMachineBlocker = new();
 
         // Alias

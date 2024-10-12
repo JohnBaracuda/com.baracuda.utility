@@ -15,7 +15,7 @@ namespace Baracuda.Utility.Services
         private readonly Dictionary<Type, Delegate> _lazyServices = new();
         private readonly HashSet<Type> _registeredServiceTypes = new();
         private readonly LogCategory _category = nameof(ServiceContainer);
-        private IServiceContainer _fallbackContainer;
+        private Func<IServiceContainer> _fallbackContainer;
 
         #endregion
 
@@ -66,7 +66,7 @@ namespace Baracuda.Utility.Services
 
             if (_fallbackContainer is not null)
             {
-                return _fallbackContainer.Get<T>();
+                return _fallbackContainer().Get<T>();
             }
 
             Debug.LogWarning(_category, $"Service of type {type.FullName} not registered");
@@ -96,7 +96,7 @@ namespace Baracuda.Utility.Services
 
             if (_fallbackContainer is not null)
             {
-                return _fallbackContainer.Get(type);
+                return _fallbackContainer().Get(type);
             }
 
             Debug.LogWarning(_category, $"Service of type {type.FullName} not registered");
@@ -135,7 +135,7 @@ namespace Baracuda.Utility.Services
 
             if (_fallbackContainer is not null)
             {
-                return _fallbackContainer.TryGet(out service);
+                return _fallbackContainer().TryGet(out service);
             }
 
             service = default;
@@ -168,7 +168,7 @@ namespace Baracuda.Utility.Services
 
             if (_fallbackContainer is not null)
             {
-                return _fallbackContainer.TryGet(type, out service);
+                return _fallbackContainer().TryGet(type, out service);
             }
 
             service = default;
@@ -341,6 +341,12 @@ namespace Baracuda.Utility.Services
         #region Internal API:
 
         public IServiceContainer SetFallbackContainer(IServiceContainer fallback)
+        {
+            _fallbackContainer = () => fallback;
+            return this;
+        }
+
+        public IServiceContainer SetFallbackContainer(Func<IServiceContainer> fallback)
         {
             _fallbackContainer = fallback;
             return this;

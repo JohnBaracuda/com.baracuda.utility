@@ -74,8 +74,7 @@ namespace Baracuda.Utility.Pooling
         [PublicAPI]
         public PooledObject<T> Get(out T element)
         {
-            element = GetInternal();
-            return new PooledObject<T>(element, this);
+            throw new NotImplementedException();
         }
 
         [PublicAPI]

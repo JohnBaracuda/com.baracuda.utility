@@ -89,6 +89,11 @@ namespace Baracuda.Utility.Services
         IServiceContainer SetFallbackContainer(IServiceContainer fallback);
 
         /// <summary>
+        ///     Sets a fallback container for resolving services.
+        /// </summary>
+        IServiceContainer SetFallbackContainer(Func<IServiceContainer> fallback);
+
+        /// <summary>
         ///     Resets the container by removing all services.
         /// </summary>
         void Clear();
