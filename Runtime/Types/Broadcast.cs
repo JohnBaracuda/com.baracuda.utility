@@ -67,7 +67,7 @@ namespace Baracuda.Utility.Types
         /// <returns>True if the listener was added, false if it was already present.</returns>
         [PublicAPI]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool AddUnique(Action listener)
+        public bool AddUniqueListener(Action listener)
         {
             if (Contains(listener))
             {

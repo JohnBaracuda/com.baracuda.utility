@@ -315,6 +315,12 @@ namespace Baracuda.Utility.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetPositionAndRotation(this GameObject gameObject, Vector3 position, Quaternion rotation)
+        {
+            gameObject.transform.SetPositionAndRotation(position, rotation);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SetPositionAndRotation<TComponent>(this TComponent component, Transform target)
             where TComponent : Component
         {
@@ -337,6 +343,12 @@ namespace Baracuda.Utility.Utilities
         public static void SetScale<TComponent>(this TComponent component, Vector3 scale) where TComponent : Component
         {
             component.transform.localScale = scale;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetScale(this GameObject gameObject, Vector3 scale)
+        {
+            gameObject.transform.localScale = scale;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

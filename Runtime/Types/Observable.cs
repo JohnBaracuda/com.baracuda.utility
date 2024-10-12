@@ -9,16 +9,32 @@ namespace Baracuda.Utility.Types
     {
         private TValue _value;
         private readonly Broadcast<TValue> _changed = new();
+        private readonly Broadcast<TValue, TValue> _changedFrom = new();
 
+        [PublicAPI]
         public void AddObserver(Action<TValue> observer)
         {
             _changed.AddListener(observer);
             observer(_value);
         }
 
+        [PublicAPI]
+        public void AddObserver(Action<TValue, TValue> observer)
+        {
+            _changedFrom.AddListener(observer);
+            observer(default, _value);
+        }
+
+        [PublicAPI]
         public void RemoveObserver(Action<TValue> observer)
         {
             _changed.RemoveListener(observer);
+        }
+
+        [PublicAPI]
+        public void RemoveObserver(Action<TValue, TValue> observer)
+        {
+            _changedFrom.RemoveListener(observer);
         }
 
         [PublicAPI]
@@ -37,8 +53,10 @@ namespace Baracuda.Utility.Types
         [PublicAPI]
         public void SetValue(TValue value)
         {
+            var lastValue = _value;
             _value = value;
             _changed.Raise(value);
+            _changedFrom.Raise(lastValue, value);
         }
 
         /// <summary>
@@ -101,6 +119,7 @@ namespace Baracuda.Utility.Types
             return _value;
         }
 
+        [PublicAPI]
         public override string ToString()
         {
             return _value != null ? _value.ToString() : "null";
