@@ -269,6 +269,19 @@ namespace Baracuda.Utility.Collections
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void PushRange<T>(this Stack<T> stack, IEnumerable<T> range)
+        {
+            if (stack == null)
+            {
+                throw new ArgumentNullException(nameof(stack));
+            }
+            foreach (var item in range)
+            {
+                stack.Push(item);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void EnqueueRange<T>(this Queue<T> queue, IEnumerable<T> range)
         {
             if (queue == null)

@@ -375,13 +375,27 @@ namespace Baracuda.Utility.Utilities
 
         private static readonly string[] randomNames =
         {
-            "Tracer Melone",
-            "Smitty Werben",
-            "Sugon Dese",
-            "Joe Ligma",
-            "Stun Amongus",
-            "Moe Lester",
-            "Robin Banks"
+            "Renji Hoshino",
+            "Ryder Storme",
+            "Aria Voss",
+            "Diego Cruz",
+            "Sylas Mercer",
+            "Kaiya Reyes",
+            "Dante Cross",
+            "Viktor Dray",
+            "Niko Alvarez",
+            "Sienna Volk",
+            "Klaus Richter",
+            "Juno Hayes",
+            "Talia Moreau",
+            "Zane Torvik",
+            "Renata Vega",
+            "Akio Stroud",
+            "Luca Feroz",
+            "Mira Calder",
+            "Dash Kincaid",
+            "Kieran Xian",
+            "Elias Orlov"
         };
     }
 }

@@ -340,6 +340,12 @@ namespace Baracuda.Utility.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void SetRotation<TComponent>(this TComponent component, Quaternion rotation) where TComponent : Component
+        {
+            component.transform.rotation = rotation;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SetScale<TComponent>(this TComponent component, Vector3 scale) where TComponent : Component
         {
             component.transform.localScale = scale;

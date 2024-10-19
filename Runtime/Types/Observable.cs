@@ -53,6 +53,10 @@ namespace Baracuda.Utility.Types
         [PublicAPI]
         public void SetValue(TValue value)
         {
+            if (Is(value))
+            {
+                return;
+            }
             var lastValue = _value;
             _value = value;
             _changed.Raise(value);
