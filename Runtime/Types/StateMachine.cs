@@ -69,6 +69,11 @@ namespace Baracuda.Utility.Types
         #region Public API:
 
         /// <summary>
+        ///     Does this state machine log state transitions.
+        /// </summary>
+        public bool EnableLogging { get; set; } = true;
+
+        /// <summary>
         ///     Returns the current active state of the state machine.
         /// </summary>
         [PublicAPI]
@@ -178,7 +183,7 @@ namespace Baracuda.Utility.Types
         ///     Sets the state with the normal transition process, invoking relevant callbacks.
         /// </summary>
         [PublicAPI]
-        public void SetState(TState state)
+        public void TransitionToState(TState state)
         {
             BeginImmediateTransitionToState(state, false, false);
         }
@@ -207,7 +212,7 @@ namespace Baracuda.Utility.Types
         ///     Sets the state after a specified delay in seconds.
         /// </summary>
         [PublicAPI]
-        public void SetStateAfter(TState state, float durationInSeconds)
+        public void TransitionToStateStateAfter(TState state, float durationInSeconds)
         {
             BeginTimedTransitionToState(state, durationInSeconds);
         }
@@ -216,7 +221,7 @@ namespace Baracuda.Utility.Types
         ///     Sets the state and re-enters it, allowing re invocation of callbacks even if it is the current state.
         /// </summary>
         [PublicAPI]
-        public void SetStateAndReinvoke(TState state)
+        public void TransitionToStateAndReinvoke(TState state)
         {
             BeginImmediateTransitionToState(state, true, false);
         }
@@ -613,6 +618,7 @@ namespace Baracuda.Utility.Types
             }
 
             _isTransitionActive = true;
+            _isTimerTransitionActive = false;
 
             if (allowStateReentering is false)
             {
@@ -684,9 +690,11 @@ namespace Baracuda.Utility.Types
                 callback(toState);
             }
 
-            Debug.Log(_log, $"Transitioned from state [{Colorized(fromState)}] to [{Colorized(toState)}]", _color);
+            if (EnableLogging)
+            {
+                Debug.Log(_log, $"Transitioned from state [{Colorized(fromState)}] to [{Colorized(toState)}]", _color);
+            }
 
-            _isTimerTransitionActive = false;
             _isTransitionActive = false;
 
             // Automatic Timed Transitions

@@ -136,7 +136,7 @@ namespace Baracuda.Utility.Pooling
             _poolTransform = null;
             _pool.Clear();
             _borrowedElements.Clear();
-            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
         }
 

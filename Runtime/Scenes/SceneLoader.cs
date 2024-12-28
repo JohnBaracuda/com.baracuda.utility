@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Baracuda.Utility.Collections;
 using Baracuda.Utility.PlayerLoop;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
@@ -242,6 +243,8 @@ namespace Baracuda.Utility.Scenes
                     throw new InvalidOperationException("Another scene Load is already active!");
                 }
 
+                Debug.Log($"Loading scenes async [{entries.ToCollectionString(scene => scene.BuildIndex.Value.ToString(), ",")}]");
+
                 IsSceneLoadActive = true;
                 var loadSceneMode = LoadSceneMode.Single;
 
@@ -255,14 +258,17 @@ namespace Baracuda.Utility.Scenes
 
                         if (sceneEntry.AsyncSceneLoader is not null)
                         {
+                            Debug.Log($"Loading scene async [{buildIndex}]");
                             var scene = await sceneEntry.AsyncSceneLoader.LoadSceneAsync(buildIndex, loadSceneMode);
                             if (sceneEntry.ActivateOnLoad)
                             {
+                                Debug.Log($"Activating scene [{scene.name}]");
                                 SceneManager.SetActiveScene(scene);
                             }
                         }
                         else
                         {
+                            Debug.Log($"Loading scene async [{buildIndex}]");
                             var asyncOperation = SceneManager.LoadSceneAsync(buildIndex, loadSceneMode);
                             if (asyncOperation is null)
                             {

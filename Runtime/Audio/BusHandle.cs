@@ -1,22 +1,21 @@
 using System;
-using Baracuda.Serialization;
+using Baracuda.Utility.Types;
 using FMOD;
 using FMOD.Studio;
 using FMODUnity;
 
-namespace Baracuda.Bedrock.FMOD
+namespace Baracuda.Utility.Audio
 {
     public class BusHandle : IDisposable
     {
-        private readonly SaveDataInt _asset;
+        private readonly IObservableValue<int> _volume;
         private Bus _bus;
 
-        public BusHandle(SaveDataInt asset, string path)
+        public BusHandle(IObservableValue<int> volume, string path)
         {
-            _asset = asset;
+            _volume = volume;
             _bus = RuntimeManager.GetBus(path);
-            _asset.Changed += SetVolume;
-            SetVolume(_asset.Value);
+            volume.AddObserver(SetVolume);
         }
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace Baracuda.Bedrock.FMOD
 
         public void Dispose()
         {
-            _asset.Changed -= SetVolume;
+            _volume.RemoveObserver(SetVolume);
         }
 
         private void SetVolume(int volume)

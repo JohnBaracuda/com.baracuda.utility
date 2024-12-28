@@ -1,4 +1,5 @@
-﻿using Baracuda.Utility.Types;
+﻿using System;
+using Baracuda.Utility.Types;
 using UnityEngine;
 
 namespace Baracuda.Utility.Editor.Drawer
@@ -13,25 +14,36 @@ namespace Baracuda.Utility.Editor.Drawer
 
         public override void OnGUI(Rect position, UnityEditor.SerializedProperty property, GUIContent label)
         {
-            var enabledProperty = property.FindPropertyRelative("enabled");
-            var valueProperty = property.FindPropertyRelative("value");
-
-            UnityEditor.EditorGUILayout.BeginHorizontal();
-            enabledProperty.boolValue =
-                UnityEditor.EditorGUILayout.ToggleLeft(label, enabledProperty.boolValue, GUILayout.Width(UnityEditor.EditorGUIUtility.labelWidth));
-
-            using (new UnityEditor.EditorGUI.DisabledGroupScope(!enabledProperty.boolValue))
+            try
             {
-                if (valueProperty.isArray && valueProperty.type != "string")
+                UnityEditor.EditorGUILayout.BeginHorizontal();
+
+                var enabledProperty = property.FindPropertyRelative("enabled");
+                var valueProperty = property.FindPropertyRelative("value");
+
+                enabledProperty.boolValue =
+                    UnityEditor.EditorGUILayout.ToggleLeft(label, enabledProperty.boolValue, GUILayout.Width(UnityEditor.EditorGUIUtility.labelWidth));
+
+                using (new UnityEditor.EditorGUI.DisabledGroupScope(!enabledProperty.boolValue))
                 {
-                    UnityEditor.EditorGUILayout.EndHorizontal();
-                    UnityEditor.EditorGUILayout.PropertyField(valueProperty, GUIContent.none, true);
+                    if (valueProperty.isArray && valueProperty.type != "string")
+                    {
+                        UnityEditor.EditorGUILayout.PropertyField(valueProperty, GUIContent.none, true);
+                    }
+                    else
+                    {
+                        UnityEditor.EditorGUILayout.PropertyField(valueProperty, GUIContent.none);
+                    }
                 }
-                else
-                {
-                    UnityEditor.EditorGUILayout.PropertyField(valueProperty, GUIContent.none);
-                    UnityEditor.EditorGUILayout.EndHorizontal();
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                UnityEditor.EditorGUILayout.EndHorizontal();
             }
         }
     }

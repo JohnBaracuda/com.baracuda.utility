@@ -84,6 +84,28 @@ namespace Baracuda.Utility.Types
         /// <param name="listener">The listener to add.</param>
         [PublicAPI]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void AddListenerNullChecked(Action listener)
+        {
+            if (listener is null)
+            {
+                return;
+            }
+
+            if (_listener.Length <= Count)
+            {
+                IncreaseCapacity();
+            }
+
+            _listener[Count] = listener;
+            Count++;
+        }
+
+        /// <summary>
+        ///     Adds a listener to the list.
+        /// </summary>
+        /// <param name="listener">The listener to add.</param>
+        [PublicAPI]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddListener(Action listener)
         {
             Assert.IsNotNull(listener);
@@ -321,6 +343,24 @@ namespace Baracuda.Utility.Types
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddListener(Action<T> listener)
         {
+            if (_listener.Length <= Count)
+            {
+                IncreaseCapacity();
+            }
+
+            _listener[Count] = listener;
+            Count++;
+        }
+
+        [PublicAPI]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void AddListenerNullChecked(Action<T> listener)
+        {
+            if (listener is null)
+            {
+                return;
+            }
+
             if (_listener.Length <= Count)
             {
                 IncreaseCapacity();

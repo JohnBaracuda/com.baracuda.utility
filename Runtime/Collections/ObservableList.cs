@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Baracuda.Utility.Types;
 
@@ -10,30 +9,11 @@ namespace Baracuda.Utility.Collections
     /// </summary>
     public class ObservableList<T> : IList<T>, IReadOnlyList<T>, IObservableCollection<T>
     {
-        public event Action Changed
-        {
-            add
-            {
-                _changed.AddListener(value);
-                value();
-            }
-            remove => _changed.RemoveListener(value);
-        }
-        public event Action<T> Added
-        {
-            add => _added.AddListener(value);
-            remove => _added.RemoveListener(value);
-        }
-        public event Action<T> Removed
-        {
-            add => _removed.AddListener(value);
-            remove => _removed.RemoveListener(value);
-        }
-
         private readonly List<T> _list = new();
-        private readonly Broadcast _changed = new();
-        private readonly Broadcast<T> _added = new();
-        private readonly Broadcast<T> _removed = new();
+
+        public Broadcast Changed { get; } = new();
+        public Broadcast<T> Added { get; } = new();
+        public Broadcast<T> Removed { get; } = new();
 
         public List<T> GetInternalList()
         {
@@ -46,13 +26,18 @@ namespace Baracuda.Utility.Collections
             set
             {
                 _list[index] = value;
-                _changed.Raise();
+                Changed.Raise();
             }
         }
 
         public ObservableList(int capacity)
         {
             _list = new List<T>(capacity);
+        }
+
+        public ObservableList(IEnumerable<T> enumerable)
+        {
+            _list = new List<T>(enumerable);
         }
 
         public ObservableList()
@@ -66,14 +51,24 @@ namespace Baracuda.Utility.Collections
         public void Add(T item)
         {
             _list.Add(item);
-            _added.RaiseCritical(item);
-            _changed.Raise();
+            Added.RaiseCritical(item);
+            Changed.Raise();
+        }
+
+        public void AddRange(IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                _list.Add(item);
+                Added.RaiseCritical(item);
+            }
+            Changed.Raise();
         }
 
         public void Clear()
         {
             _list.Clear();
-            _changed.Raise();
+            Changed.Raise();
         }
 
         public bool Contains(T item)
@@ -99,8 +94,8 @@ namespace Baracuda.Utility.Collections
         public void Insert(int index, T item)
         {
             _list.Insert(index, item);
-            _added.RaiseCritical(item);
-            _changed.Raise();
+            Added.RaiseCritical(item);
+            Changed.Raise();
         }
 
         public bool Remove(T item)
@@ -108,8 +103,8 @@ namespace Baracuda.Utility.Collections
             var removed = _list.Remove(item);
             if (removed)
             {
-                _removed.RaiseCritical(item);
-                _changed.Raise();
+                Removed.RaiseCritical(item);
+                Changed.Raise();
             }
             return removed;
         }
@@ -118,8 +113,8 @@ namespace Baracuda.Utility.Collections
         {
             var item = _list[index];
             _list.RemoveAt(index);
-            _removed.RaiseCritical(item);
-            _changed.Raise();
+            Removed.RaiseCritical(item);
+            Changed.Raise();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -129,9 +124,9 @@ namespace Baracuda.Utility.Collections
 
         public void Reset()
         {
-            _changed.Clear();
-            _added.Clear();
-            _removed.Clear();
+            Changed.Clear();
+            Added.Clear();
+            Removed.Clear();
             _list.Clear();
         }
     }

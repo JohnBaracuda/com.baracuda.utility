@@ -1,22 +1,18 @@
 using System.Collections.Generic;
-using Baracuda.Utility.Types;
 using FMOD.Studio;
 using FMODUnity;
 using JetBrains.Annotations;
-using NaughtyAttributes;
 using UnityEngine;
 using StopMode = FMOD.Studio.STOP_MODE;
 using Attribute3D = FMOD.ATTRIBUTES_3D;
 
-namespace Baracuda.Bedrock.FMOD
+namespace Baracuda.Utility.Audio
 {
     public class AudioAsset : ScriptableObject
     {
         #region Inspector
 
         [SerializeField] private EventReference eventReference;
-        [SerializeField] private Optional<float> volume = new(1f, false);
-        [SerializeField] private SpacialAudioSettings spacialSettings;
 
         #endregion
 
@@ -27,21 +23,6 @@ namespace Baracuda.Bedrock.FMOD
 
         [PublicAPI]
         public EventReference EventReference => eventReference;
-
-        [PublicAPI]
-        public SpacialAudioSettings SpacialSettings => spacialSettings;
-
-        #endregion
-
-
-        #region Validate
-
-        [Button]
-        [UsedImplicitly]
-        private void AutoUpdateSpacialSettings()
-        {
-            spacialSettings = SpacialAudioUtility.GetSpacialAudioSettings(eventReference, ref spacialSettings);
-        }
 
         #endregion
 
@@ -57,10 +38,6 @@ namespace Baracuda.Bedrock.FMOD
         {
             var eventInstance = RuntimeManager.CreateInstance(eventReference);
             eventInstance.set3DAttributes(target.To3DAttributes());
-            if (volume.TryGetValue(out var value))
-            {
-                eventInstance.setVolume(value);
-            }
             eventInstance.start();
             eventInstance.release();
         }
@@ -123,10 +100,6 @@ namespace Baracuda.Bedrock.FMOD
         {
             audioInstance = RuntimeManager.CreateInstance(eventReference);
             audioInstance.start();
-            if (volume.Enabled)
-            {
-                audioInstance.setVolume(volume.Value);
-            }
         }
 
         public void PlayAttached(out EventInstance audioInstance, GameObject target)
@@ -134,10 +107,6 @@ namespace Baracuda.Bedrock.FMOD
             audioInstance = RuntimeManager.CreateInstance(eventReference);
             audioInstance.start();
             RuntimeManager.AttachInstanceToGameObject(audioInstance, target.transform);
-            if (volume.Enabled)
-            {
-                audioInstance.setVolume(volume.Value);
-            }
         }
 
         public void StartInstance(out EventInstance audioInstance, Attribute3D attributes3D)
@@ -145,10 +114,6 @@ namespace Baracuda.Bedrock.FMOD
             audioInstance = RuntimeManager.CreateInstance(eventReference);
             audioInstance.set3DAttributes(attributes3D);
             audioInstance.start();
-            if (volume.Enabled)
-            {
-                audioInstance.setVolume(volume.Value);
-            }
         }
 
         public void StopInstance(ref EventInstance instance, StopMode stopMode = StopMode.ALLOWFADEOUT)

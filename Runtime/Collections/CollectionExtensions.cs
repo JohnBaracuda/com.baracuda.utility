@@ -127,18 +127,6 @@ namespace Baracuda.Utility.Collections
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetElementAt<T>(this IList<T> list, int index, out T element)
-        {
-            if (list.Count > index)
-            {
-                element = list[index];
-                return true;
-            }
-            element = default;
-            return false;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool RemoveDuplicates<T>(this IList<T> list)
         {
             var hasDuplicates = false;
@@ -447,6 +435,27 @@ namespace Baracuda.Utility.Collections
         ///     Returns a string, appending string representation of every element in the collection.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string ToCollectionString<T>(this IEnumerable<T> enumerable, Func<T, string> processor, string separator = "\n")
+        {
+            if (enumerable == null)
+            {
+                return "null";
+            }
+            var stringBuilder = StringBuilderPool.Get();
+            foreach (var item in enumerable)
+            {
+                var text = processor(item);
+                stringBuilder.Append(text);
+                stringBuilder.Append(separator);
+            }
+
+            return StringBuilderPool.BuildAndRelease(stringBuilder);
+        }
+
+        /// <summary>
+        ///     Returns a string, appending string representation of every element in the collection.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string ToCollectionString<T>(this IEnumerable<T> enumerable, char separator)
         {
             if (enumerable == null)
@@ -585,6 +594,60 @@ namespace Baracuda.Utility.Collections
             }
 
             ListPool<int>.Release(allIndices);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool TryGetElementAt<T>(this IReadOnlyList<T> list, int index, out T result)
+        {
+            if (list == null || list.Count == 0)
+            {
+                result = default;
+                return false;
+            }
+
+            if (index >= 0 && index < list.Count)
+            {
+                result = list[index];
+                return true;
+            }
+
+            result = default;
+            return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MoveElementToIndex<T>(this List<T> list, T element, int index)
+        {
+            if (list == null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (index < 0 || index >= list.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            var currentIndex = list.IndexOf(element);
+
+            if (currentIndex == -1)
+            {
+                throw new ArgumentException("The specified element is not in the list.", nameof(element));
+            }
+
+            if (currentIndex == index)
+            {
+                return; // No need to move, already in place
+            }
+
+            list.RemoveAt(currentIndex);
+
+            if (index > currentIndex)
+            {
+                index--; // Adjust index since we removed an earlier element
+            }
+
+            list.Insert(index, element);
         }
     }
 }

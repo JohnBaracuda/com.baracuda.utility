@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Baracuda.Utility.Types;
 
 namespace Baracuda.Utility.Collections
 {
-    public interface IObservableCollection<out T>
+    public interface IObservableCollection<T>
     {
-        event Action Changed;
-        event Action<T> Added;
-        event Action<T> Removed;
+        public Broadcast Changed { get; }
+        public Broadcast<T> Added { get; }
+        public Broadcast<T> Removed { get; }
     }
 }

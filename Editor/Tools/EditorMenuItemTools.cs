@@ -68,10 +68,16 @@ namespace Baracuda.Utility.Editor.Tools
             }
         }
 
-        [UnityEditor.MenuItem("Tools/Editor/Reload Domain", priority = 2400)]
+        [UnityEditor.MenuItem("Tools/Reload Domain", priority = -10000)]
         private static void ReloadDomain()
         {
             UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+        }
+
+        [UnityEditor.MenuItem("Tools/Editor/Force Reserialize Assets", priority = 2400)]
+        private static void ForceReserializeAssets()
+        {
+            UnityEditor.AssetDatabase.ForceReserializeAssets();
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using FMODUnity;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.FMOD
+namespace Baracuda.Utility.Audio
 {
     public static class SpacialAudioUtility
     {
-        private static global::FMOD.Studio.System fmodSystem;
+        private static FMOD.Studio.System fmodSystem;
 
-        public static global::FMOD.Studio.System FmodSystem()
+        public static FMOD.Studio.System FmodSystem()
         {
 #if UNITY_EDITOR
             if (Application.isPlaying)

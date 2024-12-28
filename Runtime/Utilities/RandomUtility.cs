@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Baracuda.Utility.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -37,6 +38,18 @@ namespace Baracuda.Utility.Utilities
             }
 
             return Int(0, array.Length - 1);
+        }
+
+        [MustUseReturnValue]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Index<T>(IList<T> list)
+        {
+            if (list.Count <= 0)
+            {
+                return -1;
+            }
+
+            return Int(0, list.Count - 1);
         }
 
         [MustUseReturnValue]
@@ -146,7 +159,7 @@ namespace Baracuda.Utility.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T FromSelection<T>([NotNull] T[] selection)
+        public static T FromSelection<T>([NotNull] params T[] selection)
         {
             Assert.IsNotNull(selection);
             var index = Int(0, selection.Length);
@@ -168,7 +181,7 @@ namespace Baracuda.Utility.Utilities
                 return source[0];
             }
 
-            var randomIndex = Random.Range(0, source.Count - 1);
+            var randomIndex = Random.Range(0, source.Count);
             return source[randomIndex];
         }
 
@@ -189,6 +202,22 @@ namespace Baracuda.Utility.Utilities
 
             var randomIndex = Random.Range(0, source.Count - 1);
             return source.ElementAt(randomIndex);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T GetRandomItemWithExceptionOf<T>([NotNull] IEnumerable<T> source, [NotNull] IEnumerable<T> itemsToIgnore)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            if (itemsToIgnore == null)
+            {
+                throw new ArgumentNullException(nameof(itemsToIgnore));
+            }
+
+            using var items = new Buffer<T>(source.Except(itemsToIgnore));
+            return GetRandomItem(items);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -263,6 +292,23 @@ namespace Baracuda.Utility.Utilities
             var selection = buffer.ToArray();
             HashSetPool<T>.Release(buffer);
             return selection;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void GetRandomItems<T>([NotNull] IList<T> source, int count, ref List<T> results)
+        {
+            Assert.IsNotNull(source);
+            Assert.IsTrue(source.Count >= count);
+
+            var buffer = HashSetPool<T>.Get();
+
+            while (buffer.Count < count)
+            {
+                buffer.Add(source[Random.Range(0, source.Count)]);
+            }
+
+            results.AddRange(buffer);
+            HashSetPool<T>.Release(buffer);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -397,5 +443,20 @@ namespace Baracuda.Utility.Utilities
             "Kieran Xian",
             "Elias Orlov"
         };
+
+        public static T Enum<T>() where T : unmanaged, Enum
+        {
+            return GetRandomItem(EnumUtility.GetValueArray<T>());
+        }
+
+        public static T Enum<T>(params T[] except) where T : unmanaged, Enum
+        {
+            return GetRandomItemWithExceptionOf(EnumUtility.GetValueArray<T>(), except);
+        }
+
+        public static T Enum<T>(T except) where T : unmanaged, Enum
+        {
+            return GetRandomItemWithExceptionOf(EnumUtility.GetValueArray<T>(), except);
+        }
     }
 }

@@ -334,7 +334,7 @@ namespace Baracuda.Utility.Utilities
             return new Guid(combinedBytes);
         }
 
-        public static Guid CreateGuidFromText(this string text)
+        public static Guid CreateGuidFromStringHash(this string text)
         {
             // Compute the hash of the input text
             using var sha256 = SHA256.Create();
@@ -356,7 +356,7 @@ namespace Baracuda.Utility.Utilities
         public static string CreateGuidStringFromArguments(params object[] arguments)
         {
             var text = arguments.Aggregate("", (current, argument) => current + argument);
-            return CreateGuidFromText(text).ToString();
+            return CreateGuidFromStringHash(text).ToString();
         }
 
         #endregion

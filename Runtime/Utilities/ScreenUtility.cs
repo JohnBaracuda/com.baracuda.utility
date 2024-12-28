@@ -1,10 +1,52 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Baracuda.Utility.PlayerLoop;
+using Baracuda.Utility.Types;
 using UnityEngine;
 
 namespace Baracuda.Utility.Utilities
 {
-    public static class ResolutionUtility
+    public static class ScreenUtility
     {
+        public static ResolutionComparer Comparer { get; } = new();
+        public static ResolutionAspectComparer AspectComparer { get; } = new();
+        public static ObservableValue<Resolution> ScreenResolution { get; } = new(Screen.currentResolution, AspectComparer);
+
+        static ScreenUtility()
+        {
+            Gameloop.Update += UpdateScreenResolution;
+        }
+
+        public static IReadOnlyList<FullScreenMode> AvailableFullScreenModes { get; } = new[]
+        {
+#if UNITY_STANDALONE_WIN
+            FullScreenMode.ExclusiveFullScreen,
+#endif
+            FullScreenMode.FullScreenWindow,
+
+#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX
+            FullScreenMode.MaximizedWindow,
+#endif
+#if UNITY_STANDALONE
+            FullScreenMode.Windowed,
+#endif
+        };
+
+        public static Resolution[] GetUniqueResolutions()
+        {
+            return Screen.resolutions
+                .Select(resolution => new Resolution { width = resolution.width, height = resolution.height })
+                .Distinct()
+                .ToArray();
+        }
+
+        private static void UpdateScreenResolution()
+        {
+            var resolution = Screen.currentResolution;
+            ScreenResolution.SetValue(resolution);
+        }
+
         public static string GetResolutionWithAspectRatio(Resolution resolution)
         {
             var aspectRatio = GetAspectRatio(resolution);
@@ -56,6 +98,11 @@ namespace Baracuda.Utility.Utilities
                 a = temp;
             }
             return a;
+        }
+
+        public static void SetResolution(Resolution resolution)
+        {
+            Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreenMode);
         }
     }
 }

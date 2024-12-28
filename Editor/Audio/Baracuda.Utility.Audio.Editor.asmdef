@@ -1,0 +1,23 @@
+{
+    "name": "Baracuda.Utility.Audio.Editor",
+    "rootNamespace": "Baracuda.Utility",
+    "references": [
+        "GUID:ec9d591ed1b5a224f90117ed78206e5b",
+        "GUID:ebf14bd9950c0cb429d7280a2c7ab8fe",
+        "GUID:b36315b18db27a54aa4a0451d8b88701",
+        "GUID:0c752da273b17c547ae705acf0f2adf2"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "FMOD_UNITY"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

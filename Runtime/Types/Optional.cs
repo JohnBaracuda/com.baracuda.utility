@@ -112,5 +112,10 @@ namespace Baracuda.Utility.Types
             this.value = value;
             this.enabled = enabled;
         }
+
+        public override string ToString()
+        {
+            return $"Enabled: [{Enabled}] | Value: [{value?.ToString() ?? "null"}]";
+        }
     }
 }

@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Baracuda.Utility.Types
 {
-    public class Observable<TValue>
+    public class ObservableValue<TValue> : IObservableValue<TValue>
     {
         private TValue _value;
         private readonly Broadcast<TValue> _changed = new();
         private readonly Broadcast<TValue, TValue> _changedFrom = new();
+        private readonly IEqualityComparer<TValue> _comparer = EqualityComparer<TValue>.Default;
 
         [PublicAPI]
         public void AddObserver(Action<TValue> observer)
@@ -33,6 +35,30 @@ namespace Baracuda.Utility.Types
 
         [PublicAPI]
         public void RemoveObserver(Action<TValue, TValue> observer)
+        {
+            _changedFrom.RemoveListener(observer);
+        }
+
+        [PublicAPI]
+        public void AddListener(Action<TValue> observer)
+        {
+            _changed.AddListener(observer);
+        }
+
+        [PublicAPI]
+        public void AddListener(Action<TValue, TValue> observer)
+        {
+            _changedFrom.AddListener(observer);
+        }
+
+        [PublicAPI]
+        public void RemoveListener(Action<TValue> observer)
+        {
+            _changed.RemoveListener(observer);
+        }
+
+        [PublicAPI]
+        public void RemoveListener(Action<TValue, TValue> observer)
         {
             _changedFrom.RemoveListener(observer);
         }
@@ -63,6 +89,19 @@ namespace Baracuda.Utility.Types
             _changedFrom.Raise(lastValue, value);
         }
 
+        [PublicAPI]
+        public void SetValue<T>(T value) where T : MonoBehaviour, TValue
+        {
+            if (Is(value))
+            {
+                return;
+            }
+            var lastValue = _value;
+            _value = value;
+            _changed.Raise(value);
+            _changedFrom.Raise(lastValue, value);
+        }
+
         /// <summary>
         ///     Set the value to its default if the passed value equals the current value.
         /// </summary>
@@ -78,7 +117,7 @@ namespace Baracuda.Utility.Types
         [PublicAPI]
         public bool TryGetValue(out TValue value)
         {
-            if (_value is not null)
+            if (_value != null)
             {
                 value = _value;
                 return true;
@@ -89,21 +128,51 @@ namespace Baracuda.Utility.Types
         }
 
         [PublicAPI]
+        public bool TryGetValue<T>(out T value) where T : MonoBehaviour, TValue
+        {
+            if (_value != null)
+            {
+                value = (T)_value;
+                return true;
+            }
+
+            value = default;
+            return false;
+        }
+
+        [PublicAPI]
         public bool Is(TValue other)
         {
-            return EqualityComparer<TValue>.Default.Equals(_value, other);
+            return _comparer.Equals(_value, other);
+        }
+
+        [PublicAPI]
+        public bool Is<T>(T other) where T : MonoBehaviour, TValue
+        {
+            return (T)_value == other;
         }
 
         [PublicAPI]
         public bool HasValue => _value != null;
 
-        public Observable()
+        public ObservableValue()
         {
         }
 
-        public Observable(TValue value)
+        public ObservableValue(TValue value)
         {
             _value = value;
+        }
+
+        public ObservableValue(IEqualityComparer<TValue> comparer)
+        {
+            _comparer = comparer;
+        }
+
+        public ObservableValue(TValue value, IEqualityComparer<TValue> comparer)
+        {
+            _value = value;
+            _comparer = comparer;
         }
 
         [PublicAPI]

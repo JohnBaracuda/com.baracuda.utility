@@ -309,6 +309,10 @@ namespace Baracuda.Utility.Utilities
 
         public static string CombineToString(this IEnumerable<string> enumerable, string separator = " ")
         {
+            if (enumerable == null)
+            {
+                return string.Empty;
+            }
             var stringBuilder = StringBuilderPool.Get();
             foreach (var argument in enumerable)
             {

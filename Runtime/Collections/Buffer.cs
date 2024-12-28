@@ -14,6 +14,7 @@ namespace Baracuda.Utility.Collections
         {
             _list = ListPool<T>.Get();
             _list.AddRange(collection);
+            IsCreated = true;
         }
 
         public static Buffer<T> Create()
@@ -31,6 +32,7 @@ namespace Baracuda.Utility.Collections
         public int Count => _list.Count;
 
         public bool IsReadOnly => ((IList<T>)_list).IsReadOnly;
+        public bool IsCreated { get; }
 
         public void Add(T item)
         {

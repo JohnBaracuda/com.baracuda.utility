@@ -25,7 +25,7 @@ namespace Baracuda.Utility.Input
         [SerializeField] [Required] private InputActionAsset inputActionAsset;
         [SerializeField] [Required] private InputActionReference navigateInputAction;
         [SerializeField] [Required] private InputActionReference escapeInputAction;
-        [SerializeField] [Required] private InputActionReference[] mouseInputActions;
+        [SerializeField] private InputActionReference[] mouseInputActions;
 
         [Header("Schemes")]
         [SerializeField] private string[] controllerSchemes;
@@ -34,7 +34,6 @@ namespace Baracuda.Utility.Input
         private readonly StackList<Func<EscapeUsage>> _escapeConsumerStack = new();
         private readonly List<Action> _escapeListener = new();
 
-        [ShowNativeProperty]
         private List<object> EscapeConsumer => _escapeConsumerStack.Select(item => item.Target).ToList();
 
         private readonly Broadcast _onBecameControllerScheme = new();
@@ -42,10 +41,7 @@ namespace Baracuda.Utility.Input
         private readonly Broadcast _onNavigationInputReceived = new();
         private readonly Broadcast _onMouseInputReceived = new();
 
-        [ShowNonSerializedField]
         private readonly Dictionary<InputActionMapReference, HashSet<object>> _inputActionMapProvider = new();
-
-        [ShowNonSerializedField]
         private readonly Dictionary<InputActionMapReference, HashSet<object>> _inputActionMapBlocker = new();
 
         private readonly HashSet<InputActionMap> _mapsToEnable = new();

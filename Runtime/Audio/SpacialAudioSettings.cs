@@ -1,12 +1,12 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Baracuda.Bedrock.FMOD
+namespace Baracuda.Utility.Audio
 {
     [Serializable]
     public struct SpacialAudioSettings
     {
-        public float volume;
+        public float decibel;
         public float radius;
         public AnimationCurve falloff;
     }

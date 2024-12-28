@@ -20,6 +20,16 @@ namespace Baracuda.Utility.Types
             return _enableWrapping || Value - 1 >= _min();
         }
 
+        public readonly int Min()
+        {
+            return _min();
+        }
+
+        public readonly int Max()
+        {
+            return _max();
+        }
+
         #endregion
 
 

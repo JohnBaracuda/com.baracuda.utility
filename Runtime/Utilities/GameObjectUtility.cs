@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Baracuda.Utility.Utilities
@@ -14,6 +15,13 @@ namespace Baracuda.Utility.Utilities
             var divider = new GameObject(new string('-', count));
             divider.DontDestroyOnLoad();
             divider.transform.SetSiblingIndex(0);
+        }
+
+        [Conditional("DEBUG")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ReplaceCloneString<T>(this T component, string label) where T : MonoBehaviour
+        {
+            component.gameObject.name = component.gameObject.name.Replace("(Clone)", $"[{label}]");
         }
     }
 }

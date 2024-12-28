@@ -36,7 +36,8 @@ namespace Baracuda.Utility.Utilities
         {
             if (array == null)
             {
-                throw new ArgumentNullException(nameof(array));
+                array = other;
+                return;
             }
             if (other == null)
             {
@@ -68,7 +69,8 @@ namespace Baracuda.Utility.Utilities
         {
             if (array == null)
             {
-                throw new ArgumentNullException(nameof(array));
+                array = new[] { item };
+                return;
             }
             var originalToLength = array.Length;
             Array.Resize(ref array, originalToLength + 1);

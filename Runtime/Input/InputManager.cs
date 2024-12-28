@@ -37,7 +37,7 @@ namespace Baracuda.Utility.Input
 
         public event Action NavigationInputReceived
         {
-            add => _onNavigationInputReceived.AddListener(value);
+            add => _onNavigationInputReceived.AddUniqueListener(value);
             remove => _onNavigationInputReceived.RemoveListener(value);
         }
 
